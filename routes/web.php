@@ -6,6 +6,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SimulationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LunchController;
+use App\Http\Controllers\LunchListController;
+use App\Http\Controllers\LunchOrderController;
+use App\Http\Controllers\LunchSetupController;
+use App\Http\Controllers\LunchSpecialController;
+use App\Http\Controllers\LunchStuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,55 +48,55 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     //午餐系統
-    Route::get('lunches/{lunch_order_id?}', 'LunchController@index')->name('lunches.index');
-    Route::post('lunches', 'LunchController@store')->name('lunches.store');
-    Route::patch('lunches', 'LunchController@update')->name('lunches.update');
+    Route::get('lunches/{lunch_order_id?}', [LunchController::class, 'index'])->name('lunches.index');
+    Route::post('lunches', [LunchController::class, 'store'])->name('lunches.store');
+    Route::patch('lunches', [LunchController::class, 'update'])->name('lunches.update');
 
-    Route::get('lunch_setup', 'LunchSetupController@index')->name('lunch_setups.index');
-    Route::get('lunch_setup/create', 'LunchSetupController@create')->name('lunch_setups.create');
-    Route::post('lunch_setup/store', 'LunchSetupController@store')->name('lunch_setups.store');
-    Route::get('lunch_setup/{lunch_setup}/edit', 'LunchSetupController@edit')->name('lunch_setups.edit');
-    Route::patch('lunch_setup/{lunch_setup}/update', 'LunchSetupController@update')->name('lunch_setups.update');
-    Route::delete('lunch_setup/{lunch_setup}/destroy', 'LunchSetupController@destroy')->name('lunch_setups.destroy');
-    Route::get('lunch_setup/{path}/{id}/del_file', 'LunchSetupController@del_file')->name('lunch_setups.del_file');
-    Route::post('lunch_setup/place_add', 'LunchSetupController@place_add')->name('lunch_setups.place_add');
-    Route::patch('lunch_setup/{lunch_place}/place_update', 'LunchSetupController@place_update')->name('lunch_setups.place_update');
-    Route::post('lunch_setup/factory_add', 'LunchSetupController@factory_add')->name('lunch_setups.factory_add');
-    Route::patch('lunch_setup/{lunch_factory}/factory_update', 'LunchSetupController@factory_update')->name('lunch_setups.factory_update');
+    Route::get('lunch_setup', [LunchSetupController::class, 'index'])->name('lunch_setups.index');
+    Route::get('lunch_setup/create', [LunchSetupController::class, 'create'])->name('lunch_setups.create');
+    Route::post('lunch_setup/store', [LunchSetupController::class, 'store'])->name('lunch_setups.store');
+    Route::get('lunch_setup/{lunch_setup}/edit', [LunchSetupController::class, 'edit'])->name('lunch_setups.edit');
+    Route::patch('lunch_setup/{lunch_setup}/update', [LunchSetupController::class, 'update'])->name('lunch_setups.update');
+    Route::delete('lunch_setup/{lunch_setup}/destroy', [LunchSetupController::class, 'destroy'])->name('lunch_setups.destroy');
+    Route::get('lunch_setup/{path}/{id}/del_file', [LunchSetupController::class, 'fel_file'])->name('lunch_setups.del_file');
+    Route::post('lunch_setup/place_add', [LunchSetupController::class, 'place_add'])->name('lunch_setups.place_add');
+    Route::patch('lunch_setup/{lunch_place}/place_update', [LunchSetupController::class, 'place_update'])->name('lunch_setups.place_update');
+    Route::post('lunch_setup/factory_add', [LunchSetupController::class, 'factory_add'])->name('lunch_setups.factory_add');
+    Route::patch('lunch_setup/{lunch_factory}/factory_update', [LunchSetupController::class, 'factory_update'])->name('lunch_setups.factory_update');
 
-    Route::get('lunch_orders/index', 'LunchOrderController@index')->name('lunch_orders.index');
-    Route::get('lunch_orders/{semester}/create', 'LunchOrderController@create')->name('lunch_orders.create');
-    Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
-    Route::get('lunch_orders/{semester}/edit', 'LunchOrderController@edit')->name('lunch_orders.edit');
-    Route::get('lunch_orders/{lunch_order}/edit_order', 'LunchOrderController@edit_order')->name('lunch_orders.edit_order');
-    Route::patch('lunch_orders/{lunch_order}/order_save', 'LunchOrderController@order_save')->name('lunch_orders.order_save');
-    Route::patch('lunch_orders/update', 'LunchOrderController@update')->name('lunch_orders.update');
+    Route::get('lunch_orders/index', [LunchOrderController::class, 'index'])->name('lunch_orders.index');
+    Route::get('lunch_orders/{semester}/create', [LunchOrderController::class, 'create'])->name('lunch_orders.create');
+    Route::post('lunch_orders/store', [LunchOrderController::class, 'store'])->name('lunch_orders.store');
+    Route::get('lunch_orders/{semester}/edit', [LunchOrderController::class, 'edit'])->name('lunch_orders.edit');
+    Route::get('lunch_orders/{lunch_order}/edit_order', [LunchOrderController::class, 'edit_order'])->name('lunch_orders.edit_order');
+    Route::patch('lunch_orders/{lunch_order}/order_save', [LunchOrderController::class, 'order_save'])->name('lunch_orders.order_save');
+    Route::patch('lunch_orders/update', [LunchOrderController::class, 'update'])->name('lunch_orders.update');
 
-    Route::get('lunch_specials/index', 'LunchSpecialController@index')->name('lunch_specials.index');
-    Route::get('lunch_specials/one_day', 'LunchSpecialController@one_day')->name('lunch_specials.one_day');
-    Route::post('lunch_specials/one_day_store', 'LunchSpecialController@one_day_store')->name('lunch_specials.one_day_store');
-    Route::get('lunch_specials/late_teacher', 'LunchSpecialController@late_teacher')->name('lunch_specials.late_teacher');
-    Route::post('lunch_specials/late_teacher_show', 'LunchSpecialController@late_teacher_show')->name('lunch_specials.late_teacher_show');
-    Route::post('lunch_specials/late_teacher選單連結_store', 'LunchSpecialController@late_teacher_store')->name('lunch_specials.late_teacher_store');
-    Route::get('lunch_specials/teacher_change_month', 'LunchSpecialController@teacher_change_month')->name('lunch_specials.teacher_change_month');
-    Route::post('lunch_specials/teacher_change_month_show', 'LunchSpecialController@teacher_change_month_show')->name('lunch_specials.teacher_change_month_show');
-    Route::post('lunch_specials/teacher_update_month', 'LunchSpecialController@teacher_update_month')->name('lunch_specials.teacher_update_month');
-    Route::get('lunch_specials/teacher_change', 'LunchSpecialController@teacher_change')->name('lunch_specials.teacher_change');
-    Route::post('lunch_specials/teacher_change_store', 'LunchSpecialController@teacher_change_store')->name('lunch_specials.teacher_change_store');
-    Route::get('lunch_specials/bad_factory', 'LunchSpecialController@bad_factory')->name('lunch_specials.bad_factory');
-    Route::post('lunch_specials/bad_factory2', 'LunchSpecialController@bad_factory2')->name('lunch_specials.bad_factory2');
-    Route::post('lunch_specials/bad_factory3', 'LunchSpecialController@bad_factory3')->name('lunch_specials.bad_factory3');
-    Route::get('lunch_specials/add7', 'LunchSpecialController@add7')->name('lunch_specials.add7');
-    Route::post('lunch_specials/store7', 'LunchSpecialController@store7')->name('lunch_specials.store7');
+    Route::get('lunch_specials/index', [LunchSpecialController::class, 'index'])->name('lunch_specials.index');
+    Route::get('lunch_specials/one_day', [LunchSpecialController::class, 'one_day'])->name('lunch_specials.one_day');
+    Route::post('lunch_specials/one_day_store', [LunchSpecialController::class, 'one_day_store'])->name('lunch_specials.one_day_store');
+    Route::get('lunch_specials/late_teacher', [LunchSpecialController::class, 'late_teacher'])->name('lunch_specials.late_teacher');
+    Route::post('lunch_specials/late_teacher_show', [LunchSpecialController::class, 'late_teacher_show'])->name('lunch_specials.late_teacher_show');
+    Route::post('lunch_specials/late_teacher_store', [LunchSpecialController::class, 'late_teacher_store'])->name('lunch_specials.late_teacher_store');
+    Route::get('lunch_specials/teacher_change_month', [LunchSpecialController::class, 'teacher_change_month'])->name('lunch_specials.teacher_change_month');
+    Route::post('lunch_specials/teacher_change_month_show', [LunchSpecialController::class, 'teacher_change_month_show'])->name('lunch_specials.teacher_change_month_show');
+    Route::post('lunch_specials/teacher_update_month', [LunchSpecialController::class, 'teacher_update_month'])->name('lunch_specials.teacher_update_month');
+    Route::get('lunch_specials/teacher_change', [LunchSpecialController::class, 'teacher_change'])->name('lunch_specials.teacher_change');
+    Route::post('lunch_specials/teacher_change_store', [LunchSpecialController::class, 'teacher_change_store'])->name('lunch_specials.teacher_change_store');
+    Route::get('lunch_specials/bad_factory', [LunchSpecialController::class, 'bad_factory'])->name('lunch_specials.bad_factory');
+    Route::post('lunch_specials/bad_factory2', [LunchSpecialController::class, 'bad_factory2'])->name('lunch_specials.bad_factory2');
+    Route::post('lunch_specials/bad_factory3', [LunchSpecialController::class, 'bad_factory3'])->name('lunch_specials.bad_factory3');
+    Route::get('lunch_specials/add7', [LunchSpecialController::class, 'add7'])->name('lunch_specials.add7');
+    Route::post('lunch_specials/store7', [LunchSpecialController::class, 'store7'])->name('lunch_specials.store7');
 
-    Route::get('lunch_lists/index', 'LunchListController@index')->name('lunch_lists.index');
-    Route::get('lunch_lists/more_list_factory/{lunch_order_id}/{factory_id}', 'LunchListController@more_list_factory')->name('lunch_lists.more_list_factory');
-    Route::get('lunch_lists/every_day/{lunch_order_id?}', 'LunchListController@every_day')->name('lunch_lists.every_day');
-    Route::get('lunch_lists/teacher_money_print/{lunch_order_id}', 'LunchListController@teacher_money_print')->name('lunch_lists.teacher_money_print');
-    Route::get('lunch_lists/call_money/{lunch_order_id}', 'LunchListController@call_money')->name('lunch_lists.call_money');
-    Route::get('lunch_lists/get_money/{lunch_order_id}', 'LunchListController@get_money')->name('lunch_lists.get_money');
-    Route::get('lunch_lists/all_semester', 'LunchListController@all_semester')->name('lunch_lists.all_semester');
-    Route::post('lunch_lists/semester_print', 'LunchListController@semester_print')->name('lunch_lists.semester_print');
+    Route::get('lunch_lists/index', [LunchListController::class, 'index'])->name('lunch_lists.index');
+    Route::get('lunch_lists/more_list_factory/{lunch_order_id}/{factory_id}', [LunchListController::class, 'more_list_factory'])->name('lunch_lists.more_list_factory');
+    Route::get('lunch_lists/every_day/{lunch_order_id?}', [LunchListController::class, 'every_day'])->name('lunch_lists.every_day');
+    Route::get('lunch_lists/teacher_money_print/{lunch_order_id}', [LunchListController::class, 'teacher_money_print'])->name('lunch_lists.teacher_money_print');
+    Route::get('lunch_lists/call_money/{lunch_order_id}', [LunchListController::class, 'call_money'])->name('lunch_lists.call_money');
+    Route::get('lunch_lists/get_money/{lunch_order_id}', [LunchListController::class, 'get_money'])->name('lunch_lists.get_money');
+    Route::get('lunch_lists/all_semester', [LunchListController::class, 'all_semester'])->name('lunch_lists.all_semester');
+    Route::post('lunch_lists/semester_print', [LunchListController::class, 'semester_print'])->name('lunch_lists.semester_print');
 });
 
 //系統管理員及學校管理員
