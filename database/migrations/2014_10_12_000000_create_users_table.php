@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->nullable(); //gsuite帳號
             $table->string('password')->nullable();
             $table->string('current_school_code')->nullable(); //gsuite帶出學校代碼 即 cloudschool 帶出的 school_no
+            $table->tinyInteger('order_by')->nullable(); //教職員排序
             $table->string('login_type'); //gsuite local
             $table->string('local_module')->nullable(); //哪一個模組要用的本機帳號
             $table->tinyInteger('system_admin')->nullable(); //系統管理

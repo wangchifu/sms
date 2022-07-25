@@ -23,31 +23,42 @@ if (!function_exists('get_files')) {
     }
 }
 
-//刪除某目錄所有檔案
-if (!function_exists('deldir')) {
-    function deldir($dir)
+//刪除某目錄下的任何東西
+if (!function_exists('delete_dir')) {
+    function delete_dir($dir)
     {
-        if (is_dir($dir)) {
-            $dh = opendir($dir);
-            while ($file = readdir($dh)) {
-                if ($file != "." && $file != "..") {
-                    $fullpath = $dir . "/" . $file;
-                    if (!is_dir($fullpath)) {
-                        unlink($fullpath);
-                    } else {
-                        deldir($fullpath);
-                    }
+        if (!file_exists($dir)) {
+            return true;
+        }
+
+        if (!is_dir($dir) || is_link($dir)) {
+            return unlink($dir);
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!delete_dir($dir . "/" . $item)) {
+                chmod($dir . "/" . $item, 0777);
+
+                if (!delete_dir($dir . "/" . $item)) {
+                    return false;
                 }
             }
-            closedir($dh);
-
-            //删除当前文件夹：
-            if (rmdir($dir)) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        return rmdir($dir);
+    }
+}
+
+//查某日為中文星期幾
+if (!function_exists('get_chinese_weekday')) {
+    function get_chinese_weekday($datetime)
+    {
+        $weekday = date('w', strtotime($datetime));
+        return '星期' . ['日', '一', '二', '三', '四', '五', '六'][$weekday];
     }
 }
 
@@ -142,4 +153,108 @@ if (!function_exists('get_user_power')) {
         }
         return $user_power;
     }
+}
+
+//取登入的學校代碼
+if (!function_exists('school_code')) {
+    function school_code()
+    {
+        $database = config('app.database');
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $code = substr($database[$_SERVER['HTTP_HOST']], 3, 6);
+        } else {
+            $code = "";
+        }
+        return $code;
+    }
+}
+
+//秀某學期的每一天
+if (!function_exists('get_semester_dates')) {
+    function get_semester_dates($semester)
+    {
+        $this_year = substr($semester, 0, 3) + 1911;
+        $this_seme = substr($semester, -1, 1);
+        $next_year = $this_year + 1;
+        if ($this_seme == 1) {
+            $month_array = ["八月" => $this_year . "-08", "九月" => $this_year . "-09", "十月" => $this_year . "-10", "十一月" => $this_year . "-11", "十二月" => $this_year . "-12", "一月" => $next_year . "-01"];
+        } else {
+            $month_array = ["二月" => $next_year . "-02", "三月" => $next_year . "-03", "四月" => $next_year . "-04", "五月" => $next_year . "-05", "六月" => $next_year . "-06"];
+        }
+
+
+        foreach ($month_array as $k => $v) {
+            $semester_dates[$k] = get_month_date($v);
+        }
+        return $semester_dates;
+    }
+}
+
+if (!function_exists('get_month_date')) {
+    //秀某年某月的每一天
+    function get_month_date($year_month)
+    {
+        $this_date = explode("-", $year_month);
+        $days = array("01" => "31", "02" => "28", "03" => "31", "04" => "30", "05" => "31", "06" => "30", "07" => "31", "08" => "31", "09" => "30", "10" => "31", "11" => "30", "12" => "31");
+        //潤年的話，二月29天
+        if (checkdate(2, 29, $this_date[0])) {
+            $days['02'] = 29;
+        } else {
+            $days['02'] = 28;
+        }
+
+        for ($i = 1; $i <= $days[$this_date[1]]; $i++) {
+            $order_date[$i] = $this_date[0] . "-" . $this_date[1] . "-" . sprintf("%02s", $i);
+        }
+        return $order_date;
+    }
+}
+
+//查某日星期幾
+if (!function_exists('get_date_w')) {
+    function get_date_w($d)
+    {
+        $arrDate = explode("-", $d);
+        $week = date("w", mktime(0, 0, 0, $arrDate[1], $arrDate[2], $arrDate[0]));
+        return $week;
+    }
+}
+
+function num2str($num)
+{
+    $string = "";
+    $numc = "零,壹,貳,參,肆,伍,陸,柒,捌,玖";
+    $unic = ",拾,佰,仟";
+    $unic1 = "元整,萬,億,兆,京";
+    $numc_arr = explode(",", $numc);
+    $unic_arr = explode(",", $unic);
+    $unic1_arr = explode(",", $unic1);
+    $i = str_replace(",", "", $num);
+    $c0 = 0;
+    $str = array();
+    do {
+        $aa = 0;
+        $c1 = 0;
+        $s = "";
+        $lan = (strlen($i) >= 4) ? 4 : strlen($i);
+        $j = substr($i, -$lan);
+        while ($j > 0) {
+            $k = $j % 10;
+            if ($k > 0) {
+                $aa = 1;
+                $s = $numc_arr[$k] . $unic_arr[$c1] . $s;
+            } elseif ($k == 0) {
+                if ($aa == 1) $s = "0" . $s;
+            }
+            $j = intval($j / 10);
+            $c1 += 1;
+        }
+        $str[$c0] = ($s == '') ? '' : $s . $unic1_arr[$c0];
+        $count_len = strlen($i) - 4;
+        $i = ($count_len > 0) ? substr($i, 0, $count_len) : '';
+        $c0 += 1;
+    } while ($i != '');
+    foreach ($str as $v) $string .= array_pop($str);
+    $string = preg_replace('/0+/', '零', $string);
+    return $string;
 }

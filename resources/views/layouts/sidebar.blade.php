@@ -80,23 +80,25 @@
                     <li class="sidebar-item  has-sub">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-grid-1x2-fill"></i>
-                            <span>不分類</span>
+                            <span>模組功能</span>
                         </a>
                         <ul class="submenu ">
                             <li class="submenu-item ">
-                                <a href="component-alert.html">...</a>
+                                <a href="{{ route('lunches.index') }}">午餐系統</a>
                             </li>
                             <li class="submenu-item ">
-                                <a href="component-badge.html">...</a>
+                                <a href="">社團報名系統</a>
                             </li>
                         </ul>
                     </li>
+                    <!--
                     <li class="sidebar-item">
                         <a href="" class='sidebar-link'>
                             <i class="fas fa-praying-hands"></i>
                             <span>許願池</span>
                         </a>
                     </li>
+                -->
                 @endauth
             </ul>
         </div>

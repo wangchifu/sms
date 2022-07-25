@@ -6,6 +6,8 @@ use App\Models\SchoolPower;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
 {
@@ -77,13 +79,36 @@ class HomeController extends Controller
             }
         }
         SchoolPower::create($att);
+        if ($att['user_id'] == auth()->user()->id) {
+            $user_power = get_user_power(auth()->user()->current_school_code, auth()->user()->id);
+            session(['user_power' => $user_power]);
+        }
 
         return redirect()->route('module.index');
     }
 
     public function module_delete(SchoolPower $school_power)
     {
+        $user_id = $school_power->user_id;
         $school_power->delete();
+
+        if ($user_id == auth()->user()->id) {
+            $user_power = get_user_power(auth()->user()->current_school_code, auth()->user()->id);
+            session(['user_power' => $user_power]);
+        }
         return redirect()->route('module.index');
+    }
+
+    public function getImg($path)
+    {
+        $school_code = school_code();
+        $path = str_replace('&', '/', $path);
+        $path = storage_path('app/privacy/' . $school_code . '/' . $path);
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 }

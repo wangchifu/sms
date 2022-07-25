@@ -35,6 +35,7 @@ class User extends Authenticatable
         'username',
         'password',
         'current_school_code',
+        'order_by',
         'login_type',
         'local_module',
         'system_admin',

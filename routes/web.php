@@ -40,6 +40,10 @@ Route::get('pic/{d?}', [HomeController::class, 'pic'])->name('pic');
 //下載storage裡public的檔案
 
 
+//廠商頁面
+Route::match(['get', 'post'], 'lunch_lists/factory/{lunch_order_id?}', [LunchListController::class, 'factory'])->name('lunch_lists.factory');
+Route::get('lunch_lists/change_factory/', [LunchListController::class, 'change_factory'])->name('lunch_lists.change_factory');
+
 Route::group(['middleware' => 'auth'], function () {
     //登出
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -48,6 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     //午餐系統
+    //顯示上傳的圖片
+    Route::get('img/{path}', [HomeController::class, 'getImg'])->name('getImg');
+
     Route::get('lunches/{lunch_order_id?}', [LunchController::class, 'index'])->name('lunches.index');
     Route::post('lunches', [LunchController::class, 'store'])->name('lunches.store');
     Route::patch('lunches', [LunchController::class, 'update'])->name('lunches.update');
@@ -58,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lunch_setup/{lunch_setup}/edit', [LunchSetupController::class, 'edit'])->name('lunch_setups.edit');
     Route::patch('lunch_setup/{lunch_setup}/update', [LunchSetupController::class, 'update'])->name('lunch_setups.update');
     Route::delete('lunch_setup/{lunch_setup}/destroy', [LunchSetupController::class, 'destroy'])->name('lunch_setups.destroy');
-    Route::get('lunch_setup/{path}/{id}/del_file', [LunchSetupController::class, 'fel_file'])->name('lunch_setups.del_file');
+    Route::get('lunch_setup/{path}/{id}/del_file', [LunchSetupController::class, 'del_file'])->name('lunch_setups.del_file');
     Route::post('lunch_setup/place_add', [LunchSetupController::class, 'place_add'])->name('lunch_setups.place_add');
     Route::patch('lunch_setup/{lunch_place}/place_update', [LunchSetupController::class, 'place_update'])->name('lunch_setups.place_update');
     Route::post('lunch_setup/factory_add', [LunchSetupController::class, 'factory_add'])->name('lunch_setups.factory_add');
