@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.2",
         "livewire/livewire": "^2.5",
+        "phpoffice/phpexcel": "^1.8",
         "rap2hpoutre/fast-excel": "^3.1",
         "unisharp/laravel-filemanager": "^2.2"
     },
