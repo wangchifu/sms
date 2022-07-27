@@ -191,6 +191,7 @@ class LunchListController extends Controller
             $m = (int)$total_money2;
 
             $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, "9" . sprintf("%05s", $k1));
+            $u_id[$k1] = mb_convert_encoding(mb_convert_encoding($u_id[$k1], 'big5', 'utf-8'), 'utf-8', 'big5');
             $objExcel->getActiveSheet()->setCellValue('B' . $baseRow, $u_id[$k1]);
             $objExcel->getActiveSheet()->setCellValue('C' . $baseRow, '');
             $objExcel->getActiveSheet()->setCellValue('D' . $baseRow, '');
@@ -206,7 +207,6 @@ class LunchListController extends Controller
         //4、输出
         $objExcel->setActiveSheetIndex();
         header('Content-Type: applicationnd.ms-excel');
-        $time = date('Y-m-d');
         header("Content-Disposition: attachment;filename={$lunch_order->name}午餐收費匯入單.xls");
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
@@ -372,6 +372,7 @@ class LunchListController extends Controller
                 $m = (int)$total_money2;
 
                 $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, "9" . sprintf("%05s", $k1));
+                $u_id[$k1] = mb_convert_encoding(mb_convert_encoding($u_id[$k1], 'big5', 'utf-8'), 'utf-8', 'big5');
                 $objExcel->getActiveSheet()->setCellValue('B' . $baseRow, $u_id[$k1]);
                 $objExcel->getActiveSheet()->setCellValue('C' . $baseRow, '');
                 $objExcel->getActiveSheet()->setCellValue('D' . $baseRow, '');
