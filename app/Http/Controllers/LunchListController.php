@@ -190,7 +190,7 @@ class LunchListController extends Controller
             $total_money2 = round($total_money);
             $m = (int)$total_money2;
 
-            $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, "999" . sprintf("%03s", $k1));
+            $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, "9" . sprintf("%05s", $k1));
             $objExcel->getActiveSheet()->setCellValue('B' . $baseRow, $u_id[$k1]);
             $objExcel->getActiveSheet()->setCellValue('C' . $baseRow, '');
             $objExcel->getActiveSheet()->setCellValue('D' . $baseRow, '');
@@ -371,7 +371,7 @@ class LunchListController extends Controller
                 $total_money2 = round($total_money);
                 $m = (int)$total_money2;
 
-                $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, "999" . sprintf("%03s", $k1));
+                $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, "9" . sprintf("%05s", $k1));
                 $objExcel->getActiveSheet()->setCellValue('B' . $baseRow, $u_id[$k1]);
                 $objExcel->getActiveSheet()->setCellValue('C' . $baseRow, '');
                 $objExcel->getActiveSheet()->setCellValue('D' . $baseRow, '');
