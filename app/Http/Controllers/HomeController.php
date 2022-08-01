@@ -72,7 +72,7 @@ class HomeController extends Controller
     public function module_store(Request $request)
     {
         $att = $request->all();
-        $user_power = get_user_power($att['school_code'], $att['user_id']);
+        $user_power = get_user_power($att['user_id']);
         if (isset($user_power[$att['module']])) {
             if ($user_power[$att['module']] == $att['power_type']) {
                 return back();
@@ -80,7 +80,7 @@ class HomeController extends Controller
         }
         SchoolPower::create($att);
         if ($att['user_id'] == auth()->user()->id) {
-            $user_power = get_user_power(auth()->user()->current_school_code, auth()->user()->id);
+            $user_power = get_user_power(auth()->user()->id);
             session(['user_power' => $user_power]);
         }
 
@@ -93,7 +93,7 @@ class HomeController extends Controller
         $school_power->delete();
 
         if ($user_id == auth()->user()->id) {
-            $user_power = get_user_power(auth()->user()->current_school_code, auth()->user()->id);
+            $user_power = get_user_power(auth()->user()->id);
             session(['user_power' => $user_power]);
         }
         return redirect()->route('module.index');

@@ -14,66 +14,102 @@
 
 @section('content')
     <div class="container">
-        <div class="row">  
-            請選擇：            
-            <table>
-                <tr>                    
-                    <td>
-                        <form>
-                            <select class="form-control">
-                                @foreach($student_classes as $student_class)
-                                    <option value="">
-                                        {{ $student_class->student_year }}年{{ $student_class->student_class }}班
-                                        - {{ $student_class->user_names }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </form>  
-                    </td>
-                </tr>
-            </table>                                  
-            <table class="table table-striped">
-                <thead class="table-primary">
-                <tr>
-                    <th>
-                        座號
-                    </th>
-                    <th>
-                        性別
-                    </th>
-                    <th>
-                        姓名
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                    @foreach($students as $student)
-                    <tr>
+        <h2>請選擇：</h2>
+        <div class="row">    
+            <div class="col-xl-12 col-md-12">
+                <table>
+                    <tr>                    
                         <td>
-                            {{ $student->num }}
-                        </td>
-                        <td>
-                            @if($student->sex=="男")
-                            <span class="text-primary">{{ $student->sex }}</span>
-                            @endif
-                            @if($student->sex=="女")
-                            <span class="text-danger">{{ $student->sex }}</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($student->sex=="男")
-                            <span class="text-primary">{{ $student->name }}</span>
-                            @endif
-                            @if($student->sex=="女")
-                            <span class="text-danger">{{ $student->name }}</span>
-                            @endif
+                            <form>
+                                <select class="form-control" id="select_class" onchange="jump()">
+                                    @foreach($student_classes as $student_class)
+                                    <?php  $selected=($this_class->id==$student_class->id)?"selected":"";  ?>
+                                        <option value="{{ $student_class->student_year }}/{{ $student_class->student_class }}" {{ $selected }}>
+                                            {{ $student_class->student_year }}年{{ $student_class->student_class }}班
+                                            - {{ $student_class->user_names }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>  
                         </td>
                     </tr>
-                    @endforeach
-                </tbody>
-            </table>           
+                </table>                   
+                <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm" onclick="history.go(-1)"><i class="fas fa-backward"></i> 返回</a>
+                <a href="#" class="btn btn-success btn-sm">新增此班學生</a>      
+                <table class="table table-striped">
+                    <thead class="table-primary">
+                    <tr>
+                        <th>
+                            座號
+                        </th>
+                        <th>
+                            性別
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            學號(帳號)
+                        </th>
+                        <th>
+                            生日
+                        </th>
+                        <th>
+                            密碼
+                        </th>
+                        <th>
+                            家長電話
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($students as $student)
+                        <tr>
+                            <td>
+                                {{ $student->num }}
+                            </td>
+                            <td>
+                                @if($student->sex=="男")
+                                <img src="{{ asset('images/boy.gif') }}">
+                                @endif
+                                @if($student->sex=="女")
+                                <img src="{{ asset('images/girl.gif') }}">
+                                @endif
+                            </td>
+                            <td>
+                                @if($student->sex=="男")
+                                <span class="text-primary">{{ $student->name }}</span>
+                                @endif
+                                @if($student->sex=="女")
+                                <span class="text-danger">{{ $student->name }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                {{ $student->student_sn }}
+                            </td>
+                            <td>
+                                {{ $student->birthday }}
+                            </td>
+                            <td>
+                                {{ $student->pwd }}
+                            </td>
+                            <td>
+                                {{ $student->parents_telephone }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>   
+            </div>                  
         </div>
         <br>
         
     </div>
+    <script>
+        function jump(){
+          if($('#select_class').val() !=''){
+            location="/users/"+{{ $semester }}+"/show_class/" + $('#select_class').val();
+          }
+        }
+    </script>
 @endsection

@@ -12,8 +12,6 @@ class JobTitle extends Model
     protected $fillable = [
         'user_id',
         'semester',
-        'school_code',
-        'school_name',
         'schools',
         'kind',
         'title_kind',

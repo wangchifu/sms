@@ -11,7 +11,7 @@ class SimulationController extends Controller
     public function impersonate(User $user)
     {
         Auth::user()->impersonate($user);
-        $user_power = get_user_power($user->current_school_code, $user->id);
+        $user_power = get_user_power($user->id);
         session(['user_power' => $user_power]);
         return redirect()->route('index');
     }
@@ -19,7 +19,7 @@ class SimulationController extends Controller
     public function impersonate_leave($action = null)
     {
         Auth::user()->leaveImpersonation();
-        $user_power = get_user_power(Auth::user()->current_school_code, Auth::user()->id);
+        $user_power = get_user_power(Auth::user()->id);
         session(['user_power' => $user_power]);
         return redirect()->route('index');
     }

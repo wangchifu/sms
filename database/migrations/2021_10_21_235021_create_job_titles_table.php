@@ -17,8 +17,6 @@ class CreateJobTitlesTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->string('semester')->nullable();
-            $table->string('school_code')->nullable(); //gsuite帶出學校代碼 即 cloudschool 帶出的 school_no
-            $table->string('school_name')->nullable(); //gsuite帶出學校名稱
             $table->string('schools')->nullable(); //gsuite帶出學校群組
             $table->string('kind')->nullable(); //gsuite帶出教職員、學生
             $table->string('title_kind')->nullable(); //cloudschool 帶出 title_kind

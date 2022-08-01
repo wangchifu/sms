@@ -16,14 +16,11 @@ class UserController extends Controller
     {
         $this_semester = get_date_semester(date('Y-m-d'));
 
-        $school_api = SchoolApi::where('school_code', auth()->user()->current_school_code)
-            ->first();
+        $school_api = SchoolApi::first();
 
-        $students = Student::where('school_code', auth()->user()->current_school_code)
-            ->where('semester', $this_semester)
+        $students = Student::where('semester', $this_semester)
             ->get();
-        $student_classes = StudentClass::where('school_code', auth()->user()->current_school_code)
-            ->where('semester', $this_semester)
+        $student_classes = StudentClass::where('semester', $this_semester)
             ->get();
         $student_data = [];
         if (!empty($students)) {
@@ -59,8 +56,7 @@ class UserController extends Controller
         if (!isset($att['client_id']) or !isset($att['client_secret'])) {
             return back()->withErrors(['error' => '用戶或密碼不能空值']);
         }
-        $school_api = SchoolApi::where('school_code', auth()->user()->current_school_code)
-            ->first();
+        $school_api = SchoolApi::first();
         if (empty($school_api)) {
             SchoolApi::create($att);
         } else {
@@ -82,15 +78,13 @@ class UserController extends Controller
 
     public function api_destroy(SchoolApi $school_api)
     {
-        if ($school_api->school_code == auth()->user()->current_school_code) {
-            $school_api->delete();
-        }
+        $school_api->delete();
         return back();
     }
 
     public function api_pull()
     {
-        $school_api = SchoolApi::where('school_code', auth()->user()->current_school_code)->first();
+        $school_api = SchoolApi::first();
 
         $API_client_id = $school_api->client_id;
         $API_client_secret = $school_api->client_secret;
@@ -119,19 +113,18 @@ class UserController extends Controller
             $att_user['edu_key'] = $v->身分證編碼;
             $att_user['name'] = $v->姓名;
             $att_user['login_type'] = "gsuite";
-            $att_user['current_school_code'] = auth()->user()->current_school_code;
+
 
             if (empty($user)) {
                 $user = User::create($att_user);
 
                 $att_job_title['user_id'] = $user->id;
                 $att_job_title['semester'] = $semester;
-                $att_job_title['school_code'] = auth()->user()->current_school_code;
+
                 $att_job_title['title'] = $v->職稱;
 
                 JobTitle::where('user_id', $att_job_title['user_id'])
                     ->where('semester', $semester)
-                    ->where('school_code', $att_job_title['school_code'])
                     ->delete();
                 JobTitle::create($att_job_title);
             } else {
@@ -139,12 +132,11 @@ class UserController extends Controller
 
                 $att_job_title['user_id'] = $user->id;
                 $att_job_title['semester'] = $semester;
-                $att_job_title['school_code'] = auth()->user()->current_school_code;
+
                 $att_job_title['title'] = $v->職稱;
 
                 $job_title = JobTitle::where('user_id', $att_job_title['user_id'])
                     ->where('semester', $semester)
-                    ->where('school_code', auth()->user()->current_school_code)
                     ->first();
 
                 if (empty($job_title)) {
@@ -166,13 +158,12 @@ class UserController extends Controller
                 $user_ids .= $user->id . ',';
             }
             $user_ids = substr($user_ids, 0, -1);
-            $att_student_class['school_code'] = auth()->user()->current_school_code;
+
             $att_student_class['semester'] = $semester;
             $att_student_class['student_year'] = $v->年級;
             $att_student_class['student_class'] = $v->班序;
             $att_student_class['user_ids'] = $user_ids;
-            $student_class = StudentClass::where('school_code', $att_student_class['school_code'])
-                ->where('semester', $att_student_class['semester'])
+            $student_class = StudentClass::where('semester', $att_student_class['semester'])
                 ->where('student_year', $att_student_class['student_year'])
                 ->where('student_class', $att_student_class['student_class'])
                 ->first();
@@ -186,7 +177,7 @@ class UserController extends Controller
 
             $student_array = $v->學期編班;
             foreach ($student_array as $k3 => $v3) {
-                $att_student['school_code'] = auth()->user()->current_school_code;
+
                 $att_student['semester'] = $semester;
                 $att_student['edu_key'] = $v3->身分證編碼;
                 $att_student['name'] = $v3->姓名;
@@ -196,8 +187,7 @@ class UserController extends Controller
                 $att_student['student_year'] = $v->年級;
                 $att_student['student_class'] = $v->班序;
                 $att_student['num'] = $v3->座號;
-                $student = Student::where('school_code', $att_student['school_code'])
-                    ->where('semester', $att_student['semester'])
+                $student = Student::where('semester', $att_student['semester'])
                     ->where('student_year', $att_student['student_year'])
                     ->where('student_class', $att_student['student_class'])
                     ->where('num', $att_student['num'])
@@ -231,21 +221,19 @@ class UserController extends Controller
                 }
                 $class_teacher[$line['年級(數字)']][$line['班序(數字)']] = $line['導師姓名'];
 
-                $att['school_code'] = auth()->user()->current_school_code;
+
                 $att['semester'] = $request->input('semester');
                 $att['name'] = $line['姓名'];
                 $att['sex'] = $line['性別'];
                 $att['birthday'] = $line['生日(西元)'];
+                $att['pwd'] = str_replace('/', '', $att['birthday']);
                 $att['student_sn'] = $line['學號'];
                 $att['student_year'] = $line['年級(數字)'];
                 $att['student_class'] = $line['班序(數字)'];
                 $att['num'] = $line['座號'];
-                if (isset($line['身分證號'])) {
-                    $att['edu_key'] = hash('sha256', $line['身分證號']);
-                }
 
-                $student = Student::where('school_code', $att['school_code'])
-                    ->where('semester', $att['semester'])
+
+                $student = Student::where('semester', $att['semester'])
                     ->where('student_year', $att['student_year'])
                     ->where('student_class', $att['student_class'])
                     ->where('num', $att['num'])
@@ -258,14 +246,13 @@ class UserController extends Controller
             }
             foreach ($class_teacher as $k => $v) {
                 foreach ($v as $k1 => $v1) {
-                    $att2['school_code'] = auth()->user()->current_school_code;
+
                     $att2['semester'] = $request->input('semester');
                     $att2['student_year'] = $k;
                     $att2['student_class'] = $k1;
                     $att2['user_names'] = $v1;
 
-                    $student_class = StudentClass::where('school_code', $att2['school_code'])
-                        ->where('semester', $att2['semester'])
+                    $student_class = StudentClass::where('semester', $att2['semester'])
                         ->where('student_year', $att2['student_year'])
                         ->where('student_class', $att2['student_class'])
                         ->first();
@@ -335,19 +322,23 @@ class UserController extends Controller
     {
         if (empty($student_year)) $student_year = 1;
         if (empty($student_class)) $student_class = 1;
-        $students = Student::where('school_code', auth()->user()->current_school_code)
-            ->where('semester', $semester)
+        $this_class = StudentClass::where('semester', $semester)
+            ->where('student_year', $student_year)
+            ->where('student_class', $student_class)
+            ->first();
+
+        $students = Student::where('semester', $semester)
             ->where('student_year', $student_year)
             ->where('student_class', $student_class)
             ->orderBy('num')
             ->get();
-        $student_classes = StudentClass::where('school_code', auth()->user()->current_school_code)
-            ->where('semester', $semester)
+        $student_classes = StudentClass::where('semester', $semester)
             ->orderBy('student_year')
             ->orderBy('student_class')
             ->get();
         $data = [
             'semester' => $semester,
+            'this_class' => $this_class,
             'students' => $students,
             'student_classes' => $student_classes,
         ];

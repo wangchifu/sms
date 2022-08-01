@@ -98,7 +98,6 @@ class LoginController extends Controller
                 $user_att['email'] = $obj['email'];
                 $user_att['username'] = $username;
                 $user_att['password'] = bcrypt($request->input('password'));
-                $user_att['current_school_code'] = $obj['code'];
                 $user_att['login_type'] = "gsuite";
 
                 if (empty($user)) {
@@ -106,7 +105,7 @@ class LoginController extends Controller
                     $user = User::create($user_att);
                 } else {
                     //被停用了，換校要啟用
-                    if ($user->disable == 1 and $user->current_school_code == $obj['code']) {
+                    if ($user->disable == 1) {
                         return back()->withInput()->withErrors(['error' => '你被停用了']);
                     } else {
                         $user_att['disable'] = null;
@@ -116,13 +115,10 @@ class LoginController extends Controller
 
                 $job_title = JobTitle::where('user_id', $user->id)
                     ->where('semester', $semester)
-                    ->where('school_code', $obj['code'])
                     ->first();
 
                 $att_job_title['user_id'] = $user->id;
                 $att_job_title['semester'] = $semester;
-                $att_job_title['school_code'] = $obj['code'];
-                $att_job_title['school_name'] = $obj['school'];
                 $att_job_title['schools'] = serialize($obj['schools']); //陣列序列化
                 $att_job_title['kind'] = $obj['kind'];
 
@@ -154,12 +150,10 @@ class LoginController extends Controller
                 ];
 
                 if (in_array($obj['title'], $title)) {
-                    $check = SchoolPower::where('school_code', $obj['code'])
-                        ->where('module', 'school_admin')
+                    $check = SchoolPower::where('module', 'school_admin')
                         ->where('power_type', 1)
                         ->first();
                     if (empty($check)) {
-                        $school_power_att['school_code'] = $obj['code'];
                         $school_power_att['user_id'] = $user->id;
                         $school_power_att['module'] = "school_admin";
                         $school_power_att['power_type'] = 1;
@@ -190,7 +184,7 @@ class LoginController extends Controller
             'password' => $request->input('password')
         ])) {
             if (auth()->check()) {
-                $user_power = get_user_power(auth()->user()->current_school_code, auth()->user()->id);
+                $user_power = get_user_power(auth()->user()->id);
             } else {
                 $user_power = [];
             }

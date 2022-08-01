@@ -16,14 +16,14 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->check()){
-            if(auth()->user()->system_admin=="1"){
+        if (auth()->check()) {
+            if (auth()->user()->system_admin == "1") {
                 return $next($request);
             }
 
-            $user_power = get_user_power(auth()->user()->current_school_code,auth()->user()->id);
-            if(isset($user_power['school_admin'])){
-                if($user_power['school_admin'] == "1"){
+            $user_power = get_user_power(auth()->user()->id);
+            if (isset($user_power['school_admin'])) {
+                if ($user_power['school_admin'] == "1") {
                     return $next($request);
                 }
             }

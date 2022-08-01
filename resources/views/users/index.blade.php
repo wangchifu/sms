@@ -15,27 +15,28 @@
     <div class="container">
         <div class="row">
             @include('layouts.errors')
+            <!--
             <div class="col-md-4 col-12">
-                <!--
+                
                 <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#api_create">
                     方法一：使用 cloudschool API 匯入老師及學生
                 </button>
-                 -->
-                 <button type="button" class="btn btn-outline-success">
-                    方法一：使用 API 匯入老師及學生(working)
-                </button>
+                
+
                 <br>
                 <a href="{{ route('users.teach_api') }}" class="btn btn-success mt-2">API 設定教學</a>
+            
             </div>
+            -->
             <div class="col-md-4 col-12">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#excel_import">
-                    方法二：使用 Excel 匯入學生
+                    使用 Excel 匯入學生
                 </button>
                 <br>
                 <a href="{{ route('users.teach_excel') }}" class="btn btn-primary mt-2">Excel 設定教學</a>
             </div>
             <div class="col-md-4 col-12">
-                ps.若沒有使用 API 匯入，教職員<span class="text-danger">須先登入</span>才會有帳號出現在系統內。
+                ps.教職員<span class="text-danger">須先登入</span>才會有帳號出現在系統內。
             </div>
         </div>
         <br>

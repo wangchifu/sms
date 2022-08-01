@@ -141,10 +141,9 @@ if (!function_exists('send_mail')) {
 }
 
 if (!function_exists('get_user_power')) {
-    function get_user_power($school_code, $user_id)
+    function get_user_power($user_id)
     {
-        $school_powers = SchoolPower::where('school_code', $school_code)
-            ->where('user_id', $user_id)
+        $school_powers = SchoolPower::where('user_id', $user_id)
             ->get();
 
         $user_power = [];

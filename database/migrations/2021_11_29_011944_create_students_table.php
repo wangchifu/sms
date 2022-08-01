@@ -15,12 +15,12 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('school_code');
             $table->string('semester');
-            $table->string('edu_key')->nullable();
             $table->string('name'); //姓名
             $table->string('sex'); //性別
             $table->string('birthday')->nullable(); //生日
+            $table->string('pwd')->nullable(); //密碼
+            $table->string('parents_telephone')->nullable(); //爸媽電話
             $table->string('student_sn'); //學號
             $table->string('student_year'); //年級
             $table->string('student_class'); //班級

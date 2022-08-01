@@ -15,7 +15,6 @@ class CreateStudentClassesTable extends Migration
     {
         Schema::create('student_classes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('school_code');
             $table->string('semester'); //
             $table->string('student_year'); //年級
             $table->string('student_class'); //班級

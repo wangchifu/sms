@@ -15,7 +15,6 @@ class CreateSchoolApisTable extends Migration
     {
         Schema::create('school_apis', function (Blueprint $table) {
             $table->id();
-            $table->string('school_code')->unique();
             $table->string('client_id');
             $table->string('client_secret');
             $table->timestamps();
