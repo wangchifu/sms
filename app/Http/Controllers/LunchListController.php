@@ -16,8 +16,7 @@ class LunchListController extends Controller
 {
     public function index()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $data = [
             'admin' => $admin,
         ];
@@ -26,8 +25,7 @@ class LunchListController extends Controller
 
     public function every_day($lunch_order_id = null)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $lunch_order_array = LunchOrder::orderBy('name', 'DESC')
             ->pluck('name', 'id')
@@ -215,8 +213,7 @@ class LunchListController extends Controller
 
     public function all_semester()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $lunch_setup_array = LunchSetup::orderBy('semester', 'DESC')
             ->pluck('semester', 'id')
@@ -494,8 +491,7 @@ class LunchListController extends Controller
     public function more_list_factory($lunch_order_id, $factory_id)
     {
         $factory = LunchFactory::find($factory_id);
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $lunch_order = LunchOrder::find($lunch_order_id);
         $lunch_setup = LunchSetup::where('semester', $lunch_order->semester)->first();

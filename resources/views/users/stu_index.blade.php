@@ -22,11 +22,7 @@
                 <br>
                 <a href="{{ route('users.teach_excel') }}" class="btn btn-primary mt-2">Excel 設定教學</a>
             </div>
-            <div class="col-md-4 col-12">
-                ps.教職員<span class="text-danger">須先登入</span>才會有帳號出現在系統內。
-            </div>
         </div>
-        <br>
         <hr>
         <div class="row">
             @if(empty($class_data))

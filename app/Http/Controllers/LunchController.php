@@ -91,8 +91,7 @@ class LunchController extends Controller
             }
         }
 
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $data = [
             'admin' => $admin,

@@ -15,8 +15,7 @@ class LunchSpecialController extends Controller
 {
     public function index()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $data = [
             'admin' => $admin,
         ];
@@ -25,8 +24,7 @@ class LunchSpecialController extends Controller
 
     public function one_day()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $data = [
             'admin' => $admin,
         ];
@@ -63,8 +61,7 @@ class LunchSpecialController extends Controller
 
     public function late_teacher()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $user_array = User::where('disable', null)
             ->where('username', '<>', 'admin')
@@ -85,8 +82,7 @@ class LunchSpecialController extends Controller
 
     public function late_teacher_show(Request $request)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         //是否已經訂過
         $count = LunchTeaDate::where('user_id', $request->input('user_id'))
@@ -192,8 +188,7 @@ class LunchSpecialController extends Controller
 
     public function teacher_change_month()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $user_array = User::where('disable', null)
             ->where('username', '<>', 'admin')
@@ -214,8 +209,7 @@ class LunchSpecialController extends Controller
 
     public function teacher_change_month_show(Request $request)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         //是否已經訂過
         $count = LunchTeaDate::where('user_id', $request->input('user_id'))
@@ -382,8 +376,7 @@ class LunchSpecialController extends Controller
 
     public function teacher_change()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $user_array = User::where('disable', null)
             ->where('username', '<>', 'admin')
             ->orderBy('order_by')
@@ -413,8 +406,7 @@ class LunchSpecialController extends Controller
 
     public function bad_factory()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $factories = LunchFactory::where('disable', null)->pluck('name', 'id')->toArray();
         $data = [
             'admin' => $admin,
@@ -425,8 +417,7 @@ class LunchSpecialController extends Controller
 
     public function bad_factory2(Request $request)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $factories = LunchFactory::where('disable', null)->pluck('name', 'id')->toArray();
         foreach ($factories as $k => $v) {
             if ($k != $request->input('bad_factory_id')) {
@@ -487,8 +478,7 @@ class LunchSpecialController extends Controller
 
     public function add7(Request $request)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $semester = $request->input('semester');
         $has7 = null;

@@ -11,8 +11,7 @@ class LunchOrderController extends Controller
 {
     public function index()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $lunch_orders = LunchOrder::orderBy('name', 'DESC')->paginate(6);
         $data = [
             'admin' => $admin,
@@ -23,8 +22,7 @@ class LunchOrderController extends Controller
 
     public function create($semester)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         //此學期的每一天
         $semester_dates = get_semester_dates($semester);
 
@@ -90,8 +88,7 @@ class LunchOrderController extends Controller
 
     public function edit($semester)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         //此學期的每一天
         $semester_dates = get_semester_dates($semester);
@@ -170,8 +167,7 @@ class LunchOrderController extends Controller
 
     public function edit_order(Lunchorder $lunch_order)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $data = [
             'lunch_order' => $lunch_order,
             'admin' => $admin,

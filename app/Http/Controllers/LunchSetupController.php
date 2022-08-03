@@ -14,8 +14,7 @@ class LunchSetupController extends Controller
 {
     public function index()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $lunch_setups = LunchSetup::orderBy('semester', 'DESC')
             ->paginate(10);
@@ -33,8 +32,7 @@ class LunchSetupController extends Controller
 
     public function create()
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
         $data = [
             'admin' => $admin,
         ];
@@ -116,8 +114,7 @@ class LunchSetupController extends Controller
 
     public function edit(LunchSetup $lunch_setup)
     {
-        $user_power = session('user_power');
-        $admin = (isset($user_power['lunch_admin'])) ? 1 : null;
+        $admin = check_admin('lunch_admin');
 
         $data = [
             'lunch_setup' => $lunch_setup,
