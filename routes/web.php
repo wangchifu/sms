@@ -106,6 +106,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lunch_lists/all_semester', [LunchListController::class, 'all_semester'])->name('lunch_lists.all_semester');
     Route::post('lunch_lists/semester_print', [LunchListController::class, 'semester_print'])->name('lunch_lists.semester_print');
 
+    Route::get('lunch_stus/index/{lunch_order_id?}', [LunchStuController::class, 'index'])->name('lunch_stus.index');
+
 
     //學生管理
     Route::get('users/stu_index', [UserController::class, 'stu_index'])->name('users.stu_index');

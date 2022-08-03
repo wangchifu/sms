@@ -237,7 +237,7 @@ class UserController extends Controller
                 $att['semester'] = $request->input('semester');
                 $att['name'] = $line['姓名'];
                 $att['sex'] = $line['性別'];
-                $att['birthday'] = $line['生日(西元)'];
+                $att['birthday'] = $line['生日(西元)']->format('Y/m/d');
                 $att['pwd'] = str_replace('/', '', $att['birthday']);
                 $att['student_sn'] = $line['學號'];
                 $att['student_year'] = $line['年級(數字)'];

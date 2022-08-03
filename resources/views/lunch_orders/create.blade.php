@@ -14,8 +14,11 @@
 
 @section('content')
 <?php
-
 $active['teacher'] ="";
+$active['student'] ="";
+$active['list'] ="";
+$active['special'] ="";
+$active['order'] ="";
 $active['setup'] ="active";
 ?>
 <div class="row justify-content-center">
