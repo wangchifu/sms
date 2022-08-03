@@ -154,6 +154,20 @@ if (!function_exists('get_user_power')) {
     }
 }
 
+if (!function_exists('check_admin')) {
+    function check_admin($moudel)
+    {
+        $user_power = session('user_power');
+        $system_admin = (isset($user_power['school_admin'])) ? 1 : null;
+        $moudel_admin = (isset($user_power[$moudel])) ? 1 : null;
+        if ($system_admin != 1 and $moudel_admin != 1) {
+            return null;
+        } else {
+            return 1;
+        }
+    }
+}
+
 //取登入的學校代碼
 if (!function_exists('school_code')) {
     function school_code()

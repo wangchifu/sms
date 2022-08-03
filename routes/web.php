@@ -105,6 +105,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lunch_lists/get_money/{lunch_order_id}', [LunchListController::class, 'get_money'])->name('lunch_lists.get_money');
     Route::get('lunch_lists/all_semester', [LunchListController::class, 'all_semester'])->name('lunch_lists.all_semester');
     Route::post('lunch_lists/semester_print', [LunchListController::class, 'semester_print'])->name('lunch_lists.semester_print');
+
+
+    //學生管理
+    Route::get('users/stu_index', [UserController::class, 'stu_index'])->name('users.stu_index');
+    Route::get('users/teach_excel', [UserController::class, 'teach_excel'])->name('users.teach_excel');
+    Route::post('excel/import', [UserController::class, 'excel_import'])->name('users.excel_import');
+    Route::get('users/{semester}/show_class/{student_year?}/{student_class?}', [UserController::class, 'show_class'])->name('users.show_class');
+    Route::get('users/{semester}/show_disable', [UserController::class, 'show_disable'])->name('users.show_disable');
+    Route::get('users/stu_create/{student_class}', [UserController::class, 'stu_create'])->name('users.stu_create');
+    Route::post('users/stu_store', [UserController::class, 'stu_store'])->name('users.stu_store');
+    Route::get('users/stu_edit/{student}', [UserController::class, 'stu_edit'])->name('users.stu_edit');
+    Route::patch('users/stu_update/{student}', [UserController::class, 'stu_update'])->name('users.stu_update');
+    Route::get('users/stu_back_pwd/{student}', [UserController::class, 'stu_back_pwd'])->name('users.stu_back_pwd');
+    Route::get('users/stu_disable/{student}', [UserController::class, 'stu_disable'])->name('users.stu_disable');
 });
 
 //系統管理員及學校管理員
@@ -122,12 +136,9 @@ Route::group(['middleware' => 'school_admin'], function () {
     Route::get('users/{user}/disable', [UserController::class, 'user_disable'])->name('users.disable');
     Route::get('users/teach_api', [UserController::class, 'teach_api'])->name('users.teach_api');
     Route::post('users/api_pull', [UserController::class, 'api_pull'])->name('users.api_pull');
-    Route::get('users/teach_excel', [UserController::class, 'teach_excel'])->name('users.teach_excel');
     Route::post('api/store', [UserController::class, 'api_store'])->name('users.api_store');
-    Route::post('excel/import', [UserController::class, 'excel_import'])->name('users.excel_import');
-    Route::delete('api/destroy/{school_api}', [UserController::class, 'api_destroy'])->name('users.api_destroy');
 
-    Route::get('users/{semester}/show_class/{student_year?}/{student_class?}', [UserController::class, 'show_class'])->name('users.show_class');
+    Route::delete('api/destroy/{school_api}', [UserController::class, 'api_destroy'])->name('users.api_destroy');
 
     Route::get('module/index', [HomeController::class, 'module_index'])->name('module.index');
     Route::post('module/store', [HomeController::class, 'module_store'])->name('module.store');

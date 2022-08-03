@@ -6,16 +6,6 @@
     <a href="#" class="btn btn-secondary btn-sm" onclick="history.back();"><i class="fas fa-backward"></i> 返回</a>
 @endsection
 
-@section('page_nav')
-    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('users.index') }}">帳號管理</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Excel 匯入教學</li>
-        </ol>
-    </nav>
-@endsection
-
 @section('content')
     <div class="container">
         <div class="row">

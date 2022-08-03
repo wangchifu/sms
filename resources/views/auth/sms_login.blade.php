@@ -14,7 +14,8 @@
                         <a href="{{ route('index') }}"><img src="{{ asset('images/logo/logo.png') }}" alt="Logo"></a>
                         <img src="{{ asset('images/logo/gsuite_logo.png') }}" alt="Logo">
                     </div>
-                    <h1 class="auth-title">登入</h1>
+                    <?php $school_code = school_code();$schools = config('app.schools')  ?>
+                    <h1 class="auth-title">登入 {{ $schools[$school_code] }}</h1>
                     <p class="auth-subtitle mb-5">GSuite帳號不需加 @chc.edu.tw</p>
                     <form id="login_form" action="{{ route('g_auth') }}" method="post">
                         @csrf

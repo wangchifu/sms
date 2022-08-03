@@ -19,6 +19,7 @@ class UserController extends Controller
         $school_api = SchoolApi::first();
 
         $students = Student::where('semester', $this_semester)
+            ->where('disable', null)
             ->get();
         $student_classes = StudentClass::where('semester', $this_semester)
             ->get();
@@ -73,6 +74,11 @@ class UserController extends Controller
 
     public function teach_excel()
     {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
         return view('users.teach_excel');
     }
 
@@ -206,6 +212,12 @@ class UserController extends Controller
 
     public function excel_import(Request $request)
     {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+
         //處理檔案上傳
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -267,7 +279,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->route('users.index');
+        return redirect()->back();
     }
 
     public function get_API($API_client_id, $API_client_secret)
@@ -318,8 +330,64 @@ class UserController extends Controller
         return json_decode($result);
     }
 
+    public function user_disable(User $user)
+    {
+        if (empty($user->disable)) {
+            $att['disable'] = 1;
+        } else {
+            $att['disable'] = null;
+        }
+        $user->update($att);
+        return redirect()->route('users.index');
+    }
+
+    public function stu_index()
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        $this_semester = get_date_semester(date('Y-m-d'));
+
+        $students = Student::where('semester', $this_semester)
+            ->where('disable', null)
+            ->get();
+        $student_classes = StudentClass::where('semester', $this_semester)
+            ->get();
+        $student_data = [];
+        if (!empty($students)) {
+            foreach ($students as $student) {
+                if (!isset($student_data[$student->semester])) $student_data[$student->semester] = 0;
+                $student_data[$student->semester]++;
+            }
+        }
+        if (!empty($student_classes)) {
+            $class_data = [];
+            foreach ($student_classes as $student_class) {
+                if (!isset($class_data[$student_class->semester])) $class_data[$student_class->semester] = 0;
+                $class_data[$student_class->semester]++;
+            }
+        }
+
+
+        $data = [
+            'this_semester' => $this_semester,
+            'class_data' => $class_data,
+            'student_data' => $student_data,
+        ];
+        return view('users.stu_index', $data);
+    }
+
+
     public function show_class($semester, $student_year = null, $student_class = null)
     {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+
         if (empty($student_year)) $student_year = 1;
         if (empty($student_class)) $student_class = 1;
         $this_class = StudentClass::where('semester', $semester)
@@ -330,6 +398,7 @@ class UserController extends Controller
         $students = Student::where('semester', $semester)
             ->where('student_year', $student_year)
             ->where('student_class', $student_class)
+            ->where('disable', null)
             ->orderBy('num')
             ->get();
         $student_classes = StudentClass::where('semester', $semester)
@@ -344,14 +413,123 @@ class UserController extends Controller
         ];
         return view('users.show_class', $data);
     }
-    public function user_disable(User $user)
+
+    public function stu_create(StudentClass $student_class)
     {
-        if (empty($user->disable)) {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+
+        $data = [
+            'student_class' => $student_class,
+        ];
+        return view('users.stu_create', $data);
+    }
+
+    public function stu_store(Request $request)
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        $request->validate([
+            'student_sn' => 'required',
+            'name' => 'required',
+            'num' => 'required',
+            'birthday' => 'required',
+        ]);
+        $att = $request->all();
+        $b = explode('-', $att['birthday']);
+        $att['birthday'] = $b[0] . '/' . sprintf("%02s", $b[1]) . '/' . sprintf("%02s", $b[2]);
+        $att['pwd'] = str_replace('/', '', $att['birthday']);
+
+        Student::create($att);
+
+        return redirect()->route('users.show_class', ['semester' => $att['semester'], 'student_year' => $att['student_year'], 'student_class' => $att['student_class']]);
+    }
+
+    public function stu_edit(Student $student)
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        $data = [
+            'student' => $student,
+        ];
+        return view('users.stu_edit', $data);
+    }
+
+    public function stu_update(Request $request, Student $student)
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        $request->validate([
+            'student_sn' => 'required',
+            'name' => 'required',
+            'num' => 'required',
+            'birthday' => 'required',
+        ]);
+        $att = $request->all();
+        $b = explode('-', $att['birthday']);
+        $att['birthday'] = $b[0] . '/' . sprintf("%02s", $b[1]) . '/' . sprintf("%02s", $b[2]);
+        //$att['pwd'] = str_replace('/', '', $att['birthday']);
+
+        $student->update($att);
+
+        return redirect()->route('users.show_class', ['semester' => $student->semester, 'student_year' => $student->student_year, 'student_class' => $student->student_class]);
+    }
+
+    public function stu_back_pwd(Student $student)
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        $att['pwd'] = str_replace('/', '', $student->birthday);
+        $student->update($att);
+        return redirect()->back();
+    }
+
+    public function stu_disable(Student $student)
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        if (empty($student->disable)) {
             $att['disable'] = 1;
         } else {
             $att['disable'] = null;
         }
-        $user->update($att);
-        return redirect()->route('users.index');
+        $student->update($att);
+        return redirect()->back();
+    }
+
+    public function show_disable($semester)
+    {
+        $admin = check_admin('student_admin');
+
+        if (!$admin) {
+            return redirect()->back();
+        }
+        $students = Student::where('semester', $semester)
+            ->where('disable', '1')
+            ->get();
+        $data = [
+            'semester' => $semester,
+            'students' => $students,
+        ];
+
+        return view('users.show_disable', $data);
     }
 }

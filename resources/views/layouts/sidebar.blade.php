@@ -22,10 +22,6 @@
                         </a>
                     @endguest
                     @auth
-                        @if(!empty(auth()->user()->current_school_code))
-                            <?php $schools = config('sms.schools')  ?>
-                            <span> {{ $schools[auth()->user()->current_school_code] }}</span>
-                        @endif
                         <span>{{ auth()->user()->name }}</span>
                         <a href="#" data-bs-toggle="modal"
                            data-bs-target="#logoutForm">
@@ -41,7 +37,8 @@
                 <li class="sidebar-item active">
                     <a href="{{ route('index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
-                        <span>首頁</span>
+                        <?php $school_code = school_code();$schools = config('app.schools')  ?>
+                        <span> {{ $schools[$school_code] }}</span>
                     </a>
                 </li>
                 @auth
@@ -68,10 +65,13 @@
                                 </a>
                                 <ul class="submenu ">
                                     <li class="submenu-item ">
-                                        <a href="{{ route('users.index') }}">帳號管理</a>
+                                        <a href="{{ route('module.index') }}">模組管理</a>
                                     </li>
                                     <li class="submenu-item ">
-                                        <a href="{{ route('module.index') }}">模組管理</a>
+                                        <a href="{{ route('users.index') }}">教師帳號管理</a>
+                                    </li>
+                                    <li class="submenu-item ">
+                                        <a href="{{ route('users.stu_index') }}">學生帳號管理</a>
                                     </li>
                                 </ul>
                             </li>

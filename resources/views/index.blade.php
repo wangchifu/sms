@@ -2,7 +2,7 @@
 
 @section('page_title','歡迎光臨')
 
-@section('card_title','說明')
+@section('card_title','模組功能')
 
 @section('content')
     <div class="container">
