@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LunchClassDate;
 use App\Models\LunchFactory;
 use App\Models\LunchOrder;
 use App\Models\LunchOrderDate;
@@ -37,8 +38,12 @@ class LunchSpecialController extends Controller
             $lunch_order_date = LunchOrderDate::where('order_date', $request->input('order_date'))
                 ->first();
             $att['enable'] = 0;
+            $att_class['eat_style1'] = null;
+            $att_class['eat_style4'] = null;
             if ($lunch_order_date) {
                 $lunch_order_date->update($att);
+                LunchClassDate::where('order_date', $request->input('order_date'))
+                    ->update($att_class);
             } else {
                 return back()->withErrors(['error' => ['查無該日期資料！']]);
             }

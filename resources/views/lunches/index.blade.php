@@ -68,7 +68,7 @@ $active['setup'] ="";
                                             <input type="radio" name="select_place" id="s1" checked value="place_select"> <label for="s1">指定地點　　　　　　</label>
                                         </td>
                                         <td>
-                                            <input type="radio" name="select_place" id="s2" value="place_class"> <label for="s2">班級教室</label>
+                                            <input type="radio" name="select_place" id="s2" value="place_class"> <label for="s2">班級教室(如101)</label>
                                         </td>
                                     </tr>
                                     <tr>
@@ -76,7 +76,7 @@ $active['setup'] ="";
                                             {{ Form::select('lunch_place_id', $lunch_place_array,null, ['id'=>'place_select','class' => 'form-control','placeholder'=>'--請選擇地點--','required'=>'required']) }}
                                         </td>
                                         <td>
-                                            <input type="text" name="class_no" id="place_class" maxlength="3" class="form-control" style="display: none;" placeholder="請填3碼班級代號" required value="1">
+                                            <input type="text" name="class_no" id="place_class" maxlength="4" class="form-control" style="display: none;" placeholder="請填班級代號" required value="1">
                                         </td>
                                     </tr>
                                 </table>

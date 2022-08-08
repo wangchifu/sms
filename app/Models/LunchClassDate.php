@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LunchClassDate extends Model
 {
     protected $fillable = [
-        'lunch_class_id',
+        'student_class_id',
         'order_date',
         'semester',
         'lunch_order_id',
