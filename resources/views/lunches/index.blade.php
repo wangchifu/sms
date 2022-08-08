@@ -59,7 +59,7 @@ $active['setup'] ="";
                         <hr>
                         <div class="card">
                             <div class="h3 card-header">
-                                2.選擇取餐地點 (<small class="text-danger">導師請選班級教室，填入3碼班級代碼</small>)
+                                2.選擇取餐地點 (<small class="text-danger">導師請選班級教室，填入班級代碼</small>)
                             </div>
                             <div class="card-body">
                                 <table>
@@ -190,7 +190,7 @@ $active['setup'] ="";
                                 <td>
                                     <label class="h3">2.取餐地點</label>
                                     @if(substr($lunch_tea_dates[0]->lunch_place_id,0,1)=="c")
-                                        <h4>{{ substr($lunch_tea_dates[0]->lunch_place_id,1,3) }}教室</h4>
+                                        <h4>{{ substr($lunch_tea_dates[0]->lunch_place_id,1,4) }}教室</h4>
                                     @else
                                         <h4>{{ $lunch_tea_dates[0]->lunch_place->name }}</h4>
                                     @endif
@@ -440,7 +440,7 @@ $active['setup'] ="";
                     Swal.fire({
                         icon: 'error',
                         title: '哦！錯了！',
-                        text: '導師要填3碼班級代碼',
+                        text: '導師要填班級代碼',
                     })
                    }else{
                     change_button();

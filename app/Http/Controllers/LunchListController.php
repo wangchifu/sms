@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LunchClassDate;
 use App\Models\LunchFactory;
 use App\Models\LunchOrder;
 use App\Models\LunchOrderDate;
 use App\Models\LunchSetup;
 use App\Models\LunchTeaDate;
+use App\Models\StudentClass;
 use Illuminate\Http\Request;
 //use Rap2hpoutre\FastExcel\FastExcel;
 use PHPExcel_IOFactory;
@@ -53,7 +55,7 @@ class LunchListController extends Controller
                 $factory_data[$tea_date->user->name][$tea_date->order_date]['name'] = $tea_date->lunch_factory->name;
                 $factory_data[$tea_date->user->name][$tea_date->order_date]['id'] = $tea_date->lunch_factory->id;
                 if (substr($tea_date->lunch_place_id, 0, 1) == "c") {
-                    $place_data[$tea_date->user->name] = substr($tea_date->lunch_place_id, 1, 3) . "教室";
+                    $place_data[$tea_date->user->name] = substr($tea_date->lunch_place_id, 1, 4) . "教室";
                 } else {
                     $place_data[$tea_date->user->name] = $tea_date->lunch_place->name;
                 }
@@ -521,7 +523,7 @@ class LunchListController extends Controller
             //$user_data[$tea_date->user->name][$tea_date->order_date]['eat_style'] = $tea_date->eat_style;
             //$factory_data[$tea_date->user->name] = $tea_date->lunch_factory->name;
             if (substr($tea_date->lunch_place_id, 0, 1) == "c") {
-                $place_data[$tea_date->user->name] = substr($tea_date->lunch_place_id, 1, 3) . "教室";
+                $place_data[$tea_date->user->name] = substr($tea_date->lunch_place_id, 1, 4) . "教室";
             } else {
                 $place_data[$tea_date->user->name] = $tea_date->lunch_place->name;
             }
@@ -611,7 +613,7 @@ class LunchListController extends Controller
                 foreach ($tea_dates as $tea_date) {
                     $user_data[$tea_date->user->name][$tea_date->order_date]['enable'] = $tea_date->enable;
                     if (substr($tea_date->lunch_place_id, 0, 1) == "c") {
-                        $place_data[$tea_date->user->name] = substr($tea_date->lunch_place_id, 1, 3) . "教室";
+                        $place_data[$tea_date->user->name] = substr($tea_date->lunch_place_id, 1, 4) . "教室";
                     } else {
                         $place_data[$tea_date->user->name] = $tea_date->lunch_place->name;
                     }
@@ -626,6 +628,22 @@ class LunchListController extends Controller
 
                 $teacher_money = $lunch_setup->teacher_money;
 
+                $lunch_class_dates = LunchClassDate::where('semester', $lunch_order->semester)
+                    ->orderBy('student_class_id')
+                    ->orderBy('order_date')
+                    ->get();
+
+                $lunch_class_data = [];
+                foreach ($lunch_class_dates as $lunch_class_date) {
+                    $lunch_class_data[$lunch_class_date->student_class_id][$lunch_class_date->order_date][1] = $lunch_class_date->eat_style1;
+                    $lunch_class_data[$lunch_class_date->student_class_id][$lunch_class_date->order_date][4] = $lunch_class_date->eat_style4;
+                }
+
+                $student_classes = StudentClass::where('semester', $lunch_order->semester)
+                    ->orderBy('student_year')
+                    ->orderBy('student_class')
+                    ->get();
+
                 $data = [
                     'factory' => $factory,
                     'lunch_order_id' => $lunch_order_id,
@@ -637,6 +655,9 @@ class LunchListController extends Controller
                     'days_data' => $days_data,
                     'money_data' => $money_data,
                     'teacher_money' => $teacher_money,
+                    'lunch_class_dates' => $lunch_class_dates,
+                    'lunch_class_data' => $lunch_class_data,
+                    'student_classes' => $student_classes,
                 ];
             }
         }
