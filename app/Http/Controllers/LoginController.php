@@ -13,6 +13,11 @@ class LoginController extends Controller
 {
     public function sms_login($action = null)
     {
+        $database = config('app.database');
+        $url = $_SERVER['HTTP_HOST'];
+        if ($url == "sms.chc.edu.tw") {
+            return redirect()->route('about');
+        }
         $data = [
             'action' => $action,
         ];
@@ -163,7 +168,9 @@ class LoginController extends Controller
             } else {
                 return back()->withInput()->withErrors(['error' => 'GSuite認證錯誤']);
             };
-        } elseif ($request->input('login_type') == "local") {
+        }
+
+        /**elseif ($request->input('login_type') == "local") {
             //是否已有此帳號
 
             $user = User::where('username', $username)
@@ -177,6 +184,7 @@ class LoginController extends Controller
                 }
             }
         }
+         */
 
         //登入
         if (Auth::attempt([
@@ -193,7 +201,7 @@ class LoginController extends Controller
             //$login_att['last_login'] = date('Y-m-d H:i:s');
             //$user->update($login_att);
         } else {
-            return back()->withInput()->withErrors(['error' => '本機帳號密碼錯誤！']);
+            return back()->withInput()->withErrors(['error' => '錯誤！無法登入！']);
         }
 
         if (empty($request->session()->get('url.intended'))) {

@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         $database = config('app.database');
         $url = $_SERVER['HTTP_HOST'];
-        if ($url = "sms.chc.edu.tw") {
+        if ($url == "sms.chc.edu.tw") {
             return redirect()->route('about');
         }
 
