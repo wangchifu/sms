@@ -629,6 +629,7 @@ class LunchListController extends Controller
                 $teacher_money = $lunch_setup->teacher_money;
 
                 $lunch_class_dates = LunchClassDate::where('semester', $lunch_order->semester)
+                    ->where('lunch_factory_id', $factory->id)
                     ->orderBy('student_class_id')
                     ->orderBy('order_date')
                     ->get();
