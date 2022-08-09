@@ -19,7 +19,7 @@
                     <p class="auth-subtitle mb-5">GSuite帳號不需加 @chc.edu.tw</p>
                     <form id="login_form" action="{{ route('g_auth') }}" method="post">
                         @csrf
-                        <!--
+                        
                         <div class="form-group position-relative has-icon-left mb-4">
                             <?php
                                 $select1 = (old('login_type')=="gsuite")?"selected":null;
@@ -28,14 +28,14 @@
                             
                             <select name="login_type" class="form-control form-control-lg">
                                 <option value="gsuite" {{ $select1 }}>國中小GSuite</option>
-                                
+                                <!--                                
                                 <option value="local" {{ $select2 }}>本機(管理者、其他單位)</option>
+                                -->
                             </select>                            
                             <div class="form-control-icon">
                                 <i class="bi bi-list"></i>
                             </div>
-                        </div>
-                        -->
+                        </div>                    
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-lg" name="username" value="{{ old('username') }}" placeholder="GSuite帳號" required tabindex="1" autofocus>
                             <div class="form-control-icon">
