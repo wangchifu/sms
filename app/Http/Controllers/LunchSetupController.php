@@ -7,6 +7,7 @@ use App\Models\LunchOrder;
 use App\Models\LunchOrderDate;
 use App\Models\LunchPlace;
 use App\Models\LunchSetup;
+use App\Models\LunchStuDate;
 use App\Models\LunchTeaDate;
 use Illuminate\Http\Request;
 
@@ -201,6 +202,7 @@ class LunchSetupController extends Controller
         LunchOrder::where('semester', $lunch_setup->semester)->delete();
         LunchOrderDate::where('semester', $lunch_setup->semester)->delete();
         LunchTeaDate::where('semester', $lunch_setup->semester)->delete();
+        LunchStuDate::where('semester', $lunch_setup->semester)->delete();
 
         $lunch_setup->delete();
         return redirect()->route('lunch_setups.index');

@@ -73,7 +73,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('impersonate',$user->id) }}" class="btn btn-sm btn-secondary">模</a>
+                                <a href="#" class="btn btn-sm btn-secondary" onclick="sw_confirm('確定嗎？','{{ route('impersonate',$user->id) }}')">模</a>
                             </td>
                         </tr>
                     @endforeach

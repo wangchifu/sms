@@ -35,6 +35,8 @@ class LunchStuController extends Controller
             $lunch_class_data[$lunch_class_date->student_class_id][$lunch_class_date->order_date][4] = $lunch_class_date->eat_style4;
         }
 
+        $lunch_orders = [];
+
         if (!empty($semester)) {
             $lunch_orders = LunchOrder::where('semester', $semester)
                 ->orderBy('name')
