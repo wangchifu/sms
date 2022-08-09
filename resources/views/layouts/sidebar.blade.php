@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between">
                 <div class="logo">
                     <a href="{{ route('index') }}"><img src="{{ asset('images/logo/logo.svg') }}" alt="Logo" srcset=""></a>
-                    彰化<br>校務管理系統
+                    彰化縣<br>學校管理系統
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
