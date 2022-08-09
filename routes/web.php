@@ -26,6 +26,11 @@ use App\Http\Controllers\LunchStuController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('about', [HomeController::class, 'about'])->name('about');
+Route::get('sys', [LoginController::class, 'sys'])->name('sys');
+Route::post('sys_auth', [LoginController::class, 'sys_auth'])->name('sys_auth');
+Route::get('sys_user', [LoginController::class, 'sys_user'])->name('sys_user');
+Route::get('impersonate/{user}', [LoginController::class, 'impersonate'])->name('impersonate');
+Route::get('sys_logout', [LoginController::class, 'sys_logout'])->name('sys_logout');
 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //    return view('dashboard');

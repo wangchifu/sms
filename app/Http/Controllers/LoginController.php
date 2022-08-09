@@ -7,6 +7,7 @@ use App\Models\SchoolPower;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -390,4 +391,58 @@ class LoginController extends Controller
 
     }
      * */
+
+    public function sys()
+    {
+
+        return view('auth.sys');
+    }
+    public function sys_auth(Request $request)
+    {
+        if ($request->input('chaptcha') != session('chaptcha')) {
+            return back()->withInput()->withErrors(['error' => '驗證碼錯誤']);
+        }
+
+        if ($request->input('username') <> env('SYS_ADM')) {
+            return redirect()->back();
+        }
+
+        $password = $request->input('password');
+        if (Hash::check($password, env('SYS_PWD'))) {
+            session(['system_admin' => true]);
+            return redirect()->route('sys_user');
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    public function sys_logout()
+    {
+        session(['system_admin' => null]);
+        return redirect()->route('index');
+    }
+
+    public function sys_user()
+    {
+        if (session('system_admin') <> true) {
+            return redirect()->back();
+        }
+        $users = User::where('disable', null)->get();
+        $data = [
+            'users' => $users,
+        ];
+        return view('sys_user', $data);
+    }
+
+    public function impersonate(User $user)
+    {
+        if (session('system_admin') <> true) {
+            return redirect()->back();
+        }
+        Auth::login($user);
+        $user_power = get_user_power($user->id);
+        session(['user_power' => $user_power]);
+
+        return redirect()->route('index');
+    }
 }

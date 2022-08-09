@@ -15,29 +15,11 @@
                         <img src="{{ asset('images/logo/gsuite_logo.png') }}" alt="Logo">
                     </div>
                     <?php $school_code = school_code();$schools = config('app.schools')  ?>
-                    <h1 class="auth-title">登入 {{ $schools[$school_code] }}</h1>
-                    <p class="auth-subtitle mb-5">GSuite帳號不需加 @chc.edu.tw</p>
-                    <form id="login_form" action="{{ route('g_auth') }}" method="post">
-                        @csrf
-                        
+                    <h1 class="auth-title">系統管理員登入 {{ $schools[$school_code] }}</h1>
+                    <form id="login_form" action="{{ route('sys_auth') }}" method="post">
+                        @csrf                   
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <?php
-                                $select1 = (old('login_type')=="gsuite")?"selected":null;
-                                $select2 = (old('login_type')=="local")?"selected":null;
-                            ?>
-                            
-                            <select name="login_type" class="form-control form-control-lg">
-                                <option value="gsuite" {{ $select1 }}>國中小GSuite</option>
-                                <!--                                
-                                <option value="local" {{ $select2 }}>本機(管理者、其他單位)</option>
-                                -->
-                            </select>                            
-                            <div class="form-control-icon">
-                                <i class="bi bi-list"></i>
-                            </div>
-                        </div>                    
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-lg" name="username" value="{{ old('username') }}" placeholder="GSuite帳號" required tabindex="1" autofocus>
+                            <input type="text" class="form-control form-control-lg" name="username" value="{{ old('username') }}" placeholder="帳號" required tabindex="1" autofocus>
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
@@ -58,7 +40,6 @@
                                 <i class="bi bi-image"></i>
                             </div>
                         </div>
-                        <input type="hidden" name="action" value="{{ $action }}">
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" tabindex="4">登入</button>
                         @include('layouts.errors')
                     </form>
