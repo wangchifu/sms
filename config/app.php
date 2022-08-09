@@ -235,6 +235,7 @@ return [
     'database' => [
         //網址轉換資料庫代碼
         'sms.localhost' => 'sms074999',
+        'sms.chc.edu.tw' => 'sms',
         'sms.smes.chc.edu.tw' => 'sms074608',
         'sms.dches.chc.edu.tw' => 'sms074775',
         'sms.tces.chc.edu.tw' => 'sms074610',
