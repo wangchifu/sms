@@ -25,6 +25,7 @@ use App\Http\Controllers\LunchStuController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('about', [HomeController::class, 'about'])->name('about');
 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //    return view('dashboard');

@@ -14,9 +14,19 @@ class HomeController extends Controller
 
     public function index()
     {
+        $database = config('app.database');
+        $url = $_SERVER['HTTP_HOST'];
+        if ($url = "sms.chc.edu.tw") {
+            return redirect()->route('about');
+        }
 
         $data = [];
         return view('index', $data);
+    }
+
+    public function about()
+    {
+        return view('about');
     }
     public function pic($d = null)
     {

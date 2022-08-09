@@ -84,7 +84,7 @@ class LoginController extends Controller
                         }
                     }
                     if ($check_code == 0) {
-                        //return back()->withErrors(['gsuite_error' => ['非本校教職員 GSuite 帳號']]);
+                        return back()->withErrors(['gsuite_error' => ['非本校教職員 GSuite 帳號']]);
                     }
                 }
 
