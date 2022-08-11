@@ -116,6 +116,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lunch_stus/delete/{semester}', [LunchStuController::class, 'delete'])->name('lunch_stus.delete');
     Route::post('lunch_stus/store/{semester}', [LunchStuController::class, 'store'])->name('lunch_stus.store');
     Route::post('lunch_stus/change_num', [LunchStuController::class, 'change_num'])->name('lunch_stus.change_num');
+    Route::post('lunch_stus/store_ps/{lunch_order}', [LunchStuController::class, 'store_ps'])->name('lunch_stus.store_ps');
 
 
     //學生管理

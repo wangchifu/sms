@@ -132,4 +132,11 @@ class LunchStuController extends Controller
 
         return redirect()->route('lunch_stus.index');
     }
+
+    public function store_ps(Request $request, LunchOrder $lunch_order)
+    {
+        $att['date_ps_ps'] = $request->input('date_ps_ps');
+        $lunch_order->update($att);
+        return redirect()->back();
+    }
 }

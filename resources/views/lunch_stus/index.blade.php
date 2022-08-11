@@ -69,6 +69,15 @@ $active['setup'] ="";
                         <div class="tab-pane fade" id="pills-{{ $i }}" role="tabpanel" aria-labelledby="pills-profile-tab">                        
                         @endif
                         <div class="overflow-auto">
+                            <form action="{{ route('lunch_stus.store_ps',$lunch_order->id) }}" method="post" id="store_ps{{ $lunch_order->id }}" onsubmit="return false">
+                                @csrf
+                            <div class="form-group">
+                                <label>學生異動說明：</label>
+                                <textarea class="form-control" name="date_ps_ps">{{ $lunch_order->date_ps_ps }}</textarea> 
+                                <button class="btn btn-success btn-sm" onclick="sw_confirm2('確定嗎？','store_ps{{ $lunch_order->id }}')">儲存</button>
+                            </div>       
+                            
+                            </form>
                             <table>
                                 <thead style="background-color:dodgerblue;color:white">
                                     <tr>

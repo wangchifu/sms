@@ -297,6 +297,14 @@ $school_code = substr($database[$_SERVER['HTTP_HOST']],3,6);
         <hr class="col-md-12">
         <div class="col-md-12">
             <h3>三、班級學生(+老師)數量</h3>
+            <?php
+                        $lunch_order = \App\Models\LunchOrder::find($lunch_order_id);
+                    ?>
+                    @if(!empty($lunch_order->date_ps_ps))
+                    <span class="text-danger small">備註：<br>
+                    {!! nl2br($lunch_order->date_ps_ps) !!}
+                    </span>
+                    @endif
             <table cellspacing='1' cellpadding='0' bgcolor='#C6D7F2' border="1">
                 <tr bgcolor='#005DBE' style='color:white;'>
                     <th rowspan="2">
