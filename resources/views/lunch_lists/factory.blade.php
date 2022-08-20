@@ -370,7 +370,7 @@ $school_code = substr($database[$_SERVER['HTTP_HOST']],3,6);
             此餐期總餐數：{{ $all }} (不含老師)
         </div>
     @endif
-    <script language='JavaScript'>
+    <script>
 
         function jump(){
             if(document.myform.lunch_order_id.options[document.myform.lunch_order_id.selectedIndex].value!=''){
