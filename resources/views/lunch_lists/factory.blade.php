@@ -351,7 +351,7 @@ $school_code = substr($database[$_SERVER['HTTP_HOST']],3,6);
                             @endif
                             @if(isset($p_e_data[$student_class->student_year.sprintf("%02s",$student_class->student_class).'教室'][1][$kk]))
                             <br>
-                            <small class="text-primary font-weight-bold">+{{ $p_e_data[$student_class->student_year.sprintf("%02s",$student_class->student_class).'教室'][1][$kk] }}</small>
+                            <small class="text-primary"><strong>+{{ $p_e_data[$student_class->student_year.sprintf("%02s",$student_class->student_class).'教室'][1][$kk] }}</strong></small>
                             @endif
                         </td>
                         <td data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $kk }} {{ $student_class->student_year }}{{ sprintf("%02s",$student_class->student_class) }} 素">
@@ -362,7 +362,7 @@ $school_code = substr($database[$_SERVER['HTTP_HOST']],3,6);
                             @endif
                             @if(isset($p_e_data[$student_class->student_year.sprintf("%02s",$student_class->student_class).'教室'][4][$kk]))
                             <br>
-                            <small>+{{ $p_e_data[$student_class->student_year.sprintf("%02s",$student_class->student_class).'教室'][4][$kk] }}</small>
+                            <small class="text-primary"><strong>+{{ $p_e_data[$student_class->student_year.sprintf("%02s",$student_class->student_class).'教室'][4][$kk] }}</strong></small>
                             @endif
                         </td>
                     <?php $all = $all+$lunch_class_data[$student_class->id][$kk][1]+$lunch_class_data[$student_class->id][$kk][4]; ?>
