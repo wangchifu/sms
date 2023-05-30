@@ -74,7 +74,7 @@ class LunchSpecialController extends Controller
 
         $user_array = User::where('disable', null)
             ->where('username', '<>', 'admin')
-            ->orderBy('order_by')
+            ->orderBy('id')
             ->pluck('name', 'id')
             ->toArray();
 
@@ -201,7 +201,7 @@ class LunchSpecialController extends Controller
 
         $user_array = User::where('disable', null)
             ->where('username', '<>', 'admin')
-            ->orderBy('order_by')
+            ->orderBy('id')
             ->pluck('name', 'id')
             ->toArray();
 
@@ -388,7 +388,7 @@ class LunchSpecialController extends Controller
         $admin = check_admin('lunch_admin');
         $user_array = User::where('disable', null)
             ->where('username', '<>', 'admin')
-            ->orderBy('order_by')
+            ->orderBy('id')
             ->pluck('name', 'id')
             ->toArray();
         $data = [
