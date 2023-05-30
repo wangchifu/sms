@@ -13,6 +13,10 @@
 @endsection
 
 @section('content')
+    <!-- Chosen v1.8.2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.min.css" rel="stylesheet" />
+    <link href="{{ asset('css/component-chosen.min.css') }}" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.jquery.min.js"></script>
 <?php
 
 $active['teacher'] ="";
@@ -38,7 +42,12 @@ $active['setup'] ="";
                         <label>
                             選擇教職員
                         </label>
-                        {{ Form::select('user_id', $user_array,null, ['class' => 'form-control','placeholder'=>'--請選擇--','required'=>'required']) }}
+                        {{ Form::select('user_id', $user_array,null, ['class' => 'form-control search_selet','placeholder'=>'--請選擇--','required'=>'required']) }}
+                        <script>
+                            $( ".search_selet" ).chosen({
+                                search_contains: true,
+                            });
+                        </script>
                     </div>
                     <div class="form-group">
                         <label>
