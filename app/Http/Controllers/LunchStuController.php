@@ -133,14 +133,16 @@ class LunchStuController extends Controller
             'end_date' => 'required',
             'eat_style1' => 'required',
         ]);
-        $admin = check_admin('lunch_admin');
+        
+        $admin = check_admin('lunch_admin');        
         if ($admin) {
             $att['eat_style1'] = $request->input('eat_style1');
             $att['eat_style4'] = (empty($request->input('eat_style4'))) ? null : $request->input('eat_style4');
+            
             LunchClassDate::where('student_class_id', $request->input('student_class_id'))
                 ->where('order_date', '>=', $request->input('start_date'))
                 ->where('order_date', '<=', $request->input('end_date'))
-                ->where('eat_style1', '<>', null)
+                //->where('eat_style1', '<>', null)
                 ->update($att);
         }
 
