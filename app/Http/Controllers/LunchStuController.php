@@ -142,7 +142,7 @@ class LunchStuController extends Controller
             LunchClassDate::where('student_class_id', $request->input('student_class_id'))
                 ->where('order_date', '>=', $request->input('start_date'))
                 ->where('order_date', '<=', $request->input('end_date'))
-                //->where('eat_style1', '<>', null)
+                ->where('eat_style1', '<>', null)
                 ->update($att);
         }
 
