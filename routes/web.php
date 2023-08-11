@@ -12,6 +12,7 @@ use App\Http\Controllers\LunchOrderController;
 use App\Http\Controllers\LunchSetupController;
 use App\Http\Controllers\LunchSpecialController;
 use App\Http\Controllers\LunchStuController;
+use App\Http\Controllers\ClubsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,22 @@ Route::get('pic/{d?}', [HomeController::class, 'pic'])->name('pic');
 //廠商頁面
 Route::match(['get', 'post'], 'lunch_lists/factory/{lunch_order_id?}', [LunchListController::class, 'factory'])->name('lunch_lists.factory');
 Route::get('lunch_lists/change_factory/', [LunchListController::class, 'change_factory'])->name('lunch_lists.change_factory');
+
+
+//社團家長頁面
+Route::get('clubs/semester_select', [ClubsController::class,'semester_select'])->name('clubs.semester_select');
+Route::get('clubs/{semester}/{class_id}/parents_login', [ClubsController::class,'parents_login'])->name('clubs.parents_login');
+Route::post('clubs/do_login', [ClubsController::class,'do_login'])->name('clubs.do_login');
+Route::get('clubs/parents_do/{class_id}', [ClubsController::class,'parents_do'])->name('clubs.parents_do');
+Route::get('clubs/parents_logout', [ClubsController::class,'parents_logout'])->name('clubs.parents_logout');
+Route::get('clubs/{class_id}/change_pwd', [ClubsController::class,'change_pwd'])->name('clubs.change_pwd');
+Route::patch('clubs/change_pwd_do', [ClubsController::class,'change_pwd_do'])->name('clubs.change_pwd_do');
+Route::post('clubs/{club_student}/get_telephone', [ClubsController::class,'get_telephone'])->name('clubs.get_telephone');
+Route::get('clubs/{club}/show_club', [ClubsController::class,'show_club'])->name('clubs.show_club');
+Route::get('clubs/{club}/sign_up', [ClubsController::class,'sign_up'])->name('clubs.sign_up');
+Route::get('clubs/{club_id}/sign_down', [ClubsController::class,'sign_down'])->name('clubs.sign_down');
+Route::get('clubs/{club}/{class_id}/sign_show', [ClubsController::class,'sign_show'])->name('clubs.sign_show');
+
 
 Route::group(['middleware' => 'auth'], function () {
     //登出
@@ -131,6 +148,46 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('users/stu_update/{student}', [UserController::class, 'stu_update'])->name('users.stu_update');
     Route::get('users/stu_back_pwd/{student}', [UserController::class, 'stu_back_pwd'])->name('users.stu_back_pwd');
     Route::get('users/stu_disable/{student}', [UserController::class, 'stu_disable'])->name('users.stu_disable');
+
+
+    //社團報名
+    Route::get('clubs', [ClubsController::class,'index'])->name('clubs.index');
+    Route::get('clubs/semester_create', [ClubsController::class,'semester_create'])->name('clubs.semester_create');
+    Route::post('clubs/semester_store', [ClubsController::class,'semester_store'])->name('clubs.semester_store');
+    Route::get('clubs/{semester}/semester_delete', [ClubsController::class,'semester_delete'])->name('clubs.semester_delete');
+    Route::get('clubs/{club_semester}/semester_edit', [ClubsController::class,'semester_edit'])->name('clubs.semester_edit');
+    Route::patch('clubs/{club_semester}/semester_update', [ClubsController::class,'semester_update'])->name('clubs.semester_update');
+    Route::get('clubs/setup/{semester?}', [ClubsController::class,'setup'])->name('clubs.setup');
+    Route::get('clubs/{semester}/club_create', [ClubsController::class,'club_create'])->name('clubs.club_create');
+    Route::post('clubs/club_store', [ClubsController::class,'club_store'])->name('clubs.club_store');
+    Route::post('clubs/club_copy', [ClubsController::class,'club_copy'])->name('clubs.club_copy');
+    Route::get('clubs/{club}/club_edit', [ClubsController::class,'club_edit'])->name('clubs.club_edit');
+    Route::patch('clubs/{club}/club_update', [ClubsController::class,'club_update'])->name('clubs.club_update');
+    Route::get('clubs/{club}/club_delete', [ClubsController::class,'club_delete'])->name('clubs.club_delete');
+    Route::get('clubs/{semester}/stu_adm', [ClubsController::class,'stu_adm'])->name('clubs.stu_adm');
+    Route::get('clubs/{semester}/stu_adm_more/{student_class_id?}', [ClubsController::class,'stu_adm_more'])->name('clubs.stu_adm_more');
+    Route::post('clubs/{semester}/stu_import', [ClubsController::class,'stu_import'])->name('clubs.stu_import');
+    Route::get('clubs/{semester}/stu_create/{student_class}', [ClubsController::class,'stu_create'])->name('clubs.stu_create');
+    Route::post('clubs/{semester}/stu_store', [ClubsController::class,'stu_store'])->name('clubs.stu_store');
+    Route::get('clubs/{club_student}/stu_edit/{student_class}', [ClubsController::class,'stu_edit'])->name('clubs.stu_edit');
+    Route::patch('clubs/{club_student}/stu_update', [ClubsController::class,'stu_update'])->name('clubs.stu_update');
+    Route::get('clubs/{club_student}/stu_delete/{student_class_id}', [ClubsController::class,'stu_delete'])->name('clubs.stu_delete');
+    Route::get('clubs/{club_student}/stu_disable/{student_class_id}', [ClubsController::class,'stu_disable'])->name('clubs.stu_disable');
+    Route::get('clubs/{club_student}/stu_enable/{student_class_id}', [ClubsController::class,'stu_enable'])->name('clubs.stu_enable');
+    Route::get('clubs/{club_student}/stu_backPWD/{student_class_id}', [ClubsController::class,'stu_backPWD'])->name('clubs.stu_backPWD');
+
+    Route::get('clubs/report_situation/{semester?}', [ClubsController::class,'report_situation'])->name('clubs.report_situation');
+    Route::get('clubs/report_not_situation/{semester?}', [ClubsController::class,'report_not_situation'])->name('clubs.report_not_situation');
+    Route::get('clubs/{semester}/report_situation_download/{class_id}', [ClubsController::class,'report_situation_download'])->name('clubs.report_situation_download');
+    Route::get('clubs/{club_register}/report_register_delete', [ClubsController::class,'report_register_delete'])->name('clubs.report_register_delete');
+    Route::get('clubs/report_money/{semester?}', [ClubsController::class,'report_money'])->name('clubs.report_money');
+    Route::get('clubs/{semester}/{class_id}/report_money_download', [ClubsController::class,'report_money_download'])->name('clubs.report_money_download');
+    Route::get('clubs/{semester}/{class_id}/report_money_download2', [ClubsController::class,'report_money_download2'])->name('clubs.report_money_download2');
+    Route::get('clubs/{semester}/{class_id}/report_money2_print', [ClubsController::class,'report_money2_print'])->name('clubs.report_money2_print');
+    Route::get('clubs/report', [ClubsController::class,'report'])->name('clubs.report');
+
+    Route::post('clubs/black', [ClubsController::class,'black'])->name('clubs.store_black');
+    Route::get('clubs/{semester}/{club_black}/destroy_black', [ClubsController::class,'destroy_black'])->name('clubs.destroy_black');
 });
 
 //系統管理員及學校管理員

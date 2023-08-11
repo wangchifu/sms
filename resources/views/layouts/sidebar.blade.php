@@ -86,9 +86,14 @@
                             <li class="submenu-item ">
                                 <a href="{{ route('lunches.index') }}">午餐系統</a>
                             </li>
+                            <?php
+                            $club_admin = check_admin('club_admin');
+                            ?>
+                            @if($club_admin)
                             <li class="submenu-item ">
-                                <a href="">社團報名系統</a>
+                                <a href="{{ route('clubs.index') }}">社團報名系統</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     <!--

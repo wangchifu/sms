@@ -120,6 +120,35 @@
                                 @endif
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                社團報名系統管理 (club_admin)
+                            </td>
+                            <td>
+                                <form action="{{ route('module.store') }}" method="post">
+                                    @csrf
+                                    <select name="user_id" class="form-control">
+                                        @foreach($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="power_type" value="1">
+                                    <input type="hidden" name="school_code" value="{{ auth()->user()->current_school_code }}">
+                                    <input type="hidden" name="module" value="club_admin">
+                                    <button class="btn btn-sm btn-success">新增</button>
+                                </form>
+                            </td>
+                            <td>
+                                @if(isset($power_data['club_admin']))
+                                    @foreach($power_data['club_admin'] as $k=>$v)
+                                        {{ $user_id2name[$k] }} <a href="#" onclick="sw_confirm('確定刪除？','{{ route('module.delete',$v) }}')"><i class="fas fa-times-circle text-danger"></i></a> ,
+                                    @endforeach
+                                @endif
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
         </div>
