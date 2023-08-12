@@ -9,12 +9,12 @@ class ClubRegister extends Model
     protected $fillable = [
         'semester',
         'club_id',
-        'club_student_id',
+        'student_id',
         'class_id',
     ];
     public function user()
     {
-        return $this->belongsTo(ClubStudent::class,'club_student_id','id');
+        return $this->belongsTo(Student::class,'student_id','id');
     }
 
     public function club()

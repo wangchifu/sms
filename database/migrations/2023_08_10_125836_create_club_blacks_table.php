@@ -16,7 +16,7 @@ class CreateClubBlacksTable extends Migration
         Schema::create('club_blacks', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('semester');
-            $table->string('no');       
+            $table->unsignedInteger('student_id');       
             $table->tinyInteger('class_id');     
             $table->timestamps();
         });

@@ -44,6 +44,10 @@
                             <label for="parents_telephone">家長電話</label>
                             {{ Form::text('parents_telephone',$student->parents_telephone,['id'=>'parents_telephone','class' => 'form-control']) }}
                         </div>
+                        <div class="form-group">
+                            <label for="parents_telephone">學生密碼</label>
+                            {{ Form::text('pwd',$student->pwd,['id'=>'pwd','class' => 'form-control']) }}
+                        </div>
                         <a class="btn btn-secondary btn-sm" href="#" onclick="history.go(-1)"><i class="fas fa-backward"></i> 返回</a>
                         <button type="submit" class="btn btn-primary btn-sm" onclick="sw_confirm2('確定儲存嗎？','update_form')">
                             <i class="fas fa-save"></i> 儲存

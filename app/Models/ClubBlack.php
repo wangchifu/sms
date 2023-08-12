@@ -8,12 +8,12 @@ class ClubBlack extends Model
 {
     protected $fillable = [
         'semester',
-        'no',
+        'student_id',
         'class_id',
     ];
 
-    public function club_student()
+    public function student()
     {
-        return $this->belongsTo(ClubStudent::class,'no','no');
+        return $this->belongsTo(Student::class,'id','id');
     }
 }

@@ -7,7 +7,7 @@ use App\Models\ClubBlack;
 use App\Models\ClubRegister;
 use App\Models\ClubNotRegister;
 use App\Models\ClubSemester;
-use App\Models\ClubStudent;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -367,6 +367,479 @@ class ClubsController extends Controller
         ClubRegister::where('club_id', $club->id)->delete();
         $club->delete();
         return redirect()->route('clubs.setup', $club->semester);
+    }
+
+    public function report()
+    {
+        return view('clubs.report');
+    }
+
+    public function semester_select()
+    {
+        if (!empty(session('parents'))) {
+            return redirect()->route('clubs.parents_do',['class_id'=>'1']);
+        }
+        session(['parents' => null]);
+        //$semester = get_date_semester(date('Y-m-d'));
+        //改列尚在報名中的
+        $this_date = date('Y-m-d-H-i');
+        $club_semesters = ClubSemester::where('stop_date', '>=', $this_date)->orWhere('stop_date2', '>=', $this_date)->orderBy('semester')->get();
+        $data = [
+            'club_semesters' => $club_semesters,
+        ];
+        return view('clubs.semester_select', $data);
+    }
+
+    public function parents_login($semester, $class_id)
+    {
+        $club_semester = ClubSemester::where('semester', $semester)->first();
+        if ($class_id == '1') {
+            if (date('YmdHi') >= str_replace('-', '', $club_semester->start_date) and date('YmdHi') <= str_replace('-', '', $club_semester->stop_date)) {
+                $data = [
+                    'semester' => $semester,
+                    'class_id' => $class_id,
+                ];
+                return view('clubs.parents_login', $data);
+            } else {
+                return back();
+            }
+        }
+        if ($class_id == '2') {
+            if (date('YmdHi') >= str_replace('-', '', $club_semester->start_date2) and date('YmdHi') <= str_replace('-', '', $club_semester->stop_date2)) {
+                $data = [
+                    'semester' => $semester,
+                    'class_id' => $class_id,
+                ];
+                return view('clubs.parents_login', $data);
+            } else {
+                return back();
+            }
+        }
+    }
+
+    public function do_login(Request $request)
+    {
+        if ($request->input('class_num')) {
+            $student_year = substr($request->input('class_num'),0,1);
+            $student_class = (int)substr($request->input('class_num'),1,2);
+            $num = (int)substr($request->input('class_num'),3,2);
+
+            $check = Student::where('student_year', $student_year)
+                ->where('student_class', $student_class)
+                ->where('num', $num)
+                ->where('semester', $request->input('semester'))
+                ->first();
+
+            if (!$check) {
+                return back()->withErrors(['error' => ['查無此帳號！']]);
+            } else {
+                if ($check->disable == 1) {
+                    return back()->withErrors(['error' => ['此帳號已被停用！']]);
+                }
+                if ($request->input('pwd') != $check->pwd) {
+                    return back()->withErrors(['error' => ['密碼錯誤！']]);
+                } else {
+                    session(['parents' => $check->id]);
+                    return redirect()->route('clubs.parents_do', $request->input('class_id'));
+                };
+            }
+        }
+    }
+
+    public function parents_do($class_id)
+    {
+        if (empty(session('parents'))) {
+            return redirect()->route('clubs.semester_select');
+        }
+
+        $user = Student::where('id', session('parents'))
+            ->first();
+
+
+        //檢查是否為黑名單
+        $black = ClubBlack::where('semester', $user->semester)
+            ->where('student_id', $user->id)
+            ->where('class_id', $class_id)
+            ->first();
+        if ($class_id == 1) {
+            $n = "1.學生特色社團";
+        }
+        if ($class_id == 2) {
+            $n = "2.學生課後活動";
+        }
+        if (!empty($black)) {
+            session(['parents' => null]);
+            echo "<body onload=alert('你被處罰此學期無法報名" . $n . "')>";
+            header("refresh:3;url=" . route('clubs.semester_select'));
+            die();
+        }
+
+
+        $class_id = ($class_id) ? $class_id : 1;
+
+        $clubs = Club::where('semester', $user->semester)
+            ->where('class_id', $class_id)
+            ->orderBy('no')
+            ->get();
+
+        $club_semester = ClubSemester::where('semester', $user->semester)
+            ->first();
+
+
+        //檢查是否非可報名時間
+        if ($class_id == '1') {
+            if (date('YmdHi') >= str_replace('-', '', $club_semester->start_date) and date('YmdHi') <= str_replace('-', '', $club_semester->stop_date)) {
+            } else {
+                echo "<body onload=alert('非報名時間')>";
+                echo "<a href=2 onclick =history.back()>返回</a>";
+                die();
+            }
+        }
+        if ($class_id == '2') {
+            if (date('YmdHi') >= str_replace('-', '', $club_semester->start_date2) and date('YmdHi') <= str_replace('-', '', $club_semester->stop_date2)) {
+            } else {
+                echo "<body onload=alert('非報名時間')>";
+                echo "<a href=1 onclick =history.back()>返回</a>";
+                die();
+            }
+        }
+
+
+        $club_classes = [
+            '1' => '1.學生特色社團 (' . $club_semester->start_date . '~' . $club_semester->stop_date . ')',
+            '2' => '2.學生課後活動 (' . $club_semester->start_date2 . '~' . $club_semester->stop_date2 . ')',
+        ];
+
+        $data = [
+            'user' => $user,
+            'clubs' => $clubs,
+            'club_semester' => $club_semester,
+            'club_classes' => $club_classes,
+            'class_id' => $class_id,
+        ];
+        return view('clubs.parents_do', $data);
+    }
+
+    public function get_telephone(Request $request, Student $student)
+    {
+        $att = $request->all();
+        $student->update($att);
+        return redirect()->route('clubs.parents_do', $request->input('class_id'));
+    }
+
+    public function parents_logout()
+    {
+        session(['parents' => null]);
+        return redirect()->route('clubs.semester_select');
+    }
+
+    public function change_pwd($class_id)
+    {        
+        if (empty(session('parents'))) {
+            return redirect()->route('clubs.semester_select');
+        }        
+        $user = Student::where('id', session('parents'))
+            ->first();
+        $data = [
+            'user' => $user,
+            'class_id' => $class_id,
+        ];
+        return view('clubs.change_pwd', $data);
+    }
+
+    public function change_pwd_do(Request $request)
+    {
+        $user = Student::where('id', session('parents'))
+            ->first();
+
+        if ($request->input('password0') != $user->pwd) {
+            return back()->withErrors(['error' => ['舊密碼錯誤！你不是本人！？']]);
+        }
+        if ($request->input('password1') != $request->input('password2')) {
+            return back()->withErrors(['error' => ['兩次新密碼不相同']]);
+        }
+
+
+        $att['pwd'] = $request->input('password1');
+        $user->update($att);
+        return redirect()->route('clubs.parents_logout');
+    }
+
+    public function show_club(Club $club,$class_id)
+    {
+        if (empty(session('parents'))) {
+            return redirect()->route('clubs.semester_select');
+        }
+        $user = Student::where('id', session('parents'))
+        ->first();
+        $data = [
+            'user'=>$user,
+            'club' => $club,
+            'class_id'=>$class_id,
+        ];
+
+        return view('clubs.show_club', $data);
+    }
+
+    public function sign_up(Club $club)
+    {
+        if (empty(session('parents'))) {
+            return redirect()->route('clubs.semester_select');
+        }
+
+        $user = Student::where('id', session('parents'))
+            ->first();
+        $club_register = ClubRegister::where('semester', $user->semester)
+            ->where('club_id', $club->id)
+            ->where('student_id', $user->id)
+            ->first();
+        $club_semester = ClubSemester::where('semester', $user->semester)
+            ->first();
+
+        if ($club->class_id == 1) {
+            if (date('YmdHi') >= str_replace('-', '', $club_semester->start_date) and date('YmdHi') <= str_replace('-', '', $club_semester->stop_date)) {
+            } else {
+                return back();
+            }
+        }
+
+        if ($club->class_id == 2) {
+            if (date('YmdHi') >= str_replace('-', '', $club_semester->start_date2) and date('YmdHi') <= str_replace('-', '', $club_semester->stop_date2)) {
+            } else {
+                return back();
+            }
+        }
+
+
+        $check_num = ClubRegister::where('semester', $user->semester)
+            ->where('student_id', $user->id)
+            ->where('class_id', $club->class_id)
+            ->count();
+
+        $count_num = ClubRegister::where('semester', $user->semester)
+            ->where('club_id', $club->id)
+            ->where('class_id', $club->class_id)
+            ->count();
+
+        //時間重疊就不能報名
+        if(!$club->no_check){
+            $tt = explode(';', $club->start_time);
+            $check_registers = ClubRegister::where('semester', $user->semester)
+                ->where('student_id', $user->id)
+                ->get();
+            foreach ($check_registers as $check_register) {
+                $ss = explode(';', $check_register->club->start_time);
+                foreach ($ss as $k => $v) {
+                    $check_t = explode('-', $v);
+    
+                    foreach ($tt as $k2 => $v2) {
+                        $want_t = explode('-', $v2);
+                        if ($want_t[0] == $check_t[0]) {
+                            $beginTime1 = strtotime(date('Y-m-d') . ' ' . $want_t[1]);
+                            $endTime1 = strtotime(date('Y-m-d') . ' ' . $want_t[2]);
+                            $beginTime2 = strtotime(date('Y-m-d') . ' ' . $check_t[1]);
+                            $endTime2 = strtotime(date('Y-m-d') . ' ' . $check_t[2]);
+    
+                            if ($this->is_time_cross($beginTime1, $endTime1, $beginTime2, $endTime2)) {
+                                return back()->withErrors(['errors' => [$club->name . ' 此社團和已報名的社團時間衝突！']]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        //年級不對
+        if (!in_array($user->student_year, explode(',', $club->year_limit))) {
+            return back()->withErrors(['errors' => [$club->name . ' 此社團有年級限制，與你不符！']]);
+        }
+
+
+        if (empty($club_register) and $check_num < $club_semester->club_limit and $count_num < ($club->taking + $club->prepare)) {
+            $att['semester'] = $user->semester;
+            $att['club_id'] = $club->id;
+            $att['student_id'] = $user->id;
+            $att['class_id'] = $club->class_id;            
+            ClubRegister::create($att);
+        }
+
+        return redirect()->route('clubs.parents_do', $club->class_id);
+    }
+
+    public function sign_down($club_id)
+    {
+        if (empty(session('parents'))) {
+            return redirect()->route('clubs.semester_select');
+        }
+
+        $user = Student::where('id', session('parents'))
+            ->first();
+
+        $club = Club::find($club_id);
+
+        ClubRegister::where('semester', $user->semester)
+            ->where('club_id', $club_id)
+            ->where('student_id', $user->id)
+            ->delete();
+
+        $att['semester'] = $user->semester;
+        $att['ip'] = GetIP();
+        $att['event'] = "學號：" . $user->student_sn . " 班級座號：" . $user->student_year."年".$user->student_class."班".$user->num."號" . " " . $user->name . " 取消報名了「" . $club->name . "」";
+        ClubNotRegister::create($att);
+
+        return redirect()->route('clubs.parents_do', $club->class_id);
+    }
+
+    public function sign_show(Club $club, $class_id)
+    {
+        if (empty(session('parents'))) {
+            return redirect()->route('clubs.semester_select');
+        }
+
+        $user = Student::where('id', session('parents'))
+            ->first();
+
+        $club_registers = ClubRegister::where('semester', $user->semester)
+            ->where('club_id', $club->id)
+            ->orderBy('created_at')
+            ->get();
+        $data = [
+            'user' => $user,
+            'club' => $club,
+            'club_registers' => $club_registers,
+            'class_id' => $class_id,
+        ];
+
+        return view('clubs.sign_show', $data);
+    }
+
+    public function report_situation($semester = null)
+    {
+        $user = Student::where('id', session('parents'))
+            ->first();
+        $club_semesters_array = ClubSemester::orderby('semester', 'DESC')->pluck('semester', 'semester')->toArray();
+        if ($semester == null) {
+            $s = ClubSemester::orderBy('semester', 'DESC')->first();
+            if ($s) {
+                $semester = $s->semester;
+            } else {
+                $semester = null;
+            }
+        }
+
+        if ($semester) {
+            $clubs1 = Club::where('semester', $semester)->where('class_id', '1')->orderBy('no')->get();
+            $clubs2 = Club::where('semester', $semester)->where('class_id', '2')->orderBy('no')->get();
+        } else {
+            $clubs1 = [];
+            $clubs2 = [];
+        }
+
+        $data = [
+            'user' => $user,
+            'club_semesters_array' => $club_semesters_array,
+            'semester' => $semester,
+            'clubs1' => $clubs1,
+            'clubs2' => $clubs2,
+        ];
+
+        return view('clubs.report_situation', $data);
+    }
+
+    public function report_not_situation($semester = null)
+    {
+        $club_semesters_array = ClubSemester::orderby('semester', 'DESC')->pluck('semester', 'semester')->toArray();
+        $not_registers = [];
+        if ($semester == null) {
+            $s = ClubSemester::orderBy('semester', 'DESC')->first();
+            if ($s) {
+                $semester = $s->semester;
+                $not_registers = ClubNotRegister::where('semester', $semester)->get();
+            } else {
+                $semester = null;
+            }
+        } else {
+            $not_registers = ClubNotRegister::where('semester', $semester)->get();
+        }
+
+
+        $data = [
+            'club_semesters_array' => $club_semesters_array,
+            'semester' => $semester,
+            'not_registers' => $not_registers,
+        ];
+
+        return view('clubs.report_not_situation', $data);
+    }
+
+    public function report_register_delete(ClubRegister $club_register)
+    {
+        $att['semester'] = $club_register->semester;
+        $att['ip'] = GetIP();
+        $att['event'] = "管理員幫 學號：" . $club_register->user->student_sn . " 班級座號：" . $club_register->user->student_year."年".$club_register->user->student_class."班".$club_register->user->num."號" . " " . $club_register->user->name . " 取消報名了「" . $club_register->club->name . "」";
+        ClubNotRegister::create($att);
+        $club_register->delete();        
+        return redirect()->route('clubs.report_situation');
+    }
+
+    public function report_situation_download($semester, $class_id)
+    {
+        $clubs = Club::where('semester', $semester)->where('class_id', $class_id)->get();
+        $n = 1;
+        foreach ($clubs as $club) {
+            $club_registers = ClubRegister::where('semester', $semester)
+                ->where('club_id', $club->id)
+                ->get();
+            $taking = $club->taking;
+            $prepare = $club->prepare;
+            $i = 1;
+            $j = 1;
+            if (count($club_registers) < $club->people) {
+                $open = "不開班";
+            } else {
+                $open = "開班成功";
+            }
+            if (count($club_registers) > 0) {
+                foreach ($club_registers as $club_register) {
+                    if ($i <= $taking) $order = "正取" . $i;
+                    if ($i > $taking and $j <= $prepare) {
+                        $order = "備取" . $j;
+                        $j++;
+                    }
+
+                    $data[$n] = [
+                        '社團' => $club->name,
+                        '班級座號' => $club_register->user->student_year."年".$club_register->user->student_class."班".$club_register->user->num."號",
+                        '姓名' => $club_register->user->name,
+                        '姓名(藏)' => mb_substr($club_register->user->name, 0, 1) . "O" . mb_substr($club_register->user->name, -1),
+                        '家長電話' => $club_register->user->parents_telephone,
+                        '錄取狀況' => $order,
+                        '報名時間' => date('Y-m-d H:i:s', strtotime($club_register->created_at)),
+                        '開班狀態' => $open,
+                    ];
+                    $i++;
+                    $n++;
+                }
+            } else {
+                $data[$n] = [
+                    '社團' => $club->name,
+                    '班級座號' => '',
+                    '姓名' => '',
+                    '姓名(藏)' => '',
+                    '家長電話' => '',
+                    '錄取狀況' => '',
+                    '報名時間' => '',
+                    '開班狀態' => $open,
+                ];
+                $i++;
+                $n++;
+            }
+        }
+
+
+        $list = collect($data);
+
+        return (new FastExcel($list))->download($semester . '_社團報名結果.xlsx');
     }
 
     

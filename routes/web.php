@@ -60,8 +60,8 @@ Route::get('clubs/parents_do/{class_id}', [ClubsController::class,'parents_do'])
 Route::get('clubs/parents_logout', [ClubsController::class,'parents_logout'])->name('clubs.parents_logout');
 Route::get('clubs/{class_id}/change_pwd', [ClubsController::class,'change_pwd'])->name('clubs.change_pwd');
 Route::patch('clubs/change_pwd_do', [ClubsController::class,'change_pwd_do'])->name('clubs.change_pwd_do');
-Route::post('clubs/{club_student}/get_telephone', [ClubsController::class,'get_telephone'])->name('clubs.get_telephone');
-Route::get('clubs/{club}/show_club', [ClubsController::class,'show_club'])->name('clubs.show_club');
+Route::post('clubs/{student}/get_telephone', [ClubsController::class,'get_telephone'])->name('clubs.get_telephone');
+Route::get('clubs/{club}/{class_id}/show_club', [ClubsController::class,'show_club'])->name('clubs.show_club');
 Route::get('clubs/{club}/sign_up', [ClubsController::class,'sign_up'])->name('clubs.sign_up');
 Route::get('clubs/{club_id}/sign_down', [ClubsController::class,'sign_down'])->name('clubs.sign_down');
 Route::get('clubs/{club}/{class_id}/sign_show', [ClubsController::class,'sign_show'])->name('clubs.sign_show');

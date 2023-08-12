@@ -23,6 +23,7 @@ if (!function_exists('get_files')) {
     }
 }
 
+
 //刪除某目錄下的任何東西
 if (!function_exists('delete_dir')) {
     function delete_dir($dir)
@@ -139,6 +140,7 @@ if (!function_exists('send_mail')) {
         };
     }
 }
+
 
 if (!function_exists('get_user_power')) {
     function get_user_power($user_id)
@@ -270,4 +272,18 @@ function num2str($num)
     foreach ($str as $v) $string .= array_pop($str);
     $string = preg_replace('/0+/', '零', $string);
     return $string;
+}
+
+function GetIP()
+{
+    if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+        $cip = $_SERVER["HTTP_CLIENT_IP"];
+    } elseif (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+        $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    } elseif (!empty($_SERVER["REMOTE_ADDR"])) {
+        $cip = $_SERVER["REMOTE_ADDR"];
+    } else {
+        $cip = "無法取得IP位址！";
+    }
+    return $cip;
 }

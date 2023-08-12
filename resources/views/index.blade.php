@@ -13,10 +13,17 @@
                 </a>
                 <figcaption class="figure-caption">午餐系統</figcaption>
             </figure>
-            <figure class="figure col-xs-4 col-md-3 col-lg-2">
-                <img src="{{ asset('images/logo/club.png') }}" class="gray figure-img img-fluid rounded" alt="...">
-                <figcaption class="figure-caption">社團報名系統</figcaption>
-            </figure>
+            <?php
+                $club_admin = check_admin('club_admin');
+            ?>
+            @if($club_admin)
+                <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                    <a href="{{ route('clubs.index') }}">
+                    <img src="{{ asset('images/logo/club.png') }}" class="figure-img img-fluid rounded" alt="...">
+                    </a>
+                    <figcaption class="figure-caption">社團報名系統</figcaption>
+                </figure>
+            @endif
             <!--
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
                 <img src="{{ asset('images/logo/new_student.png') }}" class="gray figure-img img-fluid rounded" alt="...">
