@@ -72,7 +72,7 @@ $active['list'] ="";
                 <td>
                     {{ $club_semester->club_limit }} 個
                 </td>
-                <th>
+                <td>
                     <?php
                         $student_num = \App\Models\Student::where('semester',$club_semester->semester)->count();
                     ?>
@@ -82,6 +82,7 @@ $active['list'] ="";
                     @else
                     <small>無學生管理權</small>
                     @endif
+                </td>
                 <td>                                     
                     <a href="{{ route('clubs.semester_edit',$club_semester->id) }}" class="btn btn-primary btn-sm">編輯</a>
                     <a href="{{ route('clubs.semester_delete',$club_semester->semester) }}" class="btn btn-danger btn-sm" onclick="return confirm('底下所有的資料都會清除喔！')">刪除</a>

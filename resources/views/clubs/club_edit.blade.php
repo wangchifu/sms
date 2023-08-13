@@ -32,7 +32,7 @@ $active['list'] ="";
             {{ Form::select('class_id',$club_classes,$club->class_id,['id'=>'class_id','class' => 'form-control','required'=>'required']) }}
         </div>
         <div class="form-group">
-            <label for="no"><strong>社團編號*</strong><small class="text-primary">(如 A)</small></label>
+            <label for="no"><strong>社團編號*</strong><small class="text-primary">(如 A 或 1)</small></label>
             {{ Form::text('no',$club->no,['id'=>'no','class' => 'form-control','required'=>'required']) }}
         </div>
         <div class="form-group">
