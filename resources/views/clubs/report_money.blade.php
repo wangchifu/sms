@@ -198,8 +198,6 @@ $active['list'] ="active";
                     </table>
                     總金額2：{{ $all2 }}
                     <br><br>
-                @elseif(!$admin)
-                    <span class="text-danger">你不是管理者</span>
                 @else
                     <span class="text-danger">請先新增學期</span>
                 @endif

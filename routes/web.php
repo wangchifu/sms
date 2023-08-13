@@ -165,6 +165,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('clubs/{club}/club_update', [ClubsController::class,'club_update'])->name('clubs.club_update');
     Route::get('clubs/{club}/club_delete', [ClubsController::class,'club_delete'])->name('clubs.club_delete');
     Route::get('clubs/{semester}/stu_adm', [ClubsController::class,'stu_adm'])->name('clubs.stu_adm');
+    Route::get('clubs/black', [ClubsController::class,'black'])->name('clubs.black');
     Route::get('clubs/{semester}/stu_adm_more/{student_class_id?}', [ClubsController::class,'stu_adm_more'])->name('clubs.stu_adm_more');
     Route::post('clubs/{semester}/stu_import', [ClubsController::class,'stu_import'])->name('clubs.stu_import');
     Route::get('clubs/{semester}/stu_create/{student_class}', [ClubsController::class,'stu_create'])->name('clubs.stu_create');
@@ -186,8 +187,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('clubs/{semester}/{class_id}/report_money2_print', [ClubsController::class,'report_money2_print'])->name('clubs.report_money2_print');
     Route::get('clubs/report', [ClubsController::class,'report'])->name('clubs.report');
 
-    Route::post('clubs/black', [ClubsController::class,'black'])->name('clubs.store_black');
-    Route::get('clubs/{semester}/{club_black}/destroy_black', [ClubsController::class,'destroy_black'])->name('clubs.destroy_black');
+    Route::post('clubs/store_black', [ClubsController::class,'store_black'])->name('clubs.store_black');
+    Route::get('clubs/{club_black}/destroy_black', [ClubsController::class,'destroy_black'])->name('clubs.destroy_black');
 });
 
 //系統管理員及學校管理員

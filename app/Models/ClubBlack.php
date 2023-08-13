@@ -14,6 +14,6 @@ class ClubBlack extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class,'id','id');
+        return $this->belongsTo(Student::class,'student_id','id');
     }
 }

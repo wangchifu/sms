@@ -118,7 +118,7 @@ class ClubsController extends Controller
     }
 
     public function club_create($semester)
-    {
+    {        
         $club_classes = [
             '1' => '學生特色社團',
             '2' => '學生課後活動',
@@ -129,127 +129,131 @@ class ClubsController extends Controller
         ];
         $data = [
             'semester' => $semester,
-            'club_classes' => $club_classes,
+            'club_classes' => $club_classes,            
         ];
         return view('clubs.club_create', $data);
     }
 
     public function club_store(Request $request)
-    {
-        $no_array = [
-            '1' => 'A',
-            '2' => 'B',
-            '3' => 'C',
-            '4' => 'D',
-            '5' => 'E',
-            '6' => 'F',
-            '7' => 'G',
-            '8' => 'H',
-            '9' => 'I',
-            '10' => 'J',
-            '11' => 'K',
-            '12' => 'L',
-            '13' => 'M',
-            '14' => 'N',
-            '15' => 'O',
-            '16' => 'P',
-            '17' => 'Q',
-            '18' => 'R',
-            '19' => 'S',
-            '20' => 'T',
-            '21' => 'U',
-            '22' => 'V',
-            '23' => 'W',
-            '24' => 'X',
-            '25' => 'Y',
-            '26' => 'Z',
-            '27' => 'AA',
-            '28' => 'AB',
-            '29' => 'AC',
-            '30' => 'AD',
-            '31' => 'AE',
-            '32' => 'AF',
-            '33' => 'AG',
-            '34' => 'AH',
-            '35' => 'AI',
-            '36' => 'AJ',
-            '37' => 'AK',
-            '38' => 'AL',
-            '39' => 'AM',
-            '40' => 'AN',
-            '41' => 'AO',
-            '42' => 'AP',
-            '43' => 'AQ',
-            '44' => 'AR',
-            '45' => 'AS',
-            '46' => 'AT',
-            '47' => 'AU',
-            '48' => 'AV',
-            '49' => 'AW',
-            '50' => 'AX',
-            '51' => 'AY',
-            '52' => 'AZ',
-            '53' => 'BA',
-            '54' => 'BB',
-            '55' => 'BC',
-            '56' => 'BD',
-            '57' => 'BE',
-            '58' => 'BF',
-            '59' => 'BG',
-            '60' => 'BH',
-            '61' => 'BI',
-            '62' => 'BJ',
-            '63' => 'BK',
-            '64' => 'BL',
-            '65' => 'BM',
-            '66' => 'BN',
-            '67' => 'BO',
-            '68' => 'BP',
-            '69' => 'BQ',
-            '70' => 'BR',
-            '71' => 'BS',
-            '72' => 'BT',
-            '73' => 'BU',
-            '74' => 'BV',
-            '75' => 'BW',
-            '76' => 'BX',
-            '77' => 'BY',
-            '78' => 'BZ',
-            '79' => 'CA',
-            '80' => 'CB',
-            '81' => 'CC',
-            '82' => 'CD',
-            '83' => 'CE',
-            '84' => 'CF',
-            '85' => 'CG',
-            '86' => 'CH',
-            '87' => 'CI',
-            '88' => 'CJ',
-            '89' => 'CK',
-            '90' => 'CL',
-            '91' => 'CM',
-            '92' => 'CN',
-            '93' => 'CO',
-            '94' => 'CP',
-            '95' => 'CQ',
-            '96' => 'CR',
-            '97' => 'CS',
-            '98' => 'CT',
-            '99' => 'CU',
-            '100' => 'CV',
-            '101' => 'CW',
-            '102' => 'CX',
-            '103' => 'CY',
-            '104' => 'CZ',
-
-        ];
+    {            
         $semester = $request->input('semester');
         $name = $request->input('name');
         $class_id = $request->input('class_id');
         $count = Club::where('semester', $semester)
             ->where('class_id', $class_id)
             ->count();
-        $no = $no_array[$count + 1];
+            if(empty($request->input('no'))){
+                $no_array = [
+                    '1' => 'A',
+                    '2' => 'B',
+                    '3' => 'C',
+                    '4' => 'D',
+                    '5' => 'E',
+                    '6' => 'F',
+                    '7' => 'G',
+                    '8' => 'H',
+                    '9' => 'I',
+                    '10' => 'J',
+                    '11' => 'K',
+                    '12' => 'L',
+                    '13' => 'M',
+                    '14' => 'N',
+                    '15' => 'O',
+                    '16' => 'P',
+                    '17' => 'Q',
+                    '18' => 'R',
+                    '19' => 'S',
+                    '20' => 'T',
+                    '21' => 'U',
+                    '22' => 'V',
+                    '23' => 'W',
+                    '24' => 'X',
+                    '25' => 'Y',
+                    '26' => 'Z',
+                    '27' => 'AA',
+                    '28' => 'AB',
+                    '29' => 'AC',
+                    '30' => 'AD',
+                    '31' => 'AE',
+                    '32' => 'AF',
+                    '33' => 'AG',
+                    '34' => 'AH',
+                    '35' => 'AI',
+                    '36' => 'AJ',
+                    '37' => 'AK',
+                    '38' => 'AL',
+                    '39' => 'AM',
+                    '40' => 'AN',
+                    '41' => 'AO',
+                    '42' => 'AP',
+                    '43' => 'AQ',
+                    '44' => 'AR',
+                    '45' => 'AS',
+                    '46' => 'AT',
+                    '47' => 'AU',
+                    '48' => 'AV',
+                    '49' => 'AW',
+                    '50' => 'AX',
+                    '51' => 'AY',
+                    '52' => 'AZ',
+                    '53' => 'BA',
+                    '54' => 'BB',
+                    '55' => 'BC',
+                    '56' => 'BD',
+                    '57' => 'BE',
+                    '58' => 'BF',
+                    '59' => 'BG',
+                    '60' => 'BH',
+                    '61' => 'BI',
+                    '62' => 'BJ',
+                    '63' => 'BK',
+                    '64' => 'BL',
+                    '65' => 'BM',
+                    '66' => 'BN',
+                    '67' => 'BO',
+                    '68' => 'BP',
+                    '69' => 'BQ',
+                    '70' => 'BR',
+                    '71' => 'BS',
+                    '72' => 'BT',
+                    '73' => 'BU',
+                    '74' => 'BV',
+                    '75' => 'BW',
+                    '76' => 'BX',
+                    '77' => 'BY',
+                    '78' => 'BZ',
+                    '79' => 'CA',
+                    '80' => 'CB',
+                    '81' => 'CC',
+                    '82' => 'CD',
+                    '83' => 'CE',
+                    '84' => 'CF',
+                    '85' => 'CG',
+                    '86' => 'CH',
+                    '87' => 'CI',
+                    '88' => 'CJ',
+                    '89' => 'CK',
+                    '90' => 'CL',
+                    '91' => 'CM',
+                    '92' => 'CN',
+                    '93' => 'CO',
+                    '94' => 'CP',
+                    '95' => 'CQ',
+                    '96' => 'CR',
+                    '97' => 'CS',
+                    '98' => 'CT',
+                    '99' => 'CU',
+                    '100' => 'CV',
+                    '101' => 'CW',
+                    '102' => 'CX',
+                    '103' => 'CY',
+                    '104' => 'CZ',
+        
+                ];
+                $no = $no_array[$count + 1];   
+            }else{
+                $no = $request->input('no');
+            }        
 
         /**
         $check1 = Club::where('semester',$semester)
@@ -471,7 +475,7 @@ class ClubsController extends Controller
         if (!empty($black)) {
             session(['parents' => null]);
             echo "<body onload=alert('你被處罰此學期無法報名" . $n . "')>";
-            header("refresh:3;url=" . route('clubs.semester_select'));
+            header("refresh:3;url=" . route('clubs.parents_logout'));
             die();
         }
 
@@ -860,7 +864,12 @@ class ClubsController extends Controller
                 $semester = null;
             }
         }
-
+        $open_clubs1 = [];
+        $open_clubs2 = [];
+        $open_clubs_name1 = [];
+        $open_clubs_name2 = [];
+        $register_data1 = [];
+        $register_data2 = [];
         if ($semester) {
             $clubs1 = Club::where('semester', $semester)->where('class_id', '1')->orderBy('no')->get();
             $clubs2 = Club::where('semester', $semester)->where('class_id', '2')->orderBy('no')->get();
@@ -1212,6 +1221,68 @@ class ClubsController extends Controller
         header("Content-Disposition: attachment;filename={$semester}_{$name}收費匯入單.xls");
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
+    }
+
+    //檢查時間是否重疊
+    public function is_time_cross($beginTime1 = '', $endTime1 = '', $beginTime2 = '', $endTime2 = '')
+    {
+        $status = $beginTime2 - $beginTime1;
+        if ($status > 0) {
+            $status2 = $beginTime2 - $endTime1;
+            if ($status2 >= 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            $status2 = $endTime2 - $beginTime1;
+            if ($status2 > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function black()
+    {
+        $club_blacks = ClubBlack::orderBy('semester')->get();
+
+        $black_list = [];
+        foreach ($club_blacks as $club_black) {
+            $black_list[$club_black->semester][$club_black->no] = 1;
+        }
+        $data = [
+            'club_blacks' => $club_blacks,            
+            'black_list' => $black_list,
+        ];
+        return view('clubs.black',$data);
+    }
+    
+    public function store_black(Request  $request)
+    {
+        $att = $request->all();
+
+        $check2 = Student::where('student_sn', $att['student_sn'])            
+            ->first();
+        $att['student_id'] = $check2->id;
+        if (empty($check2)) return back()->withErrors(['errors' => ['學號' . $att['student_sn'] . ' 查無此學生！']]);
+
+        $check = ClubBlack::where('student_id', $check2->id)
+            ->where('semester', $att['semester'])
+            ->where('class_id', $att['class_id'])
+            ->first();
+        if (!empty($check)) return back()->withErrors(['errors' => [$att['semester'] . '學期 學號' . $att['student_sn'] . ' 此生已經有設定了！']]);
+        
+
+        ClubBlack::create($att);
+        return redirect()->route('clubs.black', $att['semester']);
+    }     
+
+    public function destroy_black(ClubBlack $club_black)
+    {
+        $club_black->delete();
+        return redirect()->route('clubs.black');
     }
 
     

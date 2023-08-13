@@ -159,7 +159,7 @@ $active['list'] ="";
             <input type="text" name="start1_time2" value="{{ $s1[1] }}" required placeholder="16:00(五碼)" maxlength="5">到<input type="text" name="start1_time3" value="{{ $s1[2] }}" required placeholder="17:30(五碼)" maxlength="5">
             <br>
             2.週<select name="start2_time1" style="height:30px;">
-                <option value="0">無第二次</option>
+                <option value="0">沒有了</option>
                 <option value="一" {{ $select2_1 }}>一</option>
                 <option value="二" {{ $select2_2 }}>二</option>
                 <option value="三" {{ $select2_3 }}>三</option>
@@ -169,7 +169,7 @@ $active['list'] ="";
             <input type="text" name="start2_time2" value="{{ $s2[1] }}" placeholder="16:00(五碼)" maxlength="5">到<input type="text" name="start2_time3" value="{{ $s2[2] }}" placeholder="17:30(五碼)" maxlength="5">
             <br>
             3.週<select name="start3_time1" style="height:30px;">
-                <option value="0">無第三次</option>
+                <option value="0">沒有了</option>
                 <option value="一" {{ $select3_1 }}>一</option>
                 <option value="二" {{ $select3_2 }}>二</option>
                 <option value="三" {{ $select3_3 }}>三</option>
@@ -179,7 +179,7 @@ $active['list'] ="";
             <input type="text" name="start3_time2" value="{{ $s3[1] }}" placeholder="16:00(五碼)" maxlength="5">到<input type="text" name="start3_time3" value="{{ $s3[2] }}" placeholder="17:30(五碼)" maxlength="5">
             <br>
             4.週<select name="start4_time1" style="height:30px;">
-                <option value="0">無第四次</option>
+                <option value="0">沒有了</option>
                 <option value="一" {{ $select4_1 }}>一</option>
                 <option value="二" {{ $select4_2 }}>二</option>
                 <option value="三" {{ $select4_3 }}>三</option>
@@ -189,7 +189,7 @@ $active['list'] ="";
             <input type="text" name="start4_time2" value="{{ $s4[1] }}" placeholder="16:00(五碼)" maxlength="5">到<input type="text" name="start4_time3" value="{{ $s4[2] }}" placeholder="17:30(五碼)" maxlength="5">
             <br>
             5.週<select name="start5_time1" style="height:30px;">
-                <option value="0">無第五次</option>
+                <option value="0">沒有了</option>
                 <option value="一" {{ $select5_1 }}>一</option>
                 <option value="二" {{ $select5_2 }}>二</option>
                 <option value="三" {{ $select5_3 }}>三</option>
