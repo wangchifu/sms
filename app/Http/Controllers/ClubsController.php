@@ -8,6 +8,7 @@ use App\Models\ClubRegister;
 use App\Models\ClubNotRegister;
 use App\Models\ClubSemester;
 use App\Models\Student;
+use App\Models\LunchSetup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -504,11 +505,17 @@ class ClubsController extends Controller
             }
         }
 
-
-        $club_classes = [
-            '1' => '1.學生特色社團 (' . $club_semester->start_date . '~' . $club_semester->stop_date . ')',
-            '2' => '2.學生課後活動 (' . $club_semester->start_date2 . '~' . $club_semester->stop_date2 . ')',
-        ];
+        if(date('YmdHi') >= str_replace('-','',$club_semester->start_date2) and date('YmdHi') <= str_replace('-','',$club_semester->stop_date2)){
+            $club_classes = [
+                '1' => '1.學生特色社團 (' . $club_semester->start_date . '~' . $club_semester->stop_date . ')',
+                '2' => '2.學生課後活動 (' . $club_semester->start_date2 . '~' . $club_semester->stop_date2 . ')',
+            ];
+        }else{
+            $club_classes = [
+                '1' => '1.學生特色社團 (' . $club_semester->start_date . '~' . $club_semester->stop_date . ')',                
+            ];
+        }
+        
 
         $data = [
             'user' => $user,
@@ -840,6 +847,371 @@ class ClubsController extends Controller
         $list = collect($data);
 
         return (new FastExcel($list))->download($semester . '_社團報名結果.xlsx');
+    }
+
+    public function report_money($semester = null)
+    {
+        $club_semesters_array = ClubSemester::orderby('semester', 'DESC')->pluck('semester', 'semester')->toArray();
+        if ($semester == null) {
+            $s = ClubSemester::orderBy('semester', 'DESC')->first();
+            if ($s) {
+                $semester = $s->semester;
+            } else {
+                $semester = null;
+            }
+        }
+
+        if ($semester) {
+            $clubs1 = Club::where('semester', $semester)->where('class_id', '1')->orderBy('no')->get();
+            $clubs2 = Club::where('semester', $semester)->where('class_id', '2')->orderBy('no')->get();
+
+            $open_clubs1 = [];
+            $open_clubs2 = [];
+            $open_clubs_name1 = [];
+            $open_clubs_name2 = [];
+            foreach ($clubs1 as $club) {
+                $check_people = ClubRegister::where('club_id', $club->id)->count();
+                if ($check_people >= $club->people and $club->money != 0) {
+                    $open_clubs1[] = $club->id;
+                    $open_clubs_name1[$club->id] = $club->name;
+                }
+
+                //記錄有報名此社團的排名
+                $cr1 = ClubRegister::where('club_id', $club->id)->orderBy('created_at')->get();
+                $n = 1;
+                foreach ($cr1 as $cr) {
+                    $check_stu_order[$club->id][$cr->student_id] = $n;
+                    $n++;
+                }
+            }
+            
+
+            foreach ($clubs2 as $club) {
+                $check_people = ClubRegister::where('club_id', $club->id)->count();
+                if ($check_people >= $club->people and $club->money != 0) {
+                    $open_clubs2[] = $club->id;
+                    $open_clubs_name2[$club->id] = $club->name;
+                }
+
+                $cr2 = ClubRegister::where('club_id', $club->id)->orderBy('created_at')->get();
+                $n = 1;
+                foreach ($cr2 as $cr) {
+                    $check_stu_order[$club->id][$cr->student_id] = $n;
+                    $n++;
+                }
+            }
+
+
+            $club_registers1 = ClubRegister::where('semester', $semester)
+                ->where('class_id', '1')
+                ->whereIn('club_id', $open_clubs1)
+                ->orderBy('student_id')->get();
+            $club_registers2 = ClubRegister::where('semester', $semester)
+                ->where('class_id', '2')
+                ->whereIn('club_id', $open_clubs2)
+                ->orderBy('student_id')->get();
+            $register_data1 = [];
+            $register_data2 = [];
+            $students1 = [];
+            $students2 = [];
+
+            foreach ($club_registers1 as $club_register) {
+                if (isset($check_stu_order[$club_register->club->id][$club_register->user->id])) {
+                    if ($check_stu_order[$club_register->club->id][$club_register->user->id] <= $club_register->club->taking) {
+                        $students1[$club_register->user->id]['no'] = $club_register->user->student_sn;
+                        $students1[$club_register->user->id]['num'] = $club_register->user->num;
+                        $students1[$club_register->user->id]['name'] = $club_register->user->name;
+                        $students1[$club_register->user->id]['year'] = $club_register->user->student_year;
+                        $students1[$club_register->user->id]['class'] = $club_register->user->student_class;
+                        $register_data1[$club_register->user->id][$club_register->club->id] = $club_register->club->money;
+                    }
+                }
+            }
+            foreach ($club_registers2 as $club_register) {
+                if (isset($check_stu_order[$club_register->club->id][$club_register->user->id])) {
+                    if ($check_stu_order[$club_register->club->id][$club_register->user->id] <= $club_register->club->taking) {
+                        $students2[$club_register->user->id]['no'] = $club_register->user->student_sn;
+                        $students2[$club_register->user->id]['num'] = $club_register->user->num;
+                        $students2[$club_register->user->id]['name'] = $club_register->user->name;
+                        $students2[$club_register->user->id]['year'] = $club_register->user->student_year;
+                        $students2[$club_register->user->id]['class'] = $club_register->user->student_class;
+                        $register_data2[$club_register->user->id][$club_register->club->id] = $club_register->club->money;
+                    }
+                }
+            }
+        } else {
+            $students1 = [];
+            $students2 = [];
+            $club_registers1 = [];
+            $club_registers2 = [];
+        }
+
+
+        $data = [
+            'club_semesters_array' => $club_semesters_array,
+            'semester' => $semester,
+            'open_clubs_name1' => $open_clubs_name1,
+            'open_clubs_name2' => $open_clubs_name2,
+            'club_registers1' => $club_registers1,
+            'club_registers2' => $club_registers2,
+            'register_data1' => $register_data1,
+            'register_data2' => $register_data2,
+            'students1' => $students1,
+            'students2' => $students2,
+        ];
+
+        return view('clubs.report_money', $data);
+    }
+
+    public function report_money_download($semester, $class_id)
+    {
+
+        $clubs = Club::where('semester', $semester)->where('class_id', $class_id)->orderBy('no')->get();
+        $open_clubs = [];
+        foreach ($clubs as $club) {
+            $check_people = ClubRegister::where('club_id', $club->id)->count();
+            if ($check_people >= $club->people and $club->money != 0) {
+                $open_clubs[] = $club->id;
+                $open_clubs_name[$club->id] = $club->name;
+            }
+
+            //記錄有報名此社團的排名
+            $cr1 = ClubRegister::where('club_id', $club->id)->orderBy('created_at')->get();
+            $n = 1;
+            foreach ($cr1 as $cr) {
+                $check_stu_order[$club->id][$cr->student_id] = $n;
+                $n++;
+            }
+        }
+
+
+
+        $club_registers = ClubRegister::where('semester', $semester)
+            ->where('class_id', $class_id)
+            ->whereIn('club_id', $open_clubs)
+            ->orderBy('student_id')->get();
+
+        $students = [];
+        foreach ($club_registers as $club_register) {
+            if (isset($check_stu_order[$club_register->club->id][$club_register->user->id])) {
+                if ($check_stu_order[$club_register->club->id][$club_register->user->id] <= $club_register->club->taking) {
+                    $students[$club_register->user->id]['no'] = $club_register->user->student_sn;
+                    $students[$club_register->user->id]['num'] = $club_register->user->num;
+                    $students[$club_register->user->id]['name'] = $club_register->user->name;
+                    $students[$club_register->user->id]['year'] = $club_register->user->student_year;
+                    $students[$club_register->user->id]['class'] = $club_register->user->student_class;
+                    $register_data[$club_register->user->id][$club_register->club->id] = $club_register->club->money;
+                }
+            }
+        }
+
+        $n = 1;
+        $data = [];
+        foreach ($students as $k => $v) {
+            $data[$n] = [
+                '學號' => $v['no'],
+                '座號' => (int)$v['num'],
+                '姓名' => $v['name'],
+                '身分證字號' => '',
+                '生日' => '',
+                '年級' => $v['year'],
+                '班別' => (int)$v['class'],
+                '減免' => '',
+            ];
+            foreach ($open_clubs_name as $k2 => $v2) {
+                if (isset($register_data[$k][$k2])) {
+                    $data[$n][$v2] = $register_data[$k][$k2];
+                } else {
+                    $data[$n][$v2] = '';
+                }
+            }
+            $n++;
+        }
+
+        $list = collect($data);
+
+        if ($class_id == 1) $name = "學生特色社團";
+        if ($class_id == 2) $name = "學生課後活動";
+        return (new FastExcel($list))->download($semester . '_' . $name . '繳費單.xlsx');
+    }
+
+    public function report_money2_print($semester, $class_id)
+    {
+        //取長官印章圖片
+        $lunch_setup = LunchSetup::where('semester', $semester)->first();
+
+        $clubs = Club::where('semester', $semester)->where('class_id', $class_id)->orderBy('no')->get();
+        foreach ($clubs as $club) {
+            $check_people = ClubRegister::where('club_id', $club->id)->count();
+            if ($check_people >= $club->people and $club->money != 0) {
+                $open_clubs[] = $club->id;
+                $open_clubs_name[$club->id] = $club->name;
+            }
+            //記錄有報名此社團的排名
+            $cr1 = ClubRegister::where('club_id', $club->id)->orderBy('created_at')->get();
+            $n = 1;
+            foreach ($cr1 as $cr) {
+                $check_stu_order[$club->id][$cr->student_id] = $n;
+                $n++;
+            }
+        }
+
+        $club_registers = ClubRegister::where('semester', $semester)
+            ->where('class_id', $class_id)
+            ->whereIn('club_id', $open_clubs)
+            ->orderBy('student_id')->get();
+        $students = [];
+        $register_data = [];
+        foreach ($club_registers as $club_register) {
+            if (isset($check_stu_order[$club_register->club->id][$club_register->user->id])) {
+                if ($check_stu_order[$club_register->club->id][$club_register->user->id] <= $club_register->club->taking) {
+                    $students[$club_register->user->id]['no'] = $club_register->user->student_sn;
+                    $students[$club_register->user->id]['num'] = $club_register->user->num;
+                    $students[$club_register->user->id]['name'] = $club_register->user->name;
+                    $students[$club_register->user->id]['year'] = $club_register->user->student_year;
+                    $students[$club_register->user->id]['class'] = $club_register->user->student_class;
+                    $register_data[$club_register->club->id][$club_register->user->id] = $club_register->club->money;
+                }
+            }
+        }
+        
+
+        $data = [
+            'lunch_setup' => $lunch_setup,
+            'open_clubs' => $open_clubs,
+            'open_clubs_name' => $open_clubs_name,
+            'students' => $students,
+            'register_data' => $register_data,
+            'semester' => $semester,
+        ];
+        return view('clubs.report_money2_print', $data);
+    }
+
+    public function report_money_download2($semester, $class_id)
+    {
+        $clubs = Club::where('semester', $semester)->where('class_id', $class_id)->orderBy('no')->get();
+        foreach ($clubs as $club) {
+            $check_people = ClubRegister::where('club_id', $club->id)->count();
+            if ($check_people >= $club->people and $club->money != 0) {
+                $open_clubs[] = $club->id;
+                $open_clubs_name[$club->id] = $club->name;
+            }
+
+            //記錄有報名此社團的排名
+            $cr1 = ClubRegister::where('club_id', $club->id)->orderBy('created_at')->get();
+            $n = 1;
+            foreach ($cr1 as $cr) {
+                $check_stu_order[$club->id][$cr->student_id] = $n;
+                $n++;
+            }
+        }
+
+
+
+        $club_registers = ClubRegister::where('semester', $semester)
+            ->where('class_id', $class_id)
+            ->whereIn('club_id', $open_clubs)
+            ->orderBy('student_id')->get();
+
+
+        foreach ($club_registers as $club_register) {
+            if (isset($check_stu_order[$club_register->club->id][$club_register->user->id])) {
+                if ($check_stu_order[$club_register->club->id][$club_register->user->id] <= $club_register->club->taking) {
+                    $students[$club_register->user->id]['no'] = $club_register->user->student_sn;
+                    $students[$club_register->user->id]['num'] = $club_register->user->num;
+                    $students[$club_register->user->id]['name'] = $club_register->user->name;
+                    $students[$club_register->user->id]['year'] = $club_register->user->student_year;
+                    $students[$club_register->user->id]['class'] = $club_register->user->student_class;
+                    $register_data[$club_register->user->id][$club_register->club->id] = $club_register->club->money;
+                }
+            }
+        }
+        /** 
+        $n = 1;
+        foreach ($students as $k => $v) {
+            $data[$n] = [
+                '學號' => $v['no'],
+                '座號' => (int)$v['num'],
+                '姓名' => $v['name'],
+                '身分證字號' => '',
+                '生日' => '',
+                '年級' => $v['year'],
+                '班別' => (int)$v['class'],
+                '減免' => '',
+            ];
+            foreach ($open_clubs_name as $k2 => $v2) {
+                if (isset($register_data[$k][$k2])) {
+                    $data[$n][$v2] = $register_data[$k][$k2];
+                } else {
+                    $data[$n][$v2] = '';
+                }
+            }
+            $n++;
+        }
+
+        $list = collect($data);
+
+        if ($class_id == 1) $name = "學生特色社團";
+        if ($class_id == 2) $name = "學生課後活動";
+        return (new FastExcel($list))->download($semester . '_' . $name . '繳費單.xlsx');
+         */
+        $eng = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ');
+        if ($class_id == 1) $name = "學生特色社團";
+        if ($class_id == 2) $name = "學生課後活動";
+        $objExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objExcel, 'Excel5');
+
+        $objActSheet = $objExcel->getActiveSheet(0);
+        $objActSheet->setTitle($name . '收費名單'); //设置excel的标题
+        $objActSheet->setCellValue('A1', '學號');
+        $objActSheet->setCellValue('B1', '姓名');
+        $objActSheet->setCellValue('C1', '生日');
+        $objActSheet->setCellValue('D1', '座號');
+        $objActSheet->setCellValue('E1', '減免');
+        $objActSheet->setCellValue('F1', '年級');
+        $objActSheet->setCellValue('G1', '班別');
+        $objActSheet->setCellValue('H1', '身分證字號');
+        $n = 8;
+        foreach ($open_clubs_name as $k => $v) {
+            $objActSheet->setCellValue($eng[$n] . '1', $v);
+            $n++;
+        }
+
+        $baseRow = 2; //数据从N-1行开始往下输出 这里是避免头信息被覆盖
+
+        foreach ($students as $k => $v) {
+            $objExcel->getActiveSheet()->setCellValue('A' . $baseRow, $v['no']);
+            $v['name'] = mb_convert_encoding(mb_convert_encoding($v['name'], 'big5', 'utf-8'), 'utf-8', 'big5');
+            $objExcel->getActiveSheet()->setCellValue('B' . $baseRow, $v['name']);
+            $objExcel->getActiveSheet()->setCellValue('C' . $baseRow, '');
+            $objExcel->getActiveSheet()->setCellValue('D' . $baseRow, (string)(int)$v['num']);
+            $objExcel->getActiveSheet()->setCellValue('E' . $baseRow, '');
+            $objExcel->getActiveSheet()->setCellValue('F' . $baseRow, $v['year']);
+            $objExcel->getActiveSheet()->setCellValue('G' . $baseRow, (string)(int)$v['class']);
+            $objExcel->getActiveSheet()->setCellValue('H' . $baseRow, '');
+
+            $n = 8;
+            foreach ($open_clubs_name as $k2 => $v2) {
+                if (isset($register_data[$k][$k2])) {
+                    $objExcel->getActiveSheet()->setCellValue($eng[$n] . $baseRow, $register_data[$k][$k2]);
+                    $data[$n][$v2] = $register_data[$k][$k2];
+                } else {
+                    $objExcel->getActiveSheet()->setCellValue($eng[$n] . $baseRow, '');
+                    $data[$n][$v2] = '';
+                }
+                $n++;
+            }
+            $baseRow++;
+        }
+
+
+        $objExcel->setActiveSheetIndex(0);
+        //4、输出
+        $objExcel->setActiveSheetIndex();
+        header('Content-Type: applicationnd.ms-excel');
+        header("Content-Disposition: attachment;filename={$semester}_{$name}收費匯入單.xls");
+        header('Cache-Control: max-age=0');
+        $objWriter->save('php://output');
     }
 
     

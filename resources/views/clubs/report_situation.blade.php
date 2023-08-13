@@ -6,7 +6,8 @@
     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
-            <li class="breadcrumb-item active" aria-current="page">社團報名系統-報表輸出</li>
+            <li class="breadcrumb-item"><a href="{{ route('clubs.report') }}">報表輸出</a></li>
+            <li class="breadcrumb-item active" aria-current="page">報名狀況</li>
         </ol>
     </nav>
 @endsection
@@ -95,7 +96,7 @@ $active['list'] ="active";
                                     {{ $club->name }}
                                 </td>
                                 <td>
-                                    {{ $club_register->user->class_num }}
+                                    {{ $club_register->user->student_year."年".$club_register->user->student_class."班".$club_register->user->num."號" }}
                                 </td>
                                 <td>
                                     {{ $club_register->user->name }}
@@ -199,7 +200,7 @@ $active['list'] ="active";
                                             {{ $club->name }}
                                         </td>
                                         <td>
-                                            {{ $club_register->user->class_num }}
+                                            {{ $club_register->user->student_year."年".$club_register->user->student_class."班".$club_register->user->num."號" }}
                                         </td>
                                         <td>
                                             {{ $club_register->user->name }}

@@ -6,7 +6,7 @@
     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('clubs.index') }}">社團報名系統</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('clubs.setup') }}">社團設定</a></li>
             <li class="breadcrumb-item active" aria-current="page">修改社團</li>
         </ol>
     </nav>

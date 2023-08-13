@@ -6,7 +6,8 @@
     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
-            <li class="breadcrumb-item active" aria-current="page">社團報名系統-報表輸出</li>
+            <li class="breadcrumb-item"><a href="{{ route('clubs.report') }}">報表輸出</a></li>
+            <li class="breadcrumb-item active" aria-current="page">取消報名狀況</li>
         </ol>
     </nav>
 @endsection
