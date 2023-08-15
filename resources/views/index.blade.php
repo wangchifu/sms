@@ -8,6 +8,13 @@
     <div class="container">
         <div class="row">
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                <a href="{{ route('clubs.semester_select') }}">
+                <img src="{{ asset('images/logo/enroll.png') }}" class="figure-img img-fluid rounded" alt="...">
+                </a>
+                <figcaption class="figure-caption">社團報名-學生入口</figcaption>
+            </figure>
+            @auth
+            <figure class="figure col-xs-4 col-md-3 col-lg-2">
                 <a href="{{ route('lunches.index') }}">
                 <img src="{{ asset('images/logo/lunch.png') }}" class="figure-img img-fluid rounded" alt="...">
                 </a>
@@ -16,14 +23,15 @@
             <?php
                 $club_admin = check_admin('club_admin');
             ?>
-            @if($club_admin)
-                <figure class="figure col-xs-4 col-md-3 col-lg-2">
-                    <a href="{{ route('clubs.index') }}">
-                    <img src="{{ asset('images/logo/club.png') }}" class="figure-img img-fluid rounded" alt="...">
-                    </a>
-                    <figcaption class="figure-caption">社團報名系統</figcaption>
-                </figure>
-            @endif
+                @if($club_admin)
+                    <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                        <a href="{{ route('clubs.index') }}">
+                        <img src="{{ asset('images/logo/club.png') }}" class="figure-img img-fluid rounded" alt="...">
+                        </a>
+                        <figcaption class="figure-caption">社團報名系統</figcaption>
+                    </figure>
+                @endif
+            @endauth                        
             <!--
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
                 <img src="{{ asset('images/logo/new_student.png') }}" class="gray figure-img img-fluid rounded" alt="...">
