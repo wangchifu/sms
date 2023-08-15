@@ -1050,6 +1050,8 @@ class ClubsController extends Controller
         $lunch_setup = LunchSetup::where('semester', $semester)->first();
 
         $clubs = Club::where('semester', $semester)->where('class_id', $class_id)->orderBy('no')->get();
+        $open_clubs = [];
+        $open_clubs_name = [];
         foreach ($clubs as $club) {
             $check_people = ClubRegister::where('club_id', $club->id)->count();
             if ($check_people >= $club->people and $club->money != 0) {
