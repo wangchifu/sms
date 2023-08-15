@@ -13,6 +13,10 @@ if($lunch_setup){
     $seal2 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal2.png');
     $seal3 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal3.png');
     $seal4 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal4.png');
+    $path1 = 'lunches&'.$lunch_setup->id.'&seal1.png';
+    $path2 = 'lunches&'.$lunch_setup->id.'&seal2.png';
+    $path3 = 'lunches&'.$lunch_setup->id.'&seal3.png';
+    $path4 = 'lunches&'.$lunch_setup->id.'&seal4.png';
 }else{
     $seal1 = null;
     $seal2 = null;
@@ -20,30 +24,27 @@ if($lunch_setup){
     $seal4 = null;
 }
 
-$path = 'lunches&'.$lunch_setup->id.'&seal1.png';
+
 if(file_exists($seal1)){
-    $img1 = "<img src=". route('getImg',$path) ." width=\"150\">";
+    $img1 = "<img src=". route('getImg',$path1) ." width=\"150\">";
 }else{
     $img1 = "";
 }
 
-$path = 'lunches&'.$lunch_setup->id.'&seal2.png';
 if(file_exists($seal2)){
-    $img2 = "<img src=". route('getImg',$path) ." width=\"150\">";
+    $img2 = "<img src=". route('getImg',$path2) ." width=\"150\">";
 }else{
     $img2 = "";
 }
 
-$path = 'lunches&'.$lunch_setup->id.'&seal3.png';
 if(file_exists($seal3)){
-    $img3 = "<img src=". route('getImg',$path) ." width=\"150\">";
+    $img3 = "<img src=". route('getImg',$path3) ." width=\"150\">";
 }else{
     $img3 = "";
 }
 
-$path = 'lunches&'.$lunch_setup->id.'&seal4.png';
 if(file_exists($seal4)){
-    $img4 = "<img src=". route('getImg',$path) ." width=\"150\">";
+    $img4 = "<img src=". route('getImg',$path4) ." width=\"150\">";
 }else{
     $img4 = "";
 }
