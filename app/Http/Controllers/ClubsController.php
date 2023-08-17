@@ -52,12 +52,46 @@ class ClubsController extends Controller
             $att['stop_date'] = $request->input('year_2') . '-' . sprintf("%02s", $request->input('month_2')) . '-' . sprintf("%02s", $request->input('day_2')) . '-' . sprintf("%02s", $request->input('hour_2')) . '-' . sprintf("%02s", $request->input('min_2'));
             $att['start_date2'] = $request->input('year2_1') . '-' . sprintf("%02s", $request->input('month2_1')) . '-' . sprintf("%02s", $request->input('day2_1')) . '-' . sprintf("%02s", $request->input('hour2_1')) . '-' . sprintf("%02s", $request->input('min2_1'));
             $att['stop_date2'] = $request->input('year2_2') . '-' . sprintf("%02s", $request->input('month2_2')) . '-' . sprintf("%02s", $request->input('day2_2')) . '-' . sprintf("%02s", $request->input('hour2_2')) . '-' . sprintf("%02s", $request->input('min2_2'));
-            ClubSemester::create($att);
+            $club_semester = ClubSemester::create($att);
         } else {
             return back()->withErrors(['errors' => [$semester . '學期已經有設定了！']]);
         }
 
+        $school_code = school_code();
+
+        if ($request->hasFile('file1')) {
+            $file = $request->file('file1');
+
+            $file->storeAs('privacy/' . $school_code . '/clubs/', 'seal1.png');
+        }
+        if ($request->hasFile('file2')) {            
+            $file = $request->file('file2');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal2.png');
+        }
+        if ($request->hasFile('file3')) {
+            $file = $request->file('file3');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal3.png');
+        }
+        if ($request->hasFile('file4')) {
+            $file = $request->file('file4');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal4.png');
+        }
+
         return redirect()->route('clubs.index');
+    }
+
+    public function del_file($path)
+    {
+        $school_code = school_code();
+        $path = str_replace('&', '/', $path);
+        $path = storage_path('app/privacy/' . $school_code.'/'.$path);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return redirect()->back();  
     }
 
     public function semester_delete($semester)
@@ -86,6 +120,29 @@ class ClubsController extends Controller
         $att['start_date2'] = $request->input('year2_1') . '-' . sprintf("%02s", $request->input('month2_1')) . '-' . sprintf("%02s", $request->input('day2_1')) . '-' . sprintf("%02s", $request->input('hour2_1')) . '-' . sprintf("%02s", $request->input('min2_1'));
         $att['stop_date2'] = $request->input('year2_2') . '-' . sprintf("%02s", $request->input('month2_2')) . '-' . sprintf("%02s", $request->input('day2_2')) . '-' . sprintf("%02s", $request->input('hour2_2')) . '-' . sprintf("%02s", $request->input('min2_2'));
         $club_semester->update($att);
+
+        $school_code = school_code();
+        if ($request->hasFile('file1')) {
+            $file = $request->file('file1');
+
+            $file->storeAs('privacy/' . $school_code . '/clubs/', 'seal1.png');
+        }
+        if ($request->hasFile('file2')) {            
+            $file = $request->file('file2');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal2.png');
+        }
+        if ($request->hasFile('file3')) {
+            $file = $request->file('file3');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal3.png');
+        }
+        if ($request->hasFile('file4')) {
+            $file = $request->file('file4');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal4.png');
+        }
+
         return redirect()->route('clubs.index');
     }
 
@@ -120,12 +177,8 @@ class ClubsController extends Controller
     public function club_create($semester)
     {        
         $club_classes = [
-            '1' => '學生特色社團',
-            '2' => '學生課後活動',
-        ];
-        $club_classes = [
-            '1' => '學生特色社團',
-            '2' => '學生課後活動',
+            '1' => '1.學生特色社團',
+            '2' => '2.學生課後活動',
         ];
         $data = [
             'semester' => $semester,
@@ -329,8 +382,8 @@ class ClubsController extends Controller
     public function club_edit(Club $club)
     {
         $club_classes = [
-            '1' => '學生特色社團',
-            '2' => '學生課後活動',
+            '1' => '1.學生特色社團',
+            '2' => '2.學生課後活動',
         ];
         $data = [
             'club' => $club,
@@ -1046,9 +1099,7 @@ class ClubsController extends Controller
 
     public function report_money2_print($semester, $class_id)
     {
-        //取長官印章圖片
-        $lunch_setup = LunchSetup::where('semester', $semester)->first();
-
+        
         $clubs = Club::where('semester', $semester)->where('class_id', $class_id)->orderBy('no')->get();
         $open_clubs = [];
         $open_clubs_name = [];
@@ -1087,8 +1138,7 @@ class ClubsController extends Controller
         }
         
 
-        $data = [
-            'lunch_setup' => $lunch_setup,
+        $data = [            
             'open_clubs' => $open_clubs,
             'open_clubs_name' => $open_clubs_name,
             'students' => $students,

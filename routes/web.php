@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lunch_setup/{lunch_setup}/edit', [LunchSetupController::class, 'edit'])->name('lunch_setups.edit');
     Route::patch('lunch_setup/{lunch_setup}/update', [LunchSetupController::class, 'update'])->name('lunch_setups.update');
     Route::delete('lunch_setup/{lunch_setup}/destroy', [LunchSetupController::class, 'destroy'])->name('lunch_setups.destroy');
-    Route::get('lunch_setup/{path}/{id}/del_file', [LunchSetupController::class, 'del_file'])->name('lunch_setups.del_file');
+    Route::get('lunch_setup/{path}/del_file', [LunchSetupController::class, 'del_file'])->name('lunch_setups.del_file');
     Route::post('lunch_setup/place_add', [LunchSetupController::class, 'place_add'])->name('lunch_setups.place_add');
     Route::patch('lunch_setup/{lunch_place}/place_update', [LunchSetupController::class, 'place_update'])->name('lunch_setups.place_update');
     Route::post('lunch_setup/factory_add', [LunchSetupController::class, 'factory_add'])->name('lunch_setups.factory_add');
@@ -154,6 +154,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('clubs', [ClubsController::class,'index'])->name('clubs.index');
     Route::get('clubs/semester_create', [ClubsController::class,'semester_create'])->name('clubs.semester_create');
     Route::post('clubs/semester_store', [ClubsController::class,'semester_store'])->name('clubs.semester_store');
+    Route::get('clubs/{path}/del_file', [ClubsController::class, 'del_file'])->name('clubs.del_file');
     Route::get('clubs/{semester}/semester_delete', [ClubsController::class,'semester_delete'])->name('clubs.semester_delete');
     Route::get('clubs/{club_semester}/semester_edit', [ClubsController::class,'semester_edit'])->name('clubs.semester_edit');
     Route::patch('clubs/{club_semester}/semester_update', [ClubsController::class,'semester_update'])->name('clubs.semester_update');
@@ -191,8 +192,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('clubs/{club_black}/destroy_black', [ClubsController::class,'destroy_black'])->name('clubs.destroy_black');
 });
 
-//系統管理員及學校管理員
+//系統管理員及學校管理員及任一管理員
 Route::group(['middleware' => 'admin'], function () {
+    Route::post('module/store_name', [HomeController::class, 'module_store_name'])->name('module.store_name');
+    Route::get('module/{path}/del_name', [HomeController::class, 'module_del_name'])->name('module.del_name');    
 });
 //系統管理員
 Route::group(['middleware' => 'system_admin'], function () {
@@ -211,7 +214,7 @@ Route::group(['middleware' => 'school_admin'], function () {
     Route::delete('api/destroy/{school_api}', [UserController::class, 'api_destroy'])->name('users.api_destroy');
 
     Route::get('module/index', [HomeController::class, 'module_index'])->name('module.index');
-    Route::post('module/store', [HomeController::class, 'module_store'])->name('module.store');
+    Route::post('module/store', [HomeController::class, 'module_store'])->name('module.store');    
     Route::get('module/{school_power}/delete', [HomeController::class, 'module_delete'])->name('module.delete');
 });
 

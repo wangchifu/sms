@@ -20,6 +20,9 @@
                     使用 Excel 匯入學生
                 </button>
                 <br>
+                @if(check_admin('club_admin'))
+                    <a class="btn btn-secondary mt-2" href="{{ route('clubs.index') }}"><i class="fas fa-backward"></i> 返回社團模組</a>                
+                @endif
                 <a href="{{ route('users.teach_excel') }}" class="btn btn-primary mt-2">Excel 設定教學</a>
             </div>
         </div>

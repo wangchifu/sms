@@ -31,6 +31,7 @@ class User extends Authenticatable
         'uid',
         'edu_key',
         'name',
+        'sex',
         'email',
         'username',
         'password',

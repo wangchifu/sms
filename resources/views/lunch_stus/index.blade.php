@@ -28,9 +28,10 @@ $active['setup'] ="";
     }
 </style>
 <div class="row justify-content-center">
-    <div class="col-md-11">
-        <h1>午餐系統-學生午餐</h1>
+    <div class="col-md-11">        
         @include('lunches.nav')
+        <br>
+        <h1>午餐系統-學生午餐</h1>
     @if($admin)            
         @if(count($lunch_class_dates) > 0)
             <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#change_num">班級變更人數</a>
@@ -131,7 +132,7 @@ $active['setup'] ="";
             </table>                  
             總餐次：{{ $all }}   
         @else
-        @if(!empty($lunch_orders))
+        @if(!empty($lunch_orders) and !empty($lunch_order_id))
         <form method="post" action="{{ route('lunch_stus.store',$lunch_order_id) }}" id="store_form">
             @csrf                
             <span class="text-danger small">若底下無班級，請至「午餐設定」下方匯入本學期學生資料。</span>

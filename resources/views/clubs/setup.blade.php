@@ -66,6 +66,9 @@ $active['list'] ="";
                     收費
                 </th>
                 <th>
+                    備註
+                </th>
+                <th>
                     師資
                 </th>
                 <th>
@@ -88,10 +91,7 @@ $active['list'] ="";
                 </th>
                 <th>
                     年級限制
-                </th>
-                <th>
-                    備註
-                </th>
+                </th>                
             </tr>
             @foreach($clubs1 as $club)
             <tr>
@@ -111,6 +111,9 @@ $active['list'] ="";
                 </td>
                 <td>
                     {{ $club->money }}
+                </td>
+                <td>
+                    {{ $club->ps }}
                 </td>
                 <td>
                     {{ $club->teacher_info }}
@@ -139,10 +142,7 @@ $active['list'] ="";
                 </td>
                 <td>
                     {{ $club->year_limit }}
-                </td>
-                <td>
-                    {{ $club->ps }}
-                </td>
+                </td>                
             </tr>
             @endforeach
         </table>

@@ -34,7 +34,7 @@ $active['list'] ="";
             </div>
             <div class="form-group">
                 <label for="no"><strong>社團序號</strong><small class="text-primary">(如 A 或 1)</small></label>
-                {{ Form::text('no',null,['id'=>'no','class' => 'form-control','placeholder'=>'若留空則用ABC序號']) }}
+                {{ Form::text('no',null,['id'=>'no','class' => 'form-control','placeholder'=>'        (若留空則用ABC序號)']) }}
             </div>
             <div class="form-group">
                 <label for="name"><strong>社團名稱*</strong></label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SchoolPower;
 use App\Models\User;
+use App\Models\SchoolApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -62,7 +63,7 @@ class HomeController extends Controller
     }
 
     public function module_index()
-    {
+    {        
         $users = User::where('disable', null)->get();
 
         $school_powers = SchoolPower::all();
@@ -71,7 +72,7 @@ class HomeController extends Controller
             $user_id2name[$school_power->user_id] = $school_power->user->name;
         }
 
-        $data = [
+        $data = [     
             'users' => $users,
             'power_data' => $power_data,
             'user_id2name' => $user_id2name,
@@ -95,6 +96,40 @@ class HomeController extends Controller
         }
 
         return redirect()->route('module.index');
+    }
+
+    public function module_store_name(Request $request)
+    {
+        
+        $school_code = school_code();
+        if ($request->hasFile('file2')) {            
+            $file = $request->file('file2');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal2.png');
+        }
+        if ($request->hasFile('file3')) {
+            $file = $request->file('file3');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal3.png');
+        }
+        if ($request->hasFile('file4')) {
+            $file = $request->file('file4');
+
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal4.png');
+        }
+
+        return redirect()->route('module.index');
+    }
+
+    public function module_del_name($path)
+    {        
+        $school_code = school_code();
+        $path = str_replace('&', '/', $path);
+        $path = storage_path('app/privacy/' . $school_code . '/' . $path);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return redirect()->back();
     }
 
     public function module_delete(SchoolPower $school_power)

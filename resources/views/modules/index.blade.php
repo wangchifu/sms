@@ -11,9 +11,66 @@
     </nav>
 @endsection
 
-@section('content')
+@section('content')    
     <div class="container">
         <div class="row">
+            <h4>學校設定</h4>                  
+            <table class="table table-striped">                
+                <thead class="table-primary">
+                    <tr>
+                        <th>
+                            出納印章
+                        <?php
+                        $school_code = school_code();
+                        $seal2 = storage_path('app/privacy/'.$school_code.'/setups/seal2.png');
+                        $seal3 = storage_path('app/privacy/'.$school_code.'/setups/seal3.png');
+                        $seal4 = storage_path('app/privacy/'.$school_code.'/setups/seal4.png');
+                        $path2 = 'setups&seal2.png';
+                        $path3 = 'setups&seal3.png';
+                        $path4 = 'setups&seal4.png';
+                        ?>
+                        @if(file_exists($seal2))
+                            <img src="{{ route('getImg',$path2) }}" width="80"><a href="{{ route('module.del_name',$path2) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                        @endif
+                        </th>
+                        <th>
+                            主計印章
+                        @if(file_exists($seal3))
+                        <img src="{{ route('getImg',$path3) }}" width="80"><a href="{{ route('module.del_name',$path3) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                        @endif
+                        </th>
+                        <th>
+                            校長印章
+                        @if(file_exists($seal4))
+                        <img src="{{ route('getImg',$path4) }}" width="80"><a href="{{ route('module.del_name',$path4) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                        @endif
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>                               
+                <tbody>
+                    <tr>
+                        <form action="{{ route('module.store_name') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <td>
+                            {{ Form::file('file2', ['class' => 'form-control']) }}
+                        </td>
+                        <td>
+                            {{ Form::file('file3', ['class' => 'form-control']) }}
+                        </td>
+                        <td>
+                            {{ Form::file('file4', ['class' => 'form-control']) }}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-success">送出印章</button>
+                        </td>
+                        </form>      
+                    </tr>
+                </tbody>                        
+            </table>                     
+
             <h4>模組資料</h4>
                 <table class="table table-striped">
                     <thead class="table-primary">
@@ -122,7 +179,7 @@
                         </tr>
                         <tr>
                             <td>
-                                3
+                                4
                             </td>
                             <td>
                                 社團報名系統管理 (club_admin)
@@ -152,5 +209,5 @@
                     </tbody>
                 </table>
         </div>
-    </div>
+    </div>    
 @endsection

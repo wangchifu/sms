@@ -92,22 +92,22 @@ class LunchSetupController extends Controller
         if ($request->hasFile('file1')) {
             $file = $request->file('file1');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal1.png');
+            $file->storeAs('privacy/' . $school_code . '/lunches/' , 'seal1.png');
         }
-        if ($request->hasFile('file2')) {
+        if ($request->hasFile('file2')) {            
             $file = $request->file('file2');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal2.png');
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal2.png');
         }
         if ($request->hasFile('file3')) {
             $file = $request->file('file3');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal3.png');
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal3.png');
         }
         if ($request->hasFile('file4')) {
             $file = $request->file('file4');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal4.png');
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal4.png');
         }
 
         return redirect()->route('lunch_setups.index');
@@ -173,22 +173,22 @@ class LunchSetupController extends Controller
         if ($request->hasFile('file1')) {
             $file = $request->file('file1');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal1.png');
+            $file->storeAs('privacy/' . $school_code . '/lunches/', 'seal1.png');
         }
-        if ($request->hasFile('file2')) {
+        if ($request->hasFile('file2')) {            
             $file = $request->file('file2');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal2.png');
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal2.png');
         }
         if ($request->hasFile('file3')) {
             $file = $request->file('file3');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal3.png');
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal3.png');
         }
         if ($request->hasFile('file4')) {
             $file = $request->file('file4');
 
-            $file->storeAs('privacy/' . $school_code . '/lunches/' . $lunch_setup->id, 'seal4.png');
+            $file->storeAs('privacy/' . $school_code . '/setups/', 'seal4.png');
         }
 
         return redirect()->route('lunch_setups.index');
@@ -208,7 +208,7 @@ class LunchSetupController extends Controller
         return redirect()->route('lunch_setups.index');
     }
 
-    public function del_file($path, $id)
+    public function del_file($path)
     {
         $school_code = school_code();
         $path = str_replace('&', '/', $path);
@@ -216,7 +216,7 @@ class LunchSetupController extends Controller
         if (file_exists($path)) {
             unlink($path);
         }
-        return redirect()->route('lunch_setups.edit', $id);
+        return redirect()->back();  
     }
 
     public function place_add(Request $request)

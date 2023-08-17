@@ -14,10 +14,12 @@ class JobTitle extends Model
         'semester',
         'schools',
         'kind',
+        'office',
         'title_kind',
         'title',
         'cloudschool_username',
         'role',
+        'cla',
         'group',
     ];
 

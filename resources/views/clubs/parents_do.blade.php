@@ -86,6 +86,9 @@
                                 收費
                             </th>
                             <th>
+                                備註
+                            </th>
+                            <th>
                                 上課時間
                             </th>
                             <th>
@@ -122,6 +125,9 @@
                                 </td>
                                 <td>
                                     {{ $club->money }}
+                                </td>
+                                <td>
+                                    {{ $club->ps }}
                                 </td>
                                 <td>
                                     {{ $club->start_time }}

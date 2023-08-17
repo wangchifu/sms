@@ -24,10 +24,10 @@ $active['list'] ="";
         @include('clubs.nav')
         <br>
         <h2>修改學期</h2>
-        {{ Form::model($club_semester,['route' => ['clubs.semester_update',$club_semester->id], 'method' => 'PATCH']) }}
+        {{ Form::model($club_semester,['route' => ['clubs.semester_update',$club_semester->id], 'method' => 'PATCH','files'=>'true']) }}
         <div class="form-group">
             <label for="semester"><strong>學期*</strong><small class="text-primary">(如 1091)</small></label>
-            {{ Form::number('semester',$club_semester->semester,['id'=>'semester','class' => 'form-control', 'maxlength'=>'4','placeholder'=>'4碼數字','required'=>'required','readonly'=>'readonly']) }}
+            {{ Form::number('semester',$club_semester->semester,['id'=>'semester','class' => 'form-control', 'maxlength'=>'4','placeholder'=>'4碼數字','required'=>'required']) }}
         </div>
         <div class="form-group">
             <?php
@@ -79,6 +79,55 @@ $active['list'] ="";
         <div class="form-group">
             <label for="club_limit"><strong>學生各項最多可報名幾個社團*</strong></label>
             {{ Form::number('club_limit',$club_semester->club_limit,['id'=>'club_limit','class' => 'form-control', 'maxlength'=>'2','placeholder'=>'數字','required'=>'required']) }}
+        </div>
+        <div class="form-group">
+            <label for="all_rece_num">經手人印章圖檔
+                <?php
+                $school_code = school_code();
+                $seal1 = storage_path('app/privacy/'.$school_code.'/clubs/seal1.png');
+                $path = 'clubs&seal1.png';
+                ?>
+                @if(file_exists($seal1))
+                    <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('clubs.del_file',[$path,$club_semester->id]) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                @endif
+            </label>
+            {{ Form::file('file1', ['class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
+            <label for="all_rece_num">主辦出納印章圖檔
+                <?php
+                $seal2 = storage_path('app/privacy/'.$school_code.'/setups/'.'/seal2.png');
+                $path = 'setups&seal2.png';
+                ?>
+                @if(file_exists($seal2))
+                    <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('module.del_name',$path) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                @endif
+            </label>
+            {{ Form::file('file2', ['class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
+            <label for="all_rece_num">主辦會計印章圖檔
+                <?php
+                $seal3 = storage_path('app/privacy/'.$school_code.'/setups/'.'/seal3.png');
+                $path = 'setups&seal3.png';
+                ?>
+                @if(file_exists($seal3))
+                    <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('module.del_name',$path) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                @endif
+            </label>
+            {{ Form::file('file3', ['class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
+            <label for="all_rece_num">機關長官印章圖檔
+                <?php
+                $seal4 = storage_path('app/privacy/'.$school_code.'/setups/'.'/seal4.png');
+                $path = 'setups&seal4.png';
+                ?>
+                @if(file_exists($seal4))
+                    <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('module.del_name',$path) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                @endif
+            </label>
+            {{ Form::file('file4', ['class' => 'form-control']) }}
         </div>
         <div class="form-group">
             <a class="btn btn-secondary btn-sm" href="{{ route('clubs.index') }}"><i class="fas fa-backward"></i> 返回</a>

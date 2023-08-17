@@ -25,7 +25,17 @@ class AdminMiddleware
             if (isset($user_power['school_admin'])) {
                 if ($user_power['school_admin'] == "1") {
                     return $next($request);
-                }
+                }                
+            }
+            if (isset($user_power['lunch_admin'])) {
+                if ($user_power['lunch_admin'] == "1") {
+                    return $next($request);
+                }                
+            }
+            if (isset($user_power['club_admin'])) {
+                if ($user_power['club_admin'] == "1") {
+                    return $next($request);
+                }                
             }
         }
         return redirect()->route('index');

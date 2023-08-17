@@ -18,6 +18,7 @@ class LunchStuController extends Controller
 
         $lunch_orders = LunchOrder::orderBy('name', 'DESC')
             ->get();
+        $lunch_order_array = [];
         foreach ($lunch_orders as $lunch_order) {
             $check = LunchClassDate::where('lunch_order_id', $lunch_order->id)->count();
             $string = ($check > 0) ? "(已訂餐)" : "(未訂餐)";
@@ -25,13 +26,14 @@ class LunchStuController extends Controller
         }
         $lunch_order_id = (empty($lunch_order_id)) ? array_key_first($lunch_order_array) : $lunch_order_id;
         $lunch_order = LunchOrder::find($lunch_order_id);
-        $semester = $lunch_order->semester;
+        $semester = (isset($lunch_order->semester))?$lunch_order->semester:"";
 
         $factory_array = LunchFactory::where('disable', null)
             ->pluck('name', 'id')
             ->toArray();
         $lunch_class_data = [];
         $student_classes = [];
+        $lunch_class_dates = [];
         if (!empty($semester)) {
             $lunch_class_dates = LunchClassDate::where('lunch_order_id', $lunch_order_id)
                 ->orderBy('student_class_id')

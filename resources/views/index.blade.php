@@ -8,18 +8,26 @@
     <div class="container">
         <div class="row">
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
-                <a href="{{ route('clubs.semester_select') }}">
+                <a href="{{ route('lunch_lists.factory') }}" target="_blank">
+                <img src="{{ asset('images/logo/vendor.png') }}" class="figure-img img-fluid rounded" alt="...">
+                </a>
+                <figcaption class="figure-caption">午餐系統-廠商入口</figcaption>
+            </figure>   
+            <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                <a href="{{ route('clubs.semester_select') }}" target="_blank">
                 <img src="{{ asset('images/logo/enroll.png') }}" class="figure-img img-fluid rounded" alt="...">
                 </a>
                 <figcaption class="figure-caption">社團報名-學生入口</figcaption>
-            </figure>
+            </figure>        
+        </div>
+        <div class="row">                              
             @auth
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
                 <a href="{{ route('lunches.index') }}">
                 <img src="{{ asset('images/logo/lunch.png') }}" class="figure-img img-fluid rounded" alt="...">
                 </a>
                 <figcaption class="figure-caption">午餐系統</figcaption>
-            </figure>
+            </figure>        
             <?php
                 $club_admin = check_admin('club_admin');
             ?>
@@ -31,17 +39,22 @@
                         <figcaption class="figure-caption">社團報名系統</figcaption>
                     </figure>
                 @endif
-            @endauth                        
+                <!--
+                <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                    <img src="{{ asset('images/logo/sport_meeting.png') }}" class="figure-img img-fluid rounded" alt="...">
+                    <figcaption class="figure-caption">運動會報名系統</figcaption>
+                </figure>
+                -->
+                <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                    <img src="{{ asset('images/logo/chi_sport.png') }}" class="figure-img img-fluid rounded" alt="...">
+                    <figcaption class="figure-caption">運動會檢錄系統(紀老師版)</figcaption>
+                </figure>                
+            @endauth                                    
             <!--
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
                 <img src="{{ asset('images/logo/new_student.png') }}" class="gray figure-img img-fluid rounded" alt="...">
                 <figcaption class="figure-caption">新生編班系統</figcaption>
-            </figure>
-            <figure class="figure col-xs-4 col-md-3 col-lg-2">
-                <img src="{{ asset('images/logo/sport_meeting.png') }}" class="gray figure-img img-fluid rounded" alt="...">
-                <figcaption class="figure-caption">運動會報名系統</figcaption>
-            </figure>
-            
+            </figure>                        
             <figure class="figure col-xs-4 col-md-3 col-lg-2">
                 <img src="{{ asset('images/logo/fix.png') }}" class="gray figure-img img-fluid rounded" alt="...">
                 <figcaption class="figure-caption">報修系統</figcaption>

@@ -19,10 +19,12 @@ class CreateJobTitlesTable extends Migration
             $table->string('semester')->nullable();
             $table->string('schools')->nullable(); //gsuite帶出學校群組
             $table->string('kind')->nullable(); //gsuite帶出教職員、學生
+            $table->string('office')->nullable(); //cloudschool 帶出的處室
             $table->string('title_kind')->nullable(); //cloudschool 帶出 title_kind
             $table->string('title')->nullable(); //gsuite帶出職稱 即 cloudschool帶出的title_name
             $table->string('cloudschool_username')->nullable(); //cloudschool帳號
             $table->string('role')->nullable(); //cloudschool 帶出 role
+            $table->string('cla')->nullable(); //cloudschool 帶出 cla 任教班級
             $table->string('group')->nullable(); //cloudschool 帶出 group
             $table->timestamps();
         });

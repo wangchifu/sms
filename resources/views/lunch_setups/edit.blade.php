@@ -100,11 +100,11 @@ $active['setup'] ="active";
                     <label for="all_rece_num">經手人印章圖檔
                         <?php
                         $school_code = school_code();
-                        $seal1 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal1.png');
-                        $path = 'lunches&'.$lunch_setup->id.'&seal1.png';
+                        $seal1 = storage_path('app/privacy/'.$school_code.'/lunches/seal1.png');
+                        $path = 'lunches&seal1.png';
                         ?>
                         @if(file_exists($seal1))
-                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('lunch_setups.del_file',[$path,$lunch_setup->id]) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('lunch_setups.del_file',[$path]) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
                         @endif
                     </label>
                     {{ Form::file('file1', ['class' => 'form-control']) }}
@@ -112,11 +112,11 @@ $active['setup'] ="active";
                 <div class="form-group">
                     <label for="all_rece_num">主辦出納印章圖檔
                         <?php
-                        $seal2 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal2.png');
-                        $path = 'lunches&'.$lunch_setup->id.'&seal2.png';
+                        $seal2 = storage_path('app/privacy/'.$school_code.'/setups/'.'/seal2.png');
+                        $path = 'setups&seal2.png';
                         ?>
                         @if(file_exists($seal2))
-                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('lunch_setups.del_file',[$path,$lunch_setup->id]) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('module.del_name',$path) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
                         @endif
                     </label>
                     {{ Form::file('file2', ['class' => 'form-control']) }}
@@ -124,11 +124,11 @@ $active['setup'] ="active";
                 <div class="form-group">
                     <label for="all_rece_num">主辦會計印章圖檔
                         <?php
-                        $seal3 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal3.png');
-                        $path = 'lunches&'.$lunch_setup->id.'&seal3.png';
+                        $seal3 = storage_path('app/privacy/'.$school_code.'/setups/'.'/seal3.png');
+                        $path = 'setups&seal3.png';
                         ?>
                         @if(file_exists($seal3))
-                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('lunch_setups.del_file',[$path,$lunch_setup->id]) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('module.del_name',$path) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
                         @endif
                     </label>
                     {{ Form::file('file3', ['class' => 'form-control']) }}
@@ -136,11 +136,11 @@ $active['setup'] ="active";
                 <div class="form-group">
                     <label for="all_rece_num">機關長官印章圖檔
                         <?php
-                        $seal4 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal4.png');
-                        $path = 'lunches&'.$lunch_setup->id.'&seal4.png';
+                        $seal4 = storage_path('app/privacy/'.$school_code.'/setups/'.'/seal4.png');
+                        $path = 'setups&seal4.png';
                         ?>
                         @if(file_exists($seal4))
-                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('lunch_setups.del_file',[$path,$lunch_setup->id]) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
+                            <img src="{{ route('getImg',$path) }}" width="180"><a href="{{ route('module.del_name',$path) }}" onclick="return confirm('刪除？')"><li class="fas fa-times-circle text-danger"></li></a>
                         @endif
                     </label>
                     {{ Form::file('file4', ['class' => 'form-control']) }}

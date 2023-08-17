@@ -14,23 +14,22 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('layouts.errors')
-            <!--
+            @include('layouts.errors')            
             <div class="col-md-4 col-12">
-                
+                <!--
                 <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#api_create">
-                    方法一：使用 cloudschool API 匯入老師及學生
+                    使用 cloudschool API 匯入老師及學生
                 </button>
                 
 
                 <br>
                 <a href="{{ route('users.teach_api') }}" class="btn btn-success mt-2">API 設定教學</a>
-            
-            </div>
+
+                <br><br>
             -->
-            <div class="col-md-4 col-12">
-                ps.教職員<span class="text-danger">須先登入</span>才會有帳號出現在系統內。
-            </div>
+                ps.若非用 API 拉入帳號，教職員<span class="text-danger">則須先登入</span>才會有帳號出現在系統內。
+            
+            </div>                                    
         </div>
         <br>
         <hr>

@@ -25,6 +25,9 @@ class CreateStudentsTable extends Migration
             $table->string('student_year'); //年級
             $table->string('student_class'); //班級
             $table->tinyInteger('num'); //座號
+            $table->string('idclass')->nullable(); //班級座號五碼
+            $table->string('cla')->nullable(); //所在班級代碼
+            $table->string('edu_key')->nullable(); 
             $table->tinyInteger('disable')->nullable();
             $table->timestamps();
         });

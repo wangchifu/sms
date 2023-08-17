@@ -8,24 +8,18 @@ $school_names=config('app.schools');
 $database = config('app.database');              
 $school_code = str_replace('sms','',$database[$_SERVER['HTTP_HOST']]);
 $school_name = $school_names[$school_code];
-if($lunch_setup){
-    $seal1 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal1.png');
-    $seal2 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal2.png');
-    $seal3 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal3.png');
-    $seal4 = storage_path('app/privacy/'.$school_code.'/lunches/'.$lunch_setup->id.'/seal4.png');
-    $path1 = 'lunches&'.$lunch_setup->id.'&seal1.png';
-    $path2 = 'lunches&'.$lunch_setup->id.'&seal2.png';
-    $path3 = 'lunches&'.$lunch_setup->id.'&seal3.png';
-    $path4 = 'lunches&'.$lunch_setup->id.'&seal4.png';
-}else{
-    $seal1 = null;
-    $seal2 = null;
-    $seal3 = null;
-    $seal4 = null;
-}
+
+    $seal1 = storage_path('app/privacy/'.$school_code.'/clubs/seal1.png');
+    $seal2 = storage_path('app/privacy/'.$school_code.'/setups/seal2.png');
+    $seal3 = storage_path('app/privacy/'.$school_code.'/setups/seal3.png');
+    $seal4 = storage_path('app/privacy/'.$school_code.'/setups/seal4.png');
+    $path1 = 'clubs&seal1.png';
+    $path2 = 'setups&seal2.png';
+    $path3 = 'setups&seal3.png';
+    $path4 = 'setups&seal4.png';    
 
 
-if(file_exists($seal1)){
+if(file_exists($seal1)){    
     $img1 = "<img src=". route('getImg',$path1) ." width=\"150\">";
 }else{
     $img1 = "";
@@ -102,7 +96,7 @@ foreach($open_clubs as $k=>$v){
         </tr>
     </table>
                 <p stype='font-size:20px'>經收人　　　　　　　　　主辨出納　　　　　　　　　主辨會計　　　　　　　　　機關長官</p>
-               <p stype='font-size:20px'>　　　　　　　　　{$img2}　　　{$img3}　　　{$img4}</p>";
+               <p stype='font-size:20px'>{$img1}　　　{$img2}　　　{$img3}　　　{$img4}</p>";
         $total_table .= "<h2 align='center'>{$school_name} 收款收據 (存根聯：送出納組)</h2>".$table."<hr>";
         $total_table .= "<h2 align='center'>{$school_name} 收款收據 (報核聯：送會計室)</h2>".$table."<hr>";
         $total_table .= "<h2 align='center'>{$school_name} 收款收據 (收據聯：交繳款人)</h2>".$table."<p style='page-break-after:always'></p>";

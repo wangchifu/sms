@@ -15,8 +15,11 @@ class CreateSchoolApisTable extends Migration
     {
         Schema::create('school_apis', function (Blueprint $table) {
             $table->id();
-            $table->string('client_id');
-            $table->string('client_secret');
+            $table->string('client_id')->nullable();
+            $table->string('client_secret')->nullable();
+            $table->string('seal2')->nullable();//出納印章
+            $table->string('seal3')->nullable();//會計印章
+            $table->string('seal4')->nullable();//校長印章  
             $table->timestamps();
         });
     }
