@@ -19,6 +19,7 @@ class CreateClubRegistersTable extends Migration
             $table->unsignedInteger('club_id');//目錄id
             $table->unsignedInteger('student_id');//目錄id
             $table->tinyInteger('class_id');
+            $table->unsignedInteger('second')->nullable();
             $table->timestamps();
         });
     }

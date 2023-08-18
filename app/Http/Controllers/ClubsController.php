@@ -119,6 +119,7 @@ class ClubsController extends Controller
         $att['stop_date'] = $request->input('year_2') . '-' . sprintf("%02s", $request->input('month_2')) . '-' . sprintf("%02s", $request->input('day_2')) . '-' . sprintf("%02s", $request->input('hour_2')) . '-' . sprintf("%02s", $request->input('min_2'));
         $att['start_date2'] = $request->input('year2_1') . '-' . sprintf("%02s", $request->input('month2_1')) . '-' . sprintf("%02s", $request->input('day2_1')) . '-' . sprintf("%02s", $request->input('hour2_1')) . '-' . sprintf("%02s", $request->input('min2_1'));
         $att['stop_date2'] = $request->input('year2_2') . '-' . sprintf("%02s", $request->input('month2_2')) . '-' . sprintf("%02s", $request->input('day2_2')) . '-' . sprintf("%02s", $request->input('hour2_2')) . '-' . sprintf("%02s", $request->input('min2_2'));
+        $att['second'] = $request->input('second');
         $club_semester->update($att);
 
         $school_code = school_code();
@@ -723,7 +724,10 @@ class ClubsController extends Controller
             $att['semester'] = $user->semester;
             $att['club_id'] = $club->id;
             $att['student_id'] = $user->id;
-            $att['class_id'] = $club->class_id;            
+            $att['class_id'] = $club->class_id;    
+            if($club_semester->second){
+                $att['second'] = 1;
+            }        
             ClubRegister::create($att);
         }
 

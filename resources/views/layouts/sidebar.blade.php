@@ -3,7 +3,7 @@
         <div class="sidebar-header">
             <div class="d-flex justify-content-between">
                 <div class="logo">
-                    <a href="{{ route('index') }}"><img src="{{ asset('images/logo/logo.svg') }}" alt="Logo" srcset=""></a>
+                    <a href="https://sms.chc.edu.tw" target="_blank"><img src="{{ asset('images/logo/logo.svg') }}" alt="Logo" srcset=""></a>
                     彰化縣<br>學校管理系統
                 </div>
                 <div class="toggler">
@@ -37,7 +37,7 @@
                 <li class="sidebar-item active">
                     <a href="{{ route('index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
-                        <?php $school_code = school_code();$schools = config('app.schools')  ?>
+                        
                         <span> {{ $schools[$school_code] }}</span>
                     </a>
                 </li>

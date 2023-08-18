@@ -21,6 +21,7 @@ class CreateClubSemestersTable extends Migration
             $table->tinyInteger('club_limit');//可報社團限制
             $table->string('start_date2');
             $table->string('stop_date2');
+            $table->unsignedInteger('second')->nullable();
             $table->timestamps();
         });
     }

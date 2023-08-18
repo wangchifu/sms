@@ -59,6 +59,9 @@ $active['list'] ="active";
                                 社團
                             </th>
                             <th>
+                                報名
+                            </th>
+                            <th>
                                 班級座號
                             </th>
                             <th>
@@ -94,6 +97,13 @@ $active['list'] ="active";
                             @endif
                                 <td>
                                     {{ $club->name }}
+                                </td>
+                                <td>
+                                    @if($club_register->second)
+                                    第2次
+                                    @else
+                                    第1次
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $club_register->user->student_year."年".$club_register->user->student_class."班".$club_register->user->num."號" }}
@@ -163,6 +173,9 @@ $active['list'] ="active";
                                     社團
                                 </th>
                                 <th>
+                                    報名
+                                </th>
+                                <th>
                                     班級座號
                                 </th>
                                 <th>
@@ -198,6 +211,13 @@ $active['list'] ="active";
                                         @endif
                                         <td>
                                             {{ $club->name }}
+                                        </td>
+                                        <td>
+                                            @if($club_register->second)
+                                            第2次
+                                            @else
+                                            第1次
+                                            @endif
                                         </td>
                                         <td>
                                             {{ $club_register->user->student_year."年".$club_register->user->student_class."班".$club_register->user->num."號" }}
