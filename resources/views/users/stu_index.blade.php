@@ -26,6 +26,13 @@
                 <a href="{{ route('users.teach_excel') }}" class="btn btn-primary mt-2">Excel 設定教學</a>
             </div>
         </div>
+        <div class="row">
+            @include('layouts.errors')            
+            <div class="col-12">                                                           
+                ps1.若只使用 API 拉入帳號，因 cloudschool API 不提供學生的生日，故密碼無法建立，社團報名學生無法登入，請用「匯入 Excel」的方式再建立一次。
+            
+            </div>                                    
+        </div>
         <hr>
         <div class="row">
             @if(empty($class_data))

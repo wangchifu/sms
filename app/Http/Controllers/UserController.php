@@ -96,6 +96,7 @@ class UserController extends Controller
         $API_client_secret = $school_api->client_secret;
 
         $data = $this->get_API($API_client_id, $API_client_secret);
+        //dd($data->學期教職員);
 
         if (empty($data)) {
             return back()->withErrors(['error' => ['沒有資料']]);
@@ -118,6 +119,7 @@ class UserController extends Controller
             $user = User::where('edu_key', $edu_key)->first();
             $att_user['edu_key'] = $v->身分證編碼;
             $att_user['name'] = $v->姓名;
+            $att_user['sex'] = $v->性別;
             $att_user['login_type'] = "gsuite";
 
 
@@ -125,6 +127,7 @@ class UserController extends Controller
                 $user = User::create($att_user);
 
                 $att_job_title['user_id'] = $user->id;
+                $att_job_title['office'] = $v->處室;
                 $att_job_title['semester'] = $semester;
 
                 $att_job_title['title'] = $v->職稱;
@@ -137,6 +140,7 @@ class UserController extends Controller
                 $user->update($att_user);
 
                 $att_job_title['user_id'] = $user->id;
+                $att_job_title['office'] = $v->處室;
                 $att_job_title['semester'] = $semester;
 
                 $att_job_title['title'] = $v->職稱;

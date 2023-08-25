@@ -15,19 +15,16 @@
     <div class="container">
         <div class="row">
             @include('layouts.errors')            
-            <div class="col-md-4 col-12">
-                <!--
+            <div class="col-12">                
                 <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#api_create">
                     使用 cloudschool API 匯入老師及學生
-                </button>
-                
-
+                </button>                
                 <br>
                 <a href="{{ route('users.teach_api') }}" class="btn btn-success mt-2">API 設定教學</a>
 
-                <br><br>
-            -->
-                ps.若非用 API 拉入帳號，教職員<span class="text-danger">則須先登入</span>才會有帳號出現在系統內。
+                <br><br>            
+                ps1.若非用 API 拉入帳號，教職員<span class="text-danger">則須先登入</span>才會有帳號出現在系統內。<br>
+                ps2.若使用 API 拉入帳號，因 cloudschool API 不提供學生的生日，故密碼無法建立，社團報名學生無法登入，請用「匯入 Excel」的方式再建立一次。
             
             </div>                                    
         </div>
@@ -58,7 +55,7 @@
                             {{ $school_api->client_secret }}
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm" onclick="pull_data()">拉回資料</button>
+                            <button class="btn btn-info btn-sm" onclick="pull_data()">拉回教職和學生的資料</button>
                             <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#api_destroy">刪除</button>
                         </td>
                     </tr>
@@ -201,24 +198,26 @@
     <script>
         function pull_data(){
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: '你確定要拉回嗎?',
+                text: "這個要花時間下載並寫入，請耐心等待，不要按很多次!",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: '好，我知道了！做吧!',
+                cancelButtonText: '我按錯了！取消！'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    $('#api_pull_form').submit();
                     Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
+                        '拉回資料中...',
+                        '慢慢等吧...',
+                        '好的'
                     )
                 }else{
                     Swal.fire(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
+                        '取消',
+                        '放心，什麼事也沒有發生的！',
                         'error'
                     )
                 }

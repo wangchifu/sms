@@ -19,7 +19,6 @@ class JobTitle extends Model
         'title',
         'cloudschool_username',
         'role',
-        'cla',
         'group',
     ];
 

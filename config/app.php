@@ -235,7 +235,7 @@ return [
     'database' => [
         //網址轉換資料庫代碼
         'sms.localhost' => 'sms074999',
-        'sms.chc.edu.tw' => 'sms',
+        'sms.chc.edu.tw' => 'sms074000',
         'sms.smes.chc.edu.tw' => 'sms074608',
         'sms.dches.chc.edu.tw' => 'sms074775',
         'sms.tces.chc.edu.tw' => 'sms074610',
@@ -456,6 +456,7 @@ return [
         'sms.elsh.chc.edu.tw' => 'sms074313',
     ],
     'schools' => [
+        '074000' => '彰化縣',
         '074999' => '測試國小',
         '074308' => '彰化藝術高中',
         '074505' => '陽明國中',
