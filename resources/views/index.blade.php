@@ -24,13 +24,13 @@
                         </a>
                         <figcaption class="figure-caption">社團報名系統</figcaption>
                     </figure>
-                @endif
-                <!--
+                @endif                
                 <figure class="figure col-xs-4 col-md-3 col-lg-2">
+                    <a href="{{ route('sports.index') }}">
                     <img src="{{ asset('images/logo/sport_meeting.png') }}" class="figure-img img-fluid rounded" alt="...">
+                    </a>
                     <figcaption class="figure-caption">運動會報名系統</figcaption>
-                </figure>
-                -->                              
+                </figure>                
             @endauth                                    
             <!--
             <figure class="figure col-xs-4 col-md-3 col-lg-2">

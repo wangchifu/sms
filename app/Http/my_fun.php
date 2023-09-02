@@ -157,12 +157,17 @@ if (!function_exists('get_user_power')) {
 }
 
 if (!function_exists('check_admin')) {
-    function check_admin($moudel)
+    function check_admin($module,$id=null)
     {
-        $user_power = session('user_power');
         $system_admin = (isset($user_power['school_admin'])) ? 1 : null;
-        $moudel_admin = (isset($user_power[$moudel])) ? 1 : null;
-        if ($system_admin != 1 and $moudel_admin != 1) {
+        if(is_null($id)){
+            $user_power = session('user_power');            
+            $module_admin = (isset($user_power[$module])) ? 1 : null;
+        }else{
+            $school_power = \App\Models\SchoolPower::where('module',$module)->where('user_id',$id)->first();
+            $module_admin = ($school_power) ? 1 : null;
+        }                
+        if ($system_admin != 1 and $module_admin != 1) {
             return null;
         } else {
             return 1;

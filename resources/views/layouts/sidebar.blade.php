@@ -91,9 +91,12 @@
                             ?>
                             @if($club_admin)
                             <li class="submenu-item ">
-                                <a href="{{ route('clubs.index') }}">社團報名系統</a>
+                                <a href="{{ route('clubs.index') }}">社團報名</a>
                             </li>
                             @endif
+                            <li class="submenu-item ">
+                                <a href="{{ route('sports.index') }}">運動會報名</a>
+                            </li>  
                         </ul>
                     </li>
                     <!--

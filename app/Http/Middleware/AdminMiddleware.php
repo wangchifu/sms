@@ -37,6 +37,11 @@ class AdminMiddleware
                     return $next($request);
                 }                
             }
+            if (isset($user_power['sport_admin'])) {
+                if ($user_power['sport_admin'] == "1") {
+                    return $next($request);
+                }                
+            }        
         }
         return redirect()->route('index');
     }

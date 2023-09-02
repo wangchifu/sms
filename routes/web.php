@@ -13,6 +13,7 @@ use App\Http\Controllers\LunchSetupController;
 use App\Http\Controllers\LunchSpecialController;
 use App\Http\Controllers\LunchStuController;
 use App\Http\Controllers\ClubsController;
+use App\Http\Controllers\SportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,20 +191,36 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('clubs/store_black', [ClubsController::class,'store_black'])->name('clubs.store_black');
     Route::get('clubs/{club_black}/destroy_black', [ClubsController::class,'destroy_black'])->name('clubs.destroy_black');
+
+    //運動會報名
+    Route::get('sports/index', [SportsController::class,'index'])->name('sports.index');
+    Route::get('sports/setup', [SportsController::class,'setup'])->name('sports.setup');
+    Route::get('sports/setup/action_create', [SportsController::class,'action_create'])->name('sports.setup.action_create');
+    Route::post('sports/setup/action_store', [SportsController::class,'action_store'])->name('sports.setup.action_store');
+    Route::get('sports/setup/action_show', [SportsController::class,'action_show'])->name('sports.setup.action_show');
+    Route::get('sports/setup/action_edit/{action}', [SportsController::class,'action_edit'])->name('sports.setup.action_edit');
+    Route::get('sports/setup/action_stop/{action}', [SportsController::class,'action_stop'])->name('sports.setup.action_stop');
+    Route::get('sports/setup/action_destroy/{action}', [SportsController::class,'action_destroy'])->name('sports.setup.action_destroy');
+    Route::get('sports/setup/action_set_number', [SportsController::class,'action_set_number'])->name('sports.setup.action_set_number');
+    Route::get('sports/setup/action_set_number_null', [SportsController::class,'action_set_number_null'])->name('sports.setup.action_set_number_null');
+    Route::get('sports/setup/item/{action_id?}', [SportsController::class,'item'])->name('sports.setup.item');
+    Route::get('sports/sign_up', [SportsController::class,'sign_up'])->name('sports.sign_up');
+    Route::get('sports/list', [SportsController::class,'list'])->name('sports.list');
+    Route::get('sports/score', [SportsController::class,'score'])->name('sports.score');
 });
 
 //系統管理員及學校管理員及任一管理員
 Route::group(['middleware' => 'admin'], function () {
     Route::post('module/store_name', [HomeController::class, 'module_store_name'])->name('module.store_name');
     Route::get('module/{path}/del_name', [HomeController::class, 'module_del_name'])->name('module.del_name');    
+    //模擬登入
+    Route::get('sims/{user}/impersonate', [SimulationController::class, 'impersonate'])->name('sims.impersonate');
 });
 //系統管理員
 Route::group(['middleware' => 'system_admin'], function () {
 });
 //學校管理員
-Route::group(['middleware' => 'school_admin'], function () {
-    //模擬登入
-    Route::get('sims/{user}/impersonate', [SimulationController::class, 'impersonate'])->name('sims.impersonate');
+Route::group(['middleware' => 'school_admin'], function () {    
 
     Route::get('users/index', [UserController::class, 'index'])->name('users.index');
     Route::get('users/{user}/disable', [UserController::class, 'user_disable'])->name('users.disable');
