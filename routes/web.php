@@ -199,11 +199,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('sports/setup/action_store', [SportsController::class,'action_store'])->name('sports.setup.action_store');
     Route::get('sports/setup/action_show', [SportsController::class,'action_show'])->name('sports.setup.action_show');
     Route::get('sports/setup/action_edit/{action}', [SportsController::class,'action_edit'])->name('sports.setup.action_edit');
-    Route::get('sports/setup/action_stop/{action}', [SportsController::class,'action_stop'])->name('sports.setup.action_stop');
+    Route::patch('sports/setup/action/{action}/update', [SportsController::class,'action_update'])->name('sports.setup.action_update');
+    Route::get('sports/setup/action_disable/{action}', [SportsController::class,'action_disable'])->name('sports.setup.action_disable');
     Route::get('sports/setup/action_destroy/{action}', [SportsController::class,'action_destroy'])->name('sports.setup.action_destroy');
+    Route::get('sports/setup/item/{select_action}', [SportsController::class,'item_index'])->name('sports.setup.item_index');
+    Route::get('sports/setup/item/{action}/create', [SportsController::class,'item_create'])->name('sports.setup.item_create');
+    Route::post('sports/setup/item/store', [SportsController::class,'item_store'])->name('sports.setup.item_store');
+    Route::post('sports/setup/item/import', [SportsController::class,'item_import'])->name('sports.setup.item_import');    
+    Route::get('sports/setup/item/{item}/edit', [SportsController::class,'item_edit'])->name('sports.setup.item_edit');
+    Route::patch('sports/setup/item/{item}/update', [SportsController::class,'item_update'])->name('sports.setup.item_update');    
+    Route::get('sports/setup/item/{item}/disable', [SportsController::class,'item_disable'])->name('sports.setup.item_disable');
+    Route::get('sports/setup/item/{item}/destroy', [SportsController::class,'item_destroy'])->name('sports.setup.item_destroy');    
+
+
+
     Route::get('sports/setup/action_set_number', [SportsController::class,'action_set_number'])->name('sports.setup.action_set_number');
     Route::get('sports/setup/action_set_number_null', [SportsController::class,'action_set_number_null'])->name('sports.setup.action_set_number_null');
-    Route::get('sports/setup/item/{action_id?}', [SportsController::class,'item'])->name('sports.setup.item');
+    
     Route::get('sports/sign_up', [SportsController::class,'sign_up'])->name('sports.sign_up');
     Route::get('sports/list', [SportsController::class,'list'])->name('sports.list');
     Route::get('sports/score', [SportsController::class,'score'])->name('sports.score');

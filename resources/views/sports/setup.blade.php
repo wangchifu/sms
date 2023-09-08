@@ -76,14 +76,14 @@ $active['score'] ="";
                                 <small class="text-secondary">每人徑賽最多報{{ $action->track }}項 田賽最多報{{ $action->field }}項  全部最多報{{ $action->frequency }} 項 號碼布為 {{ $action->numbers }} 位數</small>
                             </td>
                             <td>
-                                @if($action->disable)
-                                    <button class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#actionModal" data-whatever="{{ route('school_admins.action_enable',$action->id) }}" data-name="{{ $action->name }}" data-act="enable">開放報名</button>
+                                @if($action->disable) 
+                                    <a href="#" class="btn btn-outline-success btn-sm" onclick="sw_confirm('確定再開放報名？','{{ route('sports.setup.action_disable',$action->id) }}')">開放報名</a>
                                 @else
-                                    <a class="btn btn-success btn-sm" href="{{ route('sports.setup.item',$action->id) }}">比賽項目</a>
+                                    <a class="btn btn-success btn-sm" href="{{ route('sports.setup.item_index',$action->id) }}">比賽項目</a>
                                     <a class="btn btn-primary btn-sm" href="{{ route('sports.setup.action_edit',$action->id) }}">修改</a>                                    
-                                    <a href="#" class="btn btn-warning btn-sm" onclick="sw_confirm('確定停止報名？','{{ route('sports.setup.action_stop',$action->id) }}')">停止報名</a>
+                                    <a href="#" class="btn btn-warning btn-sm" onclick="sw_confirm('確定停止報名？','{{ route('sports.setup.action_disable',$action->id) }}')">停止報名</a>
                                 @endif                                    
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="sw_confirm('確定刪除？','{{ route('sports.setup.action_destroy',$action->id) }}')">刪除</a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="sw_confirm('確定刪除？這次的所有項目、學生報名記錄都會一起刪除喔！','{{ route('sports.setup.action_destroy',$action->id) }}')">刪除</a>
                             </td>
                         </tr>
                         <?php $i++; ?>

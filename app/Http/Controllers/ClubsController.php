@@ -487,6 +487,7 @@ class ClubsController extends Controller
                 ->where('student_class', $student_class)
                 ->where('num', $num)
                 ->where('semester', $request->input('semester'))
+                ->where('disable', null)
                 ->first();
 
             if (!$check) {
