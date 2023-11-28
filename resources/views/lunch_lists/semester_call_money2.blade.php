@@ -1,6 +1,6 @@
 <?php
 echo "<body onload='window.print()'>";
-$i=1;
+$num=1;
 ?>
 @foreach($user_datas as $k1=>$v1)
 <?php
@@ -19,10 +19,14 @@ $i=1;
         <tr style="border: solid 1px;">
             <td style="border: solid 1px;">
                 <?php if(!isset($user_datas_by_order[$k1][$lunch_order->id])) $user_datas_by_order[$k1][$lunch_order->id]=0; ?>
-                {{ substr($lunch_order->name,5,2) }} 月共{{ $total_order_date[$lunch_order->id] }}天，用餐 {{ $user_datas_by_order[$k1][$lunch_order->id] }} 天
+                {{ substr($lunch_order->name,5,2) }}月共 {{ $total_order_date[$lunch_order->id] }} 天，用餐 {{ $user_datas_by_order[$k1][$lunch_order->id] }} 天
             </td>
         </tr>
         @endforeach
     </table>
 </div>
+@if($num%9==0)
+<p style="page-break-after:always"></p>
+@endif
+<?php $num++; ?>
 @endforeach
