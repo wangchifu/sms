@@ -141,11 +141,18 @@ class LunchStuController extends Controller
             $att['eat_style1'] = $request->input('eat_style1');
             $att['eat_style4'] = (empty($request->input('eat_style4'))) ? null : $request->input('eat_style4');
             
-            LunchClassDate::where('student_class_id', $request->input('student_class_id'))
+            if($request->input('start_date') == $request->input('end_date')){
+                LunchClassDate::where('student_class_id', $request->input('student_class_id'))
+                ->where('order_date', '>=', $request->input('start_date'))
+                ->where('order_date', '<=', $request->input('end_date'))                
+                ->update($att);
+            }else{
+                LunchClassDate::where('student_class_id', $request->input('student_class_id'))
                 ->where('order_date', '>=', $request->input('start_date'))
                 ->where('order_date', '<=', $request->input('end_date'))
                 ->where('eat_style1', '<>', null)
                 ->update($att);
+            }            
         }
 
         return redirect()->back();
