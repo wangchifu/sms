@@ -9,7 +9,7 @@ $num=1;
         $total_days += $v2;
     }
 ?>
-<div style="border: solid 1px;width:30%;float:left;margin:10px">
+<div style="border: solid 1px;width:30%;float:left;margin:10px;page-break-inside:avoid;">
     {{ $lunch_setup->semester }} 學期教師午餐收費通知<br>
     編號：{{ $num }}　{{ $k1 }} 你好：<br>
     請於 {{ substr($die_line,5,5) }} 前繳費，謝謝！<br>
@@ -25,8 +25,5 @@ $num=1;
         @endforeach
     </table>
 </div>
-@if($num%9==0)
-<p style="page-break-after:always"></p>
-@endif
 <?php $num++; ?>
 @endforeach
