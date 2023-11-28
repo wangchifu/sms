@@ -33,7 +33,12 @@ $active['setup'] ="";
                 </div>
                 <div class="form-group">
                     <a href="{{ route('lunch_lists.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
-                    <input name="submit" type="submit" class="btn btn-dark btn-sm" value="印出全學期收費通知">
+                    <br>
+                    先填收費期限：
+                    <input type="date" name="die_line"><br>
+                    <input name="submit" type="submit" class="btn btn-dark btn-sm" value="再印出全學期收費通知1">
+                    <input name="submit" type="submit" class="btn btn-dark btn-sm" value="再印出全學期收費通知2">
+                    <hr>
                     <input name="submit" type="submit" class="btn btn-dark btn-sm" value="印出全學期收據">
                     <input name="submit" type="submit" class="btn btn-dark btn-sm" value="印出廠商全學期收入">
                     <input name="submit" type="submit" class="btn btn-success btn-sm" value="下載全學期「彰化智慧校園」收費模組匯入單">
