@@ -71,9 +71,11 @@ $i=1;
                 ?>
             </td>
             <td>
+                @if(!is_null($die_line))
                 <p style="font-size: 15px;">
                 {{ substr($die_line,5,5) }} 前繳交
                 </p>
+                @endif
             </td>
         </tr>
         <?php $i++; ?>
