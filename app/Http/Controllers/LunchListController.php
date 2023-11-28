@@ -250,16 +250,23 @@ class LunchListController extends Controller
                 if ($order_data->enable == "eat") {
                     if (!isset($user_datas[$order_data->user->name][substr($order_data->order_date, 0, 7)])) $user_datas[$order_data->user->name][substr($order_data->order_date, 0, 7)] = null;
                     $user_datas[$order_data->user->name][substr($order_data->order_date, 0, 7)]++;
+                    if(!isset($user_datas_by_order[$order_data->user->name][$order_data->lunch_order_id])) $user_datas_by_order[$order_data->user->name][$order_data->lunch_order_id]=null;
+                    $user_datas_by_order[$order_data->user->name][$order_data->lunch_order_id]++;
                     $factory_money[$order_data->user->name][substr($order_data->order_date, 0, 7)] = $lunch_setup->teacher_money;
+                    $ear_user[$order_data->user->id] = $order_data->user->name;
                 }
             }
 
-
+            //此學期有的餐期
+            $lunch_orders = LunchOrder::where('semester', $lunch_setup->semester)
+                ->get();     
             $data = [
                 'lunch_setup' => $lunch_setup,
                 'user_datas' => $user_datas,
                 'factory_money' => $factory_money,
                 'lunch_setup' => $lunch_setup,
+                'lunch_orders'=>$lunch_orders,
+                'user_datas_by_order'=>$user_datas_by_order,
             ];
             return view('lunch_lists.semester_call_money', $data);
         }

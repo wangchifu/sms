@@ -14,11 +14,16 @@ $i=1;
         <th width="10%">
             單價
         </th>
+        @foreach($lunch_orders as $lunch_order)
+            <th>
+                {{ substr($lunch_order->name,5,2) }}<br>月
+            </th>
+        @endforeach
         <th width="15%">
-            餐次
+            總餐次
         </th>
         <th width="15%">
-            收費
+            總收費
         </th>
         <th>
             備註
@@ -37,6 +42,15 @@ $i=1;
             <td>
                 單價：{{ $lunch_setup->teacher_money }}
             </td>
+            @foreach($lunch_orders as $lunch_order)
+            <td>
+                {{ $user_datas_by_order[$k1][$lunch_order->id] }}
+                <?php
+                    if(!isset($this_order[$lunch_order->id])) $this_order[$lunch_order->id] = 0;
+                    $this_order[$lunch_order->id] += $user_datas_by_order[$k1][$lunch_order->id];
+                ?>
+            </td>
+            @endforeach
             <td>
                 <?php
                     foreach($v1 as $k2=>$v2){
@@ -64,6 +78,11 @@ $i=1;
         <td></td>
         <td>
         </td>
+        @foreach($lunch_orders as $lunch_order)
+        <td>
+            {{ $this_order[$lunch_order->id] }}
+        </td>
+        @endforeach
         <td>{{ $all_days }}</td>
         <td>{{ $all_money }} 元<small>({{ $all_money2 }})</small></td>
         <td>
