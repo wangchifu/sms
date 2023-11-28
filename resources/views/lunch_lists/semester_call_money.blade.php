@@ -44,11 +44,10 @@ $i=1;
             </td>
             @foreach($lunch_orders as $lunch_order)
             <td>
-                @if(!isset($user_datas_by_order[$k1][$lunch_order->id]))
-                    0
-                @else
-                    {{ $user_datas_by_order[$k1][$lunch_order->id] }}
-                @endif
+                <?php
+                if(!isset($user_datas_by_order[$k1][$lunch_order->id])) $user_datas_by_order[$k1][$lunch_order->id] = 0;
+                ?>
+                {{ $user_datas_by_order[$k1][$lunch_order->id] }}
                 <?php
                     if(!isset($this_order[$lunch_order->id])) $this_order[$lunch_order->id] = 0;
                     $this_order[$lunch_order->id] += $user_datas_by_order[$k1][$lunch_order->id];
