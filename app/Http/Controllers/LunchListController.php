@@ -724,8 +724,7 @@ class LunchListController extends Controller
                 $student_classes = StudentClass::where('semester', $lunch_order->semester)
                     ->orderBy('student_year')
                     ->orderBy('student_class')
-                    ->get();
-
+                    ->get();                
                 $data = [
                     'factory' => $factory,
                     'lunch_order_id' => $lunch_order_id,
