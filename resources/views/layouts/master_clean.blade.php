@@ -11,8 +11,9 @@
 </head>
 
 <body>
+<div style="padding:20px;">
 @yield('content')
-
+</div>
 @include('layouts.js')
 @yield('page_js')
 </body>

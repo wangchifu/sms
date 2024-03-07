@@ -623,7 +623,7 @@ class LunchListController extends Controller
 
     public function factory(Request $request, $lunch_order_id = null)
     {
-        $data = [];
+        $data = []; 
 
         if ($request->input('username')) {
             $factory = LunchFactory::where('fid', $request->input('username'))
@@ -686,7 +686,18 @@ class LunchListController extends Controller
                     } else {
                         $place_data[$tea_date->user->name] = $tea_date->lunch_place->name;
                     }
+
+                    if (!isset($place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][1])) $place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][1] = 0;
+                    if (!isset($place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][4])) $place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][4] = 0;
+                    if (!isset($place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][41])) $place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][41] = 0;
+                    if($tea_date->eat_style==1) $place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][1]++;
+                    if($tea_date->eat_style==4){
+                        if($tea_date->eat_style_egg==null) $place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][4]++;
+                        if($tea_date->eat_style_egg==1) $place_data2[$place_data[$tea_date->user->name]][$tea_date->order_date][41]++;
+                    }
+
                     $eat_data[$tea_date->user->name] = $tea_date->eat_style;
+                    $eat_data_egg[$tea_date->user->name] = $tea_date->eat_style_egg;
                     if ($tea_date->enable == "eat") {
                         if (!isset($days_data[$tea_date->user->name])) $days_data[$tea_date->user->name] = 0;
                         $days_data[$tea_date->user->name]++;
@@ -721,7 +732,9 @@ class LunchListController extends Controller
                     'date_array' => $date_array,
                     'user_data' => $user_data,
                     'place_data' => $place_data,
+                    'place_data2' => $place_data2,
                     'eat_data' => $eat_data,
+                    'eat_data_egg' => $eat_data_egg,
                     'days_data' => $days_data,
                     'money_data' => $money_data,
                     'teacher_money' => $teacher_money,
