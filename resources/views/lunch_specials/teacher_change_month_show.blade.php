@@ -37,6 +37,7 @@ $active['setup'] ="";
 
             $factory = $lunch_tea_dates[0]->lunch_factory;
             $eat_style = $lunch_tea_dates[0]->eat_style;
+            $eat_style_egg = $lunch_tea_dates[0]->eat_style_egg;
             $lunch_place_id = $lunch_tea_dates[0]->lunch_place_id;
             ?>
             <div class="card">
@@ -114,6 +115,14 @@ $active['setup'] ="";
                     </div>
                     <div class="card-body">
                         {{ Form::select('eat_style', $eat_styles,$eat_style, ['id'=>'eat_style','class' => 'form-control','placeholder'=>'--請選擇--','required'=>'required']) }}
+                        <hr>
+                        <?php
+                            $egg_check=($eat_style_egg==1)?"checked":null; 
+                        ?>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="eat_style_egg" {{ $egg_check }} value="1">
+                            <label class="form-check-label" for="exampleCheck1">🥚 <span class="text-primary">蛋奶素請打勾</span>(奶素及葷食者不用)</label>
+                        </div>
                     </div>
                 </div>
                 <hr>

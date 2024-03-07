@@ -38,6 +38,7 @@ class LunchListController extends Controller
         $factory_data = [];
         $place_data = [];
         $eat_data = [];
+        $eat_data_egg = [];
         $days_data = [];
         $money_data = [];
         if ($lunch_order_id) {
@@ -61,6 +62,7 @@ class LunchListController extends Controller
                     $place_data[$tea_date->user->name] = $tea_date->lunch_place->name;
                 }
                 $eat_data[$tea_date->user->name] = $tea_date->eat_style;
+                $eat_data_egg[$tea_date->user->name] = $tea_date->eat_style_egg;
                 if ($tea_date->enable == "eat") {
                     if (!isset($days_data[$tea_date->user->name])) $days_data[$tea_date->user->name] = 0;
                     $days_data[$tea_date->user->name]++;
@@ -79,6 +81,7 @@ class LunchListController extends Controller
             'factory_data' => $factory_data,
             'place_data' => $place_data,
             'eat_data' => $eat_data,
+            'eat_data_egg' => $eat_data_egg,
             'days_data' => $days_data,
             'money_data' => $money_data,
         ];

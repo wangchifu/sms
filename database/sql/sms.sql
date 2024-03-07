@@ -59,6 +59,7 @@ CREATE TABLE `lunch_class_dates` (
   `eat_style2` int UNSIGNED DEFAULT NULL,
   `eat_style3` int UNSIGNED DEFAULT NULL,
   `eat_style4` int UNSIGNED DEFAULT NULL,
+  `eat_style4_egg` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -167,6 +168,7 @@ CREATE TABLE `lunch_stu_dates` (
   `lunch_order_id` int UNSIGNED NOT NULL,
   `lunch_factory_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `eat_style` int UNSIGNED NOT NULL,
+  `eat_style_egg` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -187,6 +189,7 @@ CREATE TABLE `lunch_tea_dates` (
   `lunch_place_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lunch_factory_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `eat_style` int UNSIGNED NOT NULL,
+  `eat_style_egg` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

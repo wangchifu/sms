@@ -24,6 +24,7 @@ class CreateLunchClassDates extends Migration
             $table->unsignedInteger('eat_style2')->nullable();
             $table->unsignedInteger('eat_style3')->nullable();
             $table->unsignedInteger('eat_style4')->nullable();
+            $table->unsignedInteger('eat_style4_egg')->nullable();
             $table->timestamps();
         });
     }

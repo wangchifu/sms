@@ -162,6 +162,11 @@ class LunchSpecialController extends Controller
             $lunch_place_id = "c" . $request->input('class_no');
         }
         $eat_style = $request->input('eat_style');
+        if($eat_style == "3" or $eat_style == "4"){
+            $eat_style_egg = ($request->input('eat_style_egg')=="on")?1:null;
+        }else{
+            $eat_style_egg = null;
+        }
         $lunch_order_id = $request->input('lunch_order_id');
         $user_id = $request->input('user_id');
         $lunch_order = LunchOrder::find($lunch_order_id);
@@ -184,6 +189,7 @@ class LunchSpecialController extends Controller
                 'lunch_place_id' => $lunch_place_id,
                 'lunch_factory_id' => $lunch_factory_id,
                 'eat_style' => $eat_style,
+                'eat_style_egg'=>$eat_style_egg,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -294,7 +300,7 @@ class LunchSpecialController extends Controller
             $lunch_place_id = "c" . $request->input('class_no');
         }
         $eat_style = $request->input('eat_style');
-
+        $eat_style_egg = ($request->input('eat_style_egg')=="1")?1:null;
 
         $lunch_order_id = $request->input('lunch_order_id');
         $user_id = $request->input('user_id');
@@ -314,6 +320,7 @@ class LunchSpecialController extends Controller
             $att['lunch_place_id'] = $lunch_place_id;
             $att['lunch_factory_id'] = $lunch_factory_id;
             $att['eat_style'] = $eat_style;
+            $att['eat_style_egg'] = $eat_style_egg;
             $tea_date->update($att);
         }
 

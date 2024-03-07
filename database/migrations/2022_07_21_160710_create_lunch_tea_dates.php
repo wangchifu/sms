@@ -23,6 +23,7 @@ class CreateLunchTeaDates extends Migration
             $table->string('lunch_place_id');
             $table->string('lunch_factory_id');
             $table->unsignedInteger('eat_style');//1葷食 2素食
+            $table->unsignedInteger('eat_style_egg')->nullable();//1蛋奶素
             $table->timestamps();
         });
     }
