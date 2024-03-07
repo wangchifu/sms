@@ -717,6 +717,7 @@ class LunchListController extends Controller
                 $lunch_class_data = [];
                 foreach ($lunch_class_dates as $lunch_class_date) {
                     $lunch_class_data[$lunch_class_date->student_class_id][$lunch_class_date->order_date][1] = $lunch_class_date->eat_style1;
+                    $lunch_class_data[$lunch_class_date->student_class_id][$lunch_class_date->order_date][41] = $lunch_class_date->eat_style4_egg;
                     $lunch_class_data[$lunch_class_date->student_class_id][$lunch_class_date->order_date][4] = $lunch_class_date->eat_style4;
                 }
 
