@@ -41,7 +41,7 @@
                         <h4 class="text-danger">儲存失敗！！</h4>
                     @endif
                     @include('layouts.errors')
-                    <label class="form-label text-danger">我是 {{ auth()->user()->name }}，請選擇類別</label>
+                    <label class="form-label text-danger">@auth 我是 {{ auth()->user()->name }} @endauth 請選擇類別</label>
                         <select class="form-select" aria-label="Default select example" id="change_lend_class">
                             @foreach($lend_classes as $lend_class)
                                 <?php
