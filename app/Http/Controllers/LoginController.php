@@ -206,8 +206,8 @@ class LoginController extends Controller
         }
 
         if (empty($request->session()->get('url.intended'))) {
-            $string = $_SERVER['REQUEST_URI'];
-            if(stripos($string,"lends/clean")){
+            
+            if($request->input('to_go')=="clean"){
                 return redirect()->route('lends.clean');
             }
             return redirect()->route('index');

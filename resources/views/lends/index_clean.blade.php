@@ -30,6 +30,7 @@
                
                 <input type="hidden" name="chaptcha" value="{{ session('chaptcha') }}">
                 <input type="hidden" name="login_type" value="gsuite">
+                <input type="hidden" name="to_go" value="clean">
                 <td>
                     <button class="btn btn-success btn-sm">登入填單借用</button>
                 </td>
