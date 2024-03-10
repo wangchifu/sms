@@ -25,7 +25,7 @@
                     <input type="text" class="form-control" name="username" required placeholder="gsuite帳號" tabindex="1">
                 </td>
                 <td>
-                    <input type="password" class="form-control" name="username" required placeholder="密碼" tabindex="2">
+                    <input type="password" class="form-control" name="password" required placeholder="密碼" tabindex="2">
                 </td>
                
                 <input type="hidden" name="chaptcha" value="{{ session('chaptcha') }}">
