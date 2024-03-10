@@ -14,6 +14,7 @@ use App\Http\Controllers\LunchSpecialController;
 use App\Http\Controllers\LunchStuController;
 use App\Http\Controllers\ClubsController;
 use App\Http\Controllers\SportsController;
+use App\Http\Controllers\LendsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -191,6 +192,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('clubs/store_black', [ClubsController::class,'store_black'])->name('clubs.store_black');
     Route::get('clubs/{club_black}/destroy_black', [ClubsController::class,'destroy_black'])->name('clubs.destroy_black');
+
+
+//借用系統
+    Route::get('lends/index/{lend_class_id?}/{this_date?}', [LendsController::class,'index'])->name('lends.index');
+    Route::get('lends/list', [LendsController::class,'list'])->name('lends.list');
+    Route::get('lends/my_list', [LendsController::class,'my_list'])->name('lends.my_list');
+    Route::get('lends/admin/{lend_class_id?}', [LendsController::class,'admin'])->name('lends.admin');
+    Route::post('lends/store_class', [LendsController::class,'store_class'])->name('lends.store_class');
+    Route::post('lends/store_item', [LendsController::class,'store_item'])->name('lends.store_item');
+    Route::get('lends/delete_item/{lend_item}', [LendsController::class,'delete_item'])->name('lends.delete_item');
+    Route::get('lends/admin_edit/{lend_item}', [LendsController::class,'admin_edit'])->name('lends.admin_edit');
+    Route::post('lends/update_item/{lend_item}', [LendsController::class,'update_item'])->name('lends.update_item');
+    Route::get('lends/check_item_num/{lend_item}', [LendsController::class,'check_item_num'])->name('lends.check_item_num');
+    Route::post('lends/order', [LendsController::class,'order'])->name('lends.order');
 
     //運動會報名
     Route::get('sports/index', [SportsController::class,'index'])->name('sports.index');

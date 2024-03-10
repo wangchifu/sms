@@ -211,7 +211,7 @@
                                 5
                             </td>
                             <td>
-                                運動會報名系統管理 (sport_admin)
+                                運動會報名系統管理 (sport_admin)(working)
                             </td>
                             <td>
                                 <form action="{{ route('module.store') }}" method="post">
@@ -230,6 +230,35 @@
                             <td>
                                 @if(isset($power_data['sport_admin']))
                                     @foreach($power_data['sport_admin'] as $k=>$v)
+                                        {{ $user_id2name[$k] }} <a href="#" onclick="sw_confirm('確定刪除？','{{ route('module.delete',$v) }}')"><i class="fas fa-times-circle text-danger"></i></a> ,
+                                    @endforeach
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6
+                            </td>
+                            <td>
+                                借用管理 (lend_admin)
+                            </td>
+                            <td>
+                                <form action="{{ route('module.store') }}" method="post">
+                                    @csrf
+                                    <select name="user_id" class="form-control">
+                                        @foreach($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="power_type" value="1">
+                                    <input type="hidden" name="school_code" value="{{ auth()->user()->current_school_code }}">
+                                    <input type="hidden" name="module" value="lend_admin">
+                                    <button class="btn btn-sm btn-success">新增</button>
+                                </form>
+                            </td>
+                            <td>
+                                @if(isset($power_data['lend_admin']))
+                                    @foreach($power_data['lend_admin'] as $k=>$v)
                                         {{ $user_id2name[$k] }} <a href="#" onclick="sw_confirm('確定刪除？','{{ route('module.delete',$v) }}')"><i class="fas fa-times-circle text-danger"></i></a> ,
                                     @endforeach
                                 @endif
