@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('uid')->nullable(); //gsuite帶出uid
             $table->string('edu_key')->unique(); //gsuite及cloudschool帶出edu_key
+            $table->string('line_key')->nullable();//line notify權杖
             $table->string('name'); //姓名
             $table->string('sex')->nullable(); //性別
             $table->string('email')->nullable(); //email

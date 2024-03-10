@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\LendClass;
 use App\Models\LendItem;
 use App\Models\LendOrder;
@@ -37,6 +38,7 @@ class LendsController extends Controller
         ->get();
         $lend_item_data = [];
         $all_lend_num = [];
+
         foreach($lend_orders as $lend_order){
             $lend_item_data[$lend_order->lend_item_id][$lend_order->user->name]['num'] = $lend_order->num;
             $lend_item_data[$lend_order->lend_item_id][$lend_order->user->name]['lend_date'] = $lend_order->lend_date;
@@ -52,7 +54,8 @@ class LendsController extends Controller
             ->where('enable',1)
             ->get();
         }
-        
+
+                
 
         $data = [
             'admin'=>$admin,
@@ -277,9 +280,19 @@ class LendsController extends Controller
         $lend_orders = LendOrder::where('owner_user_id',auth()->user()->id)
             ->orderBy('id','DESC')
             ->paginate(20);
+        
+        $lend_orders2 = LendOrder::where('owner_user_id',auth()->user()->id)
+            ->where('lend_date',date('Y-m-d'))
+            ->get();
+
+        $lend_orders3 = LendOrder::where('owner_user_id',auth()->user()->id)
+            ->where('back_date',date('Y-m-d'))
+            ->get();
         $data = [
             'admin'=>$admin,
             'lend_orders'=>$lend_orders,
+            'lend_orders2'=>$lend_orders2,
+            'lend_orders3'=>$lend_orders3,
             'sections_array'=>config('sms.lend_sections'),
         ];
         return view('lends.list',$data);
@@ -297,6 +310,13 @@ class LendsController extends Controller
             'sections_array'=>config('sms.lend_sections'),
         ];
         return view('lends.my_list',$data);
+    }
+
+    function store_line_notify(Request $request){
+        $att['line_key'] =  $request->input('line_key');
+        $user = User::find(auth()->user()->id);
+        $user->update($att);
+        return redirect()->route('lends.list');
     }
     
 }

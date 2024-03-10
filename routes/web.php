@@ -208,6 +208,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('lends/update_item/{lend_item}', [LendsController::class,'update_item'])->name('lends.update_item');
     Route::get('lends/check_item_num/{lend_item}', [LendsController::class,'check_item_num'])->name('lends.check_item_num');
     Route::post('lends/order', [LendsController::class,'order'])->name('lends.order');
+    Route::post('store_line_notify', [LendsController::class,'store_line_notify'])->name('store_line_notify');
+
 
     //運動會報名
     Route::get('sports/index', [SportsController::class,'index'])->name('sports.index');

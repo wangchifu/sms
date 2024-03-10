@@ -32,7 +32,7 @@ $active['list'] ="";
                 </div>
                 <div class="col-12 col-md-10">
                     <h4>我曾借用的清單</h4>
-                    <table class="table table-border">
+                    <table class="table table-border table-striped">
                         <tr>
                             <th>
                                 填寫時間

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2024 年 03 月 10 日 19:40
+-- 產生時間： 2024 年 03 月 10 日 20:59
 -- 伺服器版本： 8.0.34-0ubuntu0.22.04.1
 -- PHP 版本： 7.4.33
 
@@ -550,6 +550,7 @@ CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
   `uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `edu_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `line_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sex` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,

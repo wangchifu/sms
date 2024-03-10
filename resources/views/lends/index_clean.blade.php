@@ -88,7 +88,7 @@
                                 <?php if(!isset($all_lend_num[$lend_item->id])) $all_lend_num[$lend_item->id]=0; ?>
                                 <tr style="background:#E0E0E0;font-weight:bold;color:black">
                                     <td>{{ $lend_item->name }}</td>
-                                    <td>{{ $lend_item->left_num-$all_lend_num[$lend_item->id] }} / {{ $lend_item->num }}</td>
+                                    <td>{{ $lend_item->num-$all_lend_num[$lend_item->id] }} / {{ $lend_item->num }}</td>
                                     <td colspan="4">
                                     @if($lend_item->ps)
                                     <small class="text-primary">
