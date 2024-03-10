@@ -100,13 +100,15 @@ $active['list'] ="";
                                 </tr>
                                     @if(isset($lend_item_data[$lend_item->id]))
                                         @foreach($lend_item_data[$lend_item->id] as $k=>$v)
-                                        <tr>
-                                            <td class="text-danger">借出 {{ $v['num'] }}</td>
-                                            <td>{{ $k }}</td>
-                                            <td>{{ $v['lend_date'] }}</td>
-                                            <td>{{ $v['back_date'] }}</td>
-                                            <td class="text-danger" colspan="2">{{ $v['ps'] }}</td>
-                                        </tr>
+                                            @foreach($v as $kk=>$vv)
+                                                <tr>
+                                                    <td class="text-danger">借出 {{ $vv['num'] }}</td>
+                                                    <td>{{ $kk }}</td>
+                                                    <td>{{ $vv['lend_date'] }}</td>
+                                                    <td>{{ $vv['back_date'] }}</td>
+                                                    <td class="text-danger" colspan="2">{{ $vv['ps'] }}</td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                     @endif
                                 @endforeach

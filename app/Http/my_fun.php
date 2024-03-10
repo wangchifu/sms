@@ -296,7 +296,7 @@ function GetIP()
 function line_notify($token,$string){
     $headers = array(
         'Content-Type: multipart/form-data',
-        'Authorization:'.$token
+        'Authorization:Bearer '.$token
     );
     $message = array(
         'message' => $string

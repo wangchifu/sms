@@ -36,18 +36,19 @@ class LendsController extends Controller
         $lend_orders = LendOrder::where('lend_date','<=',$this_date)
         ->where('back_date','>=',$this_date)
         ->get();
+        
         $lend_item_data = [];
         $all_lend_num = [];
 
         foreach($lend_orders as $lend_order){
-            $lend_item_data[$lend_order->lend_item_id][$lend_order->user->name]['num'] = $lend_order->num;
-            $lend_item_data[$lend_order->lend_item_id][$lend_order->user->name]['lend_date'] = $lend_order->lend_date;
-            $lend_item_data[$lend_order->lend_item_id][$lend_order->user->name]['back_date'] = $lend_order->back_date;
-            $lend_item_data[$lend_order->lend_item_id][$lend_order->user->name]['ps'] = $lend_order->ps;
+            $lend_item_data[$lend_order->lend_item_id][$lend_order->id][$lend_order->user->name]['num'] = $lend_order->num;
+            $lend_item_data[$lend_order->lend_item_id][$lend_order->id][$lend_order->user->name]['lend_date'] = $lend_order->lend_date;
+            $lend_item_data[$lend_order->lend_item_id][$lend_order->id][$lend_order->user->name]['back_date'] = $lend_order->back_date;
+            $lend_item_data[$lend_order->lend_item_id][$lend_order->id][$lend_order->user->name]['ps'] = $lend_order->ps;
             if(!isset($all_lend_num[$lend_order->lend_item_id])) $all_lend_num[$lend_order->lend_item_id] = 0;
             $all_lend_num[$lend_order->lend_item_id] += $lend_order->num;
         }
-
+        
         $lend_items = [];
         if($lend_class_id != null){
             $lend_items = LendItem::where('lend_class_id',$lend_class_id)
@@ -260,7 +261,15 @@ class LendsController extends Controller
         }
 
 
-        LendOrder::create($att);
+        $lend_order = LendOrder::create($att);
+
+        if(!empty(auth()->user()->line_key)){           
+            $lend_section_array = config('sms.lend_sections');
+            $ps = ($lend_order->ps)?"\n備註：".$lend_order->ps:null;
+            $string =  $lend_order->user->name."在借用系統登記\n\n".$lend_order->lend_item->name." 數量：".$lend_order->num."\n於 ".$lend_order->lend_date." ".$lend_section_array[$lend_order->lend_section]." 來借\n於 ".$lend_order->back_date." ".$lend_section_array[$lend_order->back_section]." 來還\n".$ps;
+            line_notify(auth()->user()->line_key,$string);
+        }
+        
 
         if($att['to_go']=="index"){
             return redirect()->route('lends.index',['lend_class_id'=>$lend_item->lend_class_id,'this_date'=>$att['lend_date']]);
@@ -314,7 +323,7 @@ class LendsController extends Controller
 
     function store_line_notify(Request $request){
         $att['line_key'] =  $request->input('line_key');
-        $user = User::find(auth()->user()->id);
+        $user = User::where('id',auth()->user()->id)->first();
         $user->update($att);
         return redirect()->route('lends.list');
     }
