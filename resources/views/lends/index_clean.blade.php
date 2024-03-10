@@ -42,7 +42,7 @@
                         <h4 class="text-danger">失敗！！</h4>
                     @endif
                     @include('layouts.errors')
-                    <label class="form-label text-danger">@auth 我是 {{ auth()->user()->name }} @endauth 請選擇類別 或 <a href="#" data-bs-toggle="modal" data-bs-target="#logoutForm"><i class="fas fa-sign-out-alt text-danger"></i></a></label>
+                    <label class="form-label text-danger">@auth <span class="text-primary">我是 {{ auth()->user()->name }} <a href="#" data-bs-toggle="modal" data-bs-target="#logoutForm"><i class="fas fa-sign-out-alt"></i>登出</a></span> @endauth 請選擇類別</label>
                         <select class="form-select" aria-label="Default select example" id="change_lend_class">
                             @foreach($lend_classes as $lend_class)
                                 <?php
