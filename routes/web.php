@@ -68,6 +68,7 @@ Route::get('clubs/{club}/sign_up', [ClubsController::class,'sign_up'])->name('cl
 Route::get('clubs/{club_id}/sign_down', [ClubsController::class,'sign_down'])->name('clubs.sign_down');
 Route::get('clubs/{club}/{class_id}/sign_show', [ClubsController::class,'sign_show'])->name('clubs.sign_show');
 
+Route::get('lends/clean/{lend_class_id?}/{this_date?}', [LendsController::class,'index'])->name('lends.clean');
 
 Route::group(['middleware' => 'auth'], function () {
     //登出
@@ -196,6 +197,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //借用系統
     Route::get('lends/index/{lend_class_id?}/{this_date?}', [LendsController::class,'index'])->name('lends.index');
+    
     Route::get('lends/list', [LendsController::class,'list'])->name('lends.list');
     Route::get('lends/my_list', [LendsController::class,'my_list'])->name('lends.my_list');
     Route::get('lends/admin/{lend_class_id?}', [LendsController::class,'admin'])->name('lends.admin');

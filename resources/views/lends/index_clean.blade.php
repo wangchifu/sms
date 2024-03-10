@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.master_clean')
 
 @section('page_title','借用系統')
 
@@ -12,29 +12,36 @@
 @endsection
 
 @section('content')
-<?php
-
-$active['index'] ="active";
-$active['my_list'] ="";
-$active['admin'] ="";
-$active['list'] ="";
-
-?>
 <div class="row justify-content-center">
-    <div class="col-md-11">
-        @include('lends.nav')
+    <div class="col-md-12">
         <br>
-        <h2>教職員借用 <a href="{{ route('lends.clean') }}" target="_blank"><i class="fas fa-share-square"></i></a></h2>
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-1">
-                </div>
-                <div class="col-12 col-md-10">
-                    @if($errors->any())
+        <h2>教職員借用</h2>
+        @guest
+        <form id="login_form" action="{{ route('g_auth') }}" method="post">
+            @csrf
+        <table>
+            <tr>
+                <td>
+                    <input type="text" class="form-control" name="username" required placeholder="gsuite帳號" tabindex="1">
+                </td>
+                <td>
+                    <input type="password" class="form-control" name="username" required placeholder="密碼" tabindex="2">
+                </td>
+               
+                <input type="hidden" class="form-control" name="chaptcha" value="{{ session('chaptcha') }}" required>
+                
+                <td>
+                    <button class="btn btn-success btn-sm">登入填單借用</button>
+                </td>
+            </tr>
+        </table>
+        </form>
+        @endguest
+        @if($errors->any())
                         <h4 class="text-danger">儲存失敗！！</h4>
                     @endif
                     @include('layouts.errors')
-                    <label class="form-label text-danger">請選擇類別</label>
+                    <label class="form-label text-danger">我是 {{ auth()->user()->name }}，請選擇類別</label>
                         <select class="form-select" aria-label="Default select example" id="change_lend_class">
                             @foreach($lend_classes as $lend_class)
                                 <?php
@@ -48,7 +55,7 @@ $active['list'] ="";
                         <table>
                             <tr>
                                 <td>
-                                    <a href={{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->subDay()->toDateString()]) }}>
+                                    <a href={{ route('lends.clean',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->subDay()->toDateString()]) }}>
                                     <i class="fas fa-angle-left"></i>往前
                                     </a>
                                 </td>
@@ -56,7 +63,7 @@ $active['list'] ="";
                                     <input type="date" value="{{ $this_date }}" class="form-control" id="change_date">
                                 </td>
                                 <td>
-                                    <a href={{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}>
+                                    <a href={{ route('lends.clean',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}>
                                     往後<i class="fas fa-angle-right"></i>
                                     </a>
                                 </td>
@@ -114,6 +121,7 @@ $active['list'] ="";
                         </table>
                     </div>
                         <hr>
+                        @auth
                         <div class="table-responsive">
                             <div class="card">
                                 <div class="card-header h4" style="background: #E0E0E0">
@@ -189,19 +197,15 @@ $active['list'] ="";
                                                 @endforeach
                                                 </select>
                                             </td>
-                                        </table>   
-                                        <input type="hidden" name="to_go" value="index">                            
+                                        </table>  
+                                        <input type="hidden" name="to_go" value="clean">                             
                                         <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定預訂嗎？','order_form')">我要借用</button>
                                     </form>
                                     @include('layouts.errors')
                                 </div>
                               </div>
                         </div>
-                </div>
-                <div class="col-12 col-md-1">
-                </div>
-            </div>
-        </div>
+                        @endauth
     </div>
 
 </div>
@@ -209,11 +213,11 @@ $active['list'] ="";
 <br>
 <script>
     $('#change_lend_class').on( "change", function() {
-        location="{{ env('APP_URL') }}/lends/index/" + $('#change_lend_class').val();
+        location="{{ env('APP_URL') }}/lends/clean/" + $('#change_lend_class').val();
         });
 
     $('#change_date').on( "change", function() {
-        location="{{ env('APP_URL') }}/lends/index/{{ $lend_class_id }}/" + $('#change_date').val();
+        location="{{ env('APP_URL') }}/lends/clean/{{ $lend_class_id }}/" + $('#change_date').val();
         });
 
     $('#change_lend_item').on( "change", function() {

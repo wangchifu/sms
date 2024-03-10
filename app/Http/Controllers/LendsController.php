@@ -64,7 +64,15 @@ class LendsController extends Controller
             'lend_item_data'=>$lend_item_data,
             'all_lend_num'=>$all_lend_num,
         ];
-        return view('lends.index', $data);
+        $string = $_SERVER['REQUEST_URI'];
+        if(stripos($string,"lends/index")){
+            return view('lends.index', $data);
+        }
+        if(stripos($string,"lends/clean")){
+            return view('lends.index_clean', $data);
+        }
+        
+        
     }
 
     public function admin($lend_class_id=null)
@@ -251,7 +259,15 @@ class LendsController extends Controller
 
         LendOrder::create($att);
 
-        return redirect()->route('lends.index',['lend_class_id'=>$lend_item->lend_class_id,'this_date'=>$att['lend_date']]);
+        if($att['to_go']=="index"){
+            return redirect()->route('lends.index',['lend_class_id'=>$lend_item->lend_class_id,'this_date'=>$att['lend_date']]);
+            
+        }
+        if($att['to_go']=="clean"){
+            return redirect()->route('lends.clean',['lend_class_id'=>$lend_item->lend_class_id,'this_date'=>$att['lend_date']]);
+            
+        }
+        
     }
 
     function list(){

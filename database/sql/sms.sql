@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2024 年 03 月 09 日 09:09
+-- 產生時間： 2024 年 03 月 10 日 19:40
 -- 伺服器版本： 8.0.34-0ubuntu0.22.04.1
 -- PHP 版本： 7.4.33
 
@@ -167,6 +167,27 @@ CREATE TABLE `lend_items` (
   `enable` tinyint DEFAULT NULL,
   `ps` text COLLATE utf8mb4_unicode_ci,
   `lend_sections` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `lend_orders`
+--
+
+CREATE TABLE `lend_orders` (
+  `id` bigint UNSIGNED NOT NULL,
+  `lend_item_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `num` int UNSIGNED NOT NULL,
+  `lend_date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lend_section` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `back_date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `back_section` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner_user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ps` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -340,31 +361,32 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(3, '2021_10_21_234821_create_school_apis_table', 1),
-(4, '2021_10_21_235021_create_job_titles_table', 1),
-(5, '2021_10_22_200032_create_school_powers_table', 1),
-(6, '2021_11_29_011944_create_students_table', 1),
-(7, '2021_11_29_112003_create_student_classes_table', 1),
-(8, '2022_02_17_095705_create_sessions_table', 1),
-(9, '2022_07_21_135149_create_lunch_setups_table', 1),
-(10, '2022_07_21_135209_create_lunch_orders_table', 1),
-(11, '2022_07_21_141135_create_lunch_factories_table', 1),
-(12, '2022_07_21_141149_create_lunch_places_table', 1),
-(13, '2022_07_21_152624_create_lunch_order_dates_table', 1),
-(14, '2022_07_21_160710_create_lunch_tea_dates', 1),
-(15, '2022_07_21_230003_create_lunch_stu_dates', 1),
-(16, '2022_07_21_230004_create_lunch_class_dates', 1),
-(17, '2023_08_10_112116_create_clubs_table', 1),
-(18, '2023_08_10_114738_create_club_semesters_table', 1),
-(19, '2023_08_10_115836_create_club_registers_table', 1),
-(20, '2023_08_10_125836_create_club_blacks_table', 1),
-(21, '2023_08_10_155836_create_club_not_registers_table', 1),
-(22, '2023_08_26_015338_create_sport_actions_table', 1),
-(23, '2023_09_04_015338_create_sport_items_table', 1),
-(24, '2024_03_09_011111_create_lend_classes_table', 1),
-(25, '2024_03_09_022222_create_lend_items_table', 1);
+(53, '2014_10_12_000000_create_users_table', 1),
+(54, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(55, '2021_10_21_234821_create_school_apis_table', 1),
+(56, '2021_10_21_235021_create_job_titles_table', 1),
+(57, '2021_10_22_200032_create_school_powers_table', 1),
+(58, '2021_11_29_011944_create_students_table', 1),
+(59, '2021_11_29_112003_create_student_classes_table', 1),
+(60, '2022_02_17_095705_create_sessions_table', 1),
+(61, '2022_07_21_135149_create_lunch_setups_table', 1),
+(62, '2022_07_21_135209_create_lunch_orders_table', 1),
+(63, '2022_07_21_141135_create_lunch_factories_table', 1),
+(64, '2022_07_21_141149_create_lunch_places_table', 1),
+(65, '2022_07_21_152624_create_lunch_order_dates_table', 1),
+(66, '2022_07_21_160710_create_lunch_tea_dates', 1),
+(67, '2022_07_21_230003_create_lunch_stu_dates', 1),
+(68, '2022_07_21_230004_create_lunch_class_dates', 1),
+(69, '2023_08_10_112116_create_clubs_table', 1),
+(70, '2023_08_10_114738_create_club_semesters_table', 1),
+(71, '2023_08_10_115836_create_club_registers_table', 1),
+(72, '2023_08_10_125836_create_club_blacks_table', 1),
+(73, '2023_08_10_155836_create_club_not_registers_table', 1),
+(74, '2023_08_26_015338_create_sport_actions_table', 1),
+(75, '2023_09_04_015338_create_sport_items_table', 1),
+(76, '2024_03_09_011111_create_lend_classes_table', 1),
+(77, '2024_03_09_022222_create_lend_items_table', 1),
+(78, '2024_03_10_011111_create_lend_orders_table', 1);
 
 -- --------------------------------------------------------
 
@@ -597,6 +619,12 @@ ALTER TABLE `lend_items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- 資料表索引 `lend_orders`
+--
+ALTER TABLE `lend_orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 資料表索引 `lunch_class_dates`
 --
 ALTER TABLE `lunch_class_dates`
@@ -765,6 +793,12 @@ ALTER TABLE `lend_items`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用資料表自動遞增(AUTO_INCREMENT) `lend_orders`
+--
+ALTER TABLE `lend_orders`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用資料表自動遞增(AUTO_INCREMENT) `lunch_class_dates`
 --
 ALTER TABLE `lunch_class_dates`
@@ -816,7 +850,7 @@ ALTER TABLE `lunch_tea_dates`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `personal_access_tokens`
