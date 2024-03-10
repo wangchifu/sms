@@ -132,10 +132,11 @@ $active['list'] ="";
                                             <tr>
                                                 <td>
                                                     <select id="change_lend_item" class="form-select" name="lend_item_id" required>
-                                                        <?php $i=1; ?>
+                                                        <?php $i=1;$first_owner="";$first_item_num="";$first_item_sections=[]; ?>
                                                         @foreach($lend_items as $lend_item)
                                                             <option value="{{ $lend_item->id }}">{{ $lend_item->name }}</option>
                                                             <?php 
+
                                                                 if($i==1){
                                                                     $first_item_num = $lend_item->num;
                                                                     $first_item_sections = unserialize($lend_item->lend_sections);
