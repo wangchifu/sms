@@ -28,8 +28,8 @@
                     <input type="password" class="form-control" name="username" required placeholder="密碼" tabindex="2">
                 </td>
                
-                <input type="hidden" class="form-control" name="chaptcha" value="{{ session('chaptcha') }}" required>
-                
+                <input type="hidden" name="chaptcha" value="{{ session('chaptcha') }}">
+                <input type="hidden" name="login_type" value="gsuite">
                 <td>
                     <button class="btn btn-success btn-sm">登入填單借用</button>
                 </td>
