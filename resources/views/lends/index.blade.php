@@ -210,16 +210,16 @@ $active['list'] ="";
 <br>
 <script>
     $('#change_lend_class').on( "change", function() {
-        location="{{ $_SERVER['HTTP_HOST'] }}/lends/index/" + $('#change_lend_class').val();
+        location="https://{{ $_SERVER['HTTP_HOST'] }}/lends/index/" + $('#change_lend_class').val();
         });
 
     $('#change_date').on( "change", function() {
-        location="{{ $_SERVER['HTTP_HOST'] }}/lends/index/{{ $lend_class_id }}/" + $('#change_date').val();
+        location="https://{{ $_SERVER['HTTP_HOST'] }}/lends/index/{{ $lend_class_id }}/" + $('#change_date').val();
         });
 
     $('#change_lend_item').on( "change", function() {
         $.ajax({
-            url: '{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_item_num/'+$('#change_lend_item').val(),
+            url: 'https://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_item_num/'+$('#change_lend_item').val(),
             type : 'get',
             dataType : 'json',
             data : $('#sunday_form').serialize(),

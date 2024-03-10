@@ -39,10 +39,10 @@
         </form>
         @endguest
         @if($errors->any())
-                        <h4 class="text-danger">儲存失敗！！</h4>
+                        <h4 class="text-danger">失敗！！</h4>
                     @endif
                     @include('layouts.errors')
-                    <label class="form-label text-danger">@auth 我是 {{ auth()->user()->name }} @endauth 請選擇類別</label>
+                    <label class="form-label text-danger">@auth 我是 {{ auth()->user()->name }} @endauth 請選擇類別 或 <a href="#" data-bs-toggle="modal" data-bs-target="#logoutForm"><i class="fas fa-sign-out-alt text-danger"></i></a></label>
                         <select class="form-select" aria-label="Default select example" id="change_lend_class">
                             @foreach($lend_classes as $lend_class)
                                 <?php
@@ -212,18 +212,55 @@
 </div>
 <br>
 <br>
+@auth
+    <!--logout form Modal -->
+    <div class="modal fade text-left" id="logoutForm" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel33" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+             role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel33">登出 </h4>
+                    <button type="button" class="close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="logout_form" action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="to_go" value="clean">
+                    <div class="modal-body">
+                        確定要登出？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary"
+                                data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">按錯了</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1"
+                                data-bs-dismiss="modal" onclick="$('#logout_form').submit()">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">登出</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endauth
 <script>
     $('#change_lend_class').on( "change", function() {
-        location="{{ $_SERVER['HTTP_HOST'] }}/lends/clean/" + $('#change_lend_class').val();
+        location="https://{{ $_SERVER['HTTP_HOST'] }}/lends/clean/" + $('#change_lend_class').val();
         });
 
     $('#change_date').on( "change", function() {
-        location="{{ $_SERVER['HTTP_HOST'] }}/lends/clean/{{ $lend_class_id }}/" + $('#change_date').val();
+        location="https://{{ $_SERVER['HTTP_HOST'] }}/lends/clean/{{ $lend_class_id }}/" + $('#change_date').val();
         });
 
     $('#change_lend_item').on( "change", function() {
         $.ajax({
-            url: '{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_item_num/'+$('#change_lend_item').val(),
+            url: 'https://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_item_num/'+$('#change_lend_item').val(),
             type : 'get',
             dataType : 'json',
             data : $('#sunday_form').serialize(),

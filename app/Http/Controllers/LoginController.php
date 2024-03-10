@@ -237,6 +237,9 @@ class LoginController extends Controller
     {
         Auth::logout();
         Session::flush();
+        if($request->input('to_go')=="clean"){
+            return redirect()->route('lends.clean');
+        }
         if (empty($request->input('action'))) {
             return redirect()->route('index');
         } else {
