@@ -113,6 +113,7 @@ class LendsController extends Controller
             'lend_class_id'=>$lend_class_id,
             'lend_class_array'=>$lend_class_array,
             'lend_items'=>$lend_items,
+            'lend_classes'=>$lend_classes,
         ];
         return view('lends.admin', $data);
     }
@@ -128,6 +129,25 @@ class LendsController extends Controller
         $att = $request->all();
         $att['user_id'] = auth()->user()->id;
         LendClass::create($att);
+        return back();
+    }
+
+    public function update_class(Request $request,LendClass $lend_class){
+        if($lend_class->user_id != auth()->user()->id) return back();
+        $att['name'] = $request->input('name');
+        $lend_class->update($att);
+        return back();
+    }
+
+    public function delete_class(LendClass $lend_class){
+        if($lend_class->user_id != auth()->user()->id) return back();
+        $lend_items = LendItem::where('lend_class_id',$lend_class->id)->get();
+        foreach($lend_items as $lend_item){
+            LendOrder::where('lend_item_id',$lend_item->id)->delete();
+            $lend_item->delete();
+        }
+        
+        $lend_class->delete();
         return back();
     }
 

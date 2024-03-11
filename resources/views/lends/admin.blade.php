@@ -38,6 +38,22 @@ $active['list'] ="";
                         <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定儲存嗎？','store_class_form')">新增</button>
                     </form>
                     @include('layouts.errors')
+                    <hr>                    
+                    <table class="table table-bordered table-striped">                        
+                        <tr>
+                            <th>名稱</th>
+                            <th>動作</th>
+                        </tr>
+                    @foreach($lend_classes as $lend_class)                        
+                    <form action="{{ route('lends.update_class',$lend_class) }}" id="update_class_form{{ $lend_class->id }}" method="post" onsubmit="return false">
+                        @csrf
+                        <tr>
+                            <td><input type="text" class ="form-control" name="name" value="{{ $lend_class->name }}"></td>
+                            <td><button class="btn btn-primary btn-sm" onclick="sw_confirm2('確定更新嗎？','update_class_form{{ $lend_class->id }}')">更新</button> <a href="#" class="btn btn-danger btn-sm" onclick="return sw_confirm('確定刪除嗎？相關借用記錄也會一起刪除喔！','{{ route('lends.delete_class',$lend_class->id) }}')">刪除</a></td>
+                        </tr>
+                    </form>
+                    @endforeach
+                    </table>
                 </div>
                 <div class="col-12 col-md-4">
                     <h4>新增借用品的項目</h4>
@@ -145,7 +161,7 @@ $active['list'] ="";
 <br>
 <script>
     $('#change_lend_class').on( "change", function() {
-        location="{{ env('APP_URL') }}/lends/admin/" + $('#change_lend_class').val();
+        location="{{ $_SERVER['HTTP_HOST'] }}/lends/admin/" + $('#change_lend_class').val();
         });
 </script>
 @endsection

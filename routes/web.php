@@ -202,6 +202,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lends/my_list', [LendsController::class,'my_list'])->name('lends.my_list');
     Route::get('lends/admin/{lend_class_id?}', [LendsController::class,'admin'])->name('lends.admin');
     Route::post('lends/store_class', [LendsController::class,'store_class'])->name('lends.store_class');
+    Route::post('lends/update_class/{lend_class}', [LendsController::class,'update_class'])->name('lends.update_class');
+    Route::get('lends/delete_class/{lend_class}', [LendsController::class,'delete_class'])->name('lends.delete_class');
     Route::post('lends/store_item', [LendsController::class,'store_item'])->name('lends.store_item');
     Route::get('lends/delete_item/{lend_item}', [LendsController::class,'delete_item'])->name('lends.delete_item');
     Route::get('lends/admin_edit/{lend_item}', [LendsController::class,'admin_edit'])->name('lends.admin_edit');

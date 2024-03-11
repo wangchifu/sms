@@ -31,7 +31,7 @@ $active['list'] ="";
                 </div>
                 <div class="col-12 col-md-10">
                     @if($errors->any())
-                        <h4 class="text-danger">儲存失敗！！</h4>
+                        <h4 class="text-danger">失敗！！</h4>
                     @endif
                     @include('layouts.errors')
                     <label class="form-label text-danger">請選擇類別</label>
@@ -48,7 +48,7 @@ $active['list'] ="";
                         <table>
                             <tr>
                                 <td>
-                                    <a href={{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->subDay()->toDateString()]) }}>
+                                    <a href="{{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->subDay()->toDateString()]) }}">
                                     <i class="fas fa-angle-left"></i>往前
                                     </a>
                                 </td>
@@ -56,7 +56,7 @@ $active['list'] ="";
                                     <input type="date" value="{{ $this_date }}" class="form-control" id="change_date">
                                 </td>
                                 <td>
-                                    <a href={{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}>
+                                    <a href="{{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}">
                                     往後<i class="fas fa-angle-right"></i>
                                     </a>
                                 </td>

@@ -59,7 +59,23 @@ $active['list'] ="active";
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <br>
-                            <h5><span class="badge bg-primary"><i class="fas fa-angle-left"></i>往前</span> <span id="this_day2">{{ date('Y-m-d') }}</span> <span class="badge bg-primary">往後<i class="fas fa-angle-right"></i></span></h5>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <a href="">
+                                        <i class="fas fa-angle-left"></i>往前
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="change_date">
+                                    </td>
+                                    <td>
+                                        <a href="">
+                                        往後<i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
                             <table class="table table-border table-striped">
                                 <tr>
                                     <th>

@@ -56,7 +56,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <a href={{ route('lends.clean',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->subDay()->toDateString()]) }}>
+                                    <a href="{{ route('lends.clean',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->subDay()->toDateString()]) }}">
                                     <i class="fas fa-angle-left"></i>往前
                                     </a>
                                 </td>
@@ -64,7 +64,7 @@
                                     <input type="date" value="{{ $this_date }}" class="form-control" id="change_date">
                                 </td>
                                 <td>
-                                    <a href={{ route('lends.clean',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}>
+                                    <a href="{{ route('lends.clean',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}">
                                     往後<i class="fas fa-angle-right"></i>
                                     </a>
                                 </td>
