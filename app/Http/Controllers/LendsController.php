@@ -244,6 +244,18 @@ class LendsController extends Controller
 
     }
 
+    public function check_order_out()
+    {
+        $result['owner_user_id'] = $lend_item->user_id;
+        $result['num'] = $lend_item->num;
+        $result['lend_sections'] = unserialize($lend_item->lend_sections);
+        $result['section_array'] = config('sms.lend_sections');
+
+        echo json_encode($result);
+        return;
+
+    }
+
     public function order(Request $request){
         $att = $request->all();
         $att['user_id'] = auth()->user()->id;
@@ -302,6 +314,20 @@ class LendsController extends Controller
         
     }
 
+    function delete_my_order(LendOrder $lend_order){
+        if($lend_order->user_id != auth()->user()->id) return back();
+        $lend_order->delete();
+        return back();
+    }
+
+    function delete_order(LendOrder $lend_order){    
+        $admin = check_admin('lend_admin');
+        if(!$admin) return back();
+
+        $lend_order->delete();
+        return back();
+    }
+
     function list(){
         $admin = check_admin('lend_admin');
         if(!$admin) return back();
@@ -316,7 +342,7 @@ class LendsController extends Controller
 
         $lend_orders3 = LendOrder::where('owner_user_id',auth()->user()->id)
             ->where('back_date',date('Y-m-d'))
-            ->get();
+            ->get();        
         $data = [
             'admin'=>$admin,
             'lend_orders'=>$lend_orders,

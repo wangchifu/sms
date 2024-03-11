@@ -56,6 +56,9 @@ $active['list'] ="";
                         @foreach($lend_orders as $lend_order)
                         <tr>
                             <td>
+                                @if($lend_order->lend_date > date('Y-m-d'))
+                                <a href="#" onclick="sw_confirm('確定刪除？','{{ route('lends.delete_my_order',$lend_order->id) }}')"><i class="fas fa-times-circle text-danger"></i></a> 
+                                @endif
                                 {{ $lend_order->created_at }}
                             </td>
                             <td>

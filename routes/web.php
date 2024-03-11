@@ -209,7 +209,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lends/admin_edit/{lend_item}', [LendsController::class,'admin_edit'])->name('lends.admin_edit');
     Route::post('lends/update_item/{lend_item}', [LendsController::class,'update_item'])->name('lends.update_item');
     Route::get('lends/check_item_num/{lend_item}', [LendsController::class,'check_item_num'])->name('lends.check_item_num');
+    Route::get('lends/check_order_out', [LendsController::class,'check_order_out'])->name('lends.check_order_out');
     Route::post('lends/order', [LendsController::class,'order'])->name('lends.order');
+    Route::get('lends/delete_my_order/{lend_order}', [LendsController::class,'delete_my_order'])->name('lends.delete_my_order');
+    Route::get('lends/delete_order/{lend_order}', [LendsController::class,'delete_order'])->name('lends.delete_order');
     Route::post('store_line_notify', [LendsController::class,'store_line_notify'])->name('store_line_notify');
 
 
