@@ -4,223 +4,217 @@
 
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-md-11">
+    <div class="col-md-12">
         <h2>借用清單</h2>        
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-12">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">今日要借出</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">今日要歸還</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">全部借單</button>
-                        </li>
-                      </ul>
-                      <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <br>
-                            
-                            <table>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">今日要借出</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">今日要歸還</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">全部借單</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <br>
+                
+                <table>
+                    <tr>
+                        <td>
+                            <a href="#" onclick="change_date(-1,'last_lend','lend_date')">
+                            <i class="fas fa-angle-left"></i>往前
+                            </a>
+                        </td>
+                        <td>
+                            <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date1" readonly style="font-size:20px;font-weight:bold;color:black">
+                        </td>
+                        <td>
+                            <a href="#" onclick="change_date(1,'last_lend','lend_date')">
+                            往後<i class="fas fa-angle-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </table>
+                
+                    <div class="table-responsive">
+                        <div id="last_lend">
+                        <table class="table table-border table-striped">
+                            <tr>
+                                <th>
+                                    填寫時間
+                                </th>
+                                <th>
+                                    借用人
+                                </th>
+                                <th>
+                                    借用物品
+                                </th>
+                                <th>
+                                    借用時間
+                                </th>
+                                <th>
+                                    歸還時間
+                                </th>
+                                <th>
+                                    備註
+                                </th>
+                            </tr>                                    
+                                @foreach($lend_orders2 as $lend_order)
                                 <tr>
                                     <td>
-                                        <a href="#" onclick="change_date(-1,'last_lend','lend_date')">
-                                        <i class="fas fa-angle-left"></i>往前
-                                        </a>
+                                        {{ $lend_order->created_at }}
                                     </td>
                                     <td>
-                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date1" readonly style="font-size:20px;font-weight:bold;color:black">
+                                        {{ $lend_order->user->name }}
                                     </td>
                                     <td>
-                                        <a href="#" onclick="change_date(1,'last_lend','lend_date')">
-                                        往後<i class="fas fa-angle-right"></i>
-                                        </a>
+                                        {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->ps }}
                                     </td>
                                 </tr>
-                                </table>
-                            
-                                <div class="table-responsive">
-                                    <div id="last_lend">
-                                    <table class="table table-border table-striped">
-                                        <tr>
-                                            <th>
-                                                填寫時間
-                                            </th>
-                                            <th>
-                                                借用人
-                                            </th>
-                                            <th>
-                                                借用物品
-                                            </th>
-                                            <th>
-                                                借用時間
-                                            </th>
-                                            <th>
-                                                歸還時間
-                                            </th>
-                                            <th>
-                                                備註
-                                            </th>
-                                        </tr>                                    
-                                            @foreach($lend_orders2 as $lend_order)
-                                            <tr>
-                                                <td>
-                                                    {{ $lend_order->created_at }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->user->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->ps }}
-                                                </td>
-                                            </tr>
-                                            @endforeach                                    
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <br>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <a href="#" onclick="change_date(-1,'next_lend','back_date')">
-                                        <i class="fas fa-angle-left"></i>往前
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date2" readonly style="font-size:30px;font-weight:bold;color:black">
-                                    </td>
-                                    <td>
-                                        <a href="#" onclick="change_date(1,'next_lend','back_date')">
-                                        往後<i class="fas fa-angle-right"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="table-responsive">
-                                <div id="next_lend">                                
-                                    <table class="table table-border table-striped">
-                                        <tr>
-                                            <th>
-                                                填寫時間
-                                            </th>
-                                            <th>
-                                                借用人
-                                            </th>
-                                            <th>
-                                                借用物品
-                                            </th>
-                                            <th>
-                                                借用時間
-                                            </th>
-                                            <th>
-                                                歸還時間
-                                            </th>
-                                            <th>
-                                                備註
-                                            </th>
-                                        </tr>
-                                        <div id="today_back">
-                                            @foreach($lend_orders3 as $lend_order)
-                                            <tr>
-                                                <td>                                        
-                                                    {{ $lend_order->created_at }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->user->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
-                                                </td>
-                                                <td>
-                                                    {{ $lend_order->ps }}
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </div>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                            <br>
-                            <div class="table-responsive">
-                                <table class="table table-border table-striped">
-                                    <tr>
-                                        <th>
-                                            填寫時間
-                                        </th>
-                                        <th>
-                                            借用人
-                                        </th>
-                                        <th>
-                                            借用物品
-                                        </th>
-                                        <th>
-                                            借用時間
-                                        </th>
-                                        <th>
-                                            歸還時間
-                                        </th>
-                                        <th>
-                                            備註
-                                        </th>
-                                    </tr>
-                                    @foreach($lend_orders as $lend_order)
-                                    <?php
-                                        $lend_items = \App\Models\LendItem::where('lend_class_id',$lend_order->lend_item->lend_class_id)->get();
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            {{ $lend_order->created_at }}
-                                        </td>
-                                        <td>
-                                            {{ $lend_order->user->name }}
-                                        </td>
-                                        <td>                              
-                                            {{ $lend_order->lend_item->name }}<br>                                                                                          
-                                            {{ $lend_order->num }}
-                                        </td>
-                                        <td>
-                                            {{ $lend_order->lend_date }}<br>
-                                            {{ $sections_array[$lend_order->lend_section] }}
-                                        </td>
-                                        <td>
-                                            {{ $lend_order->back_date }}<br>
-                                            {{ $sections_array[$lend_order->back_section] }}
-                                        </td>
-                                        <td>
-                                            {{ $lend_order->ps }}
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </table>                            
-                                {{  $lend_orders->links() }}
-                            </div>
-                        </div>
-                      </div>
+                                @endforeach                                    
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <a href="#" onclick="change_date(-1,'next_lend','back_date')">
+                            <i class="fas fa-angle-left"></i>往前
+                            </a>
+                        </td>
+                        <td>
+                            <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date2" readonly style="font-size:30px;font-weight:bold;color:black">
+                        </td>
+                        <td>
+                            <a href="#" onclick="change_date(1,'next_lend','back_date')">
+                            往後<i class="fas fa-angle-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="table-responsive">
+                    <div id="next_lend">                                
+                        <table class="table table-border table-striped">
+                            <tr>
+                                <th>
+                                    填寫時間
+                                </th>
+                                <th>
+                                    借用人
+                                </th>
+                                <th>
+                                    借用物品
+                                </th>
+                                <th>
+                                    借用時間
+                                </th>
+                                <th>
+                                    歸還時間
+                                </th>
+                                <th>
+                                    備註
+                                </th>
+                            </tr>
+                            <div id="today_back">
+                                @foreach($lend_orders3 as $lend_order)
+                                <tr>
+                                    <td>                                        
+                                        {{ $lend_order->created_at }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->user->name }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
+                                    </td>
+                                    <td>
+                                        {{ $lend_order->ps }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-border table-striped">
+                        <tr>
+                            <th>
+                                填寫時間
+                            </th>
+                            <th>
+                                借用人
+                            </th>
+                            <th>
+                                借用物品
+                            </th>
+                            <th>
+                                借用時間
+                            </th>
+                            <th>
+                                歸還時間
+                            </th>
+                            <th>
+                                備註
+                            </th>
+                        </tr>
+                        @foreach($lend_orders as $lend_order)
+                        <?php
+                            $lend_items = \App\Models\LendItem::where('lend_class_id',$lend_order->lend_item->lend_class_id)->get();
+                        ?>
+                        <tr>
+                            <td>
+                                {{ $lend_order->created_at }}
+                            </td>
+                            <td>
+                                {{ $lend_order->user->name }}
+                            </td>
+                            <td>                              
+                                {{ $lend_order->lend_item->name }}<br>                                                                                          
+                                {{ $lend_order->num }}
+                            </td>
+                            <td>
+                                {{ $lend_order->lend_date }}<br>
+                                {{ $sections_array[$lend_order->lend_section] }}
+                            </td>
+                            <td>
+                                {{ $lend_order->back_date }}<br>
+                                {{ $sections_array[$lend_order->back_section] }}
+                            </td>
+                            <td>
+                                {{ $lend_order->ps }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>                            
+                    {{  $lend_orders->links() }}
+                </div>
+            </div>
+          </div>
     </div>
 </div>
 <br>
