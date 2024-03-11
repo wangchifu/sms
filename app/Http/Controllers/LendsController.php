@@ -328,6 +328,16 @@ class LendsController extends Controller
         return back();
     }
 
+    function update_other_order(Request $request,LendOrder $lend_order){
+        $admin = check_admin('lend_admin');
+        if(!$admin) return back();
+
+        $att = $request->all();
+ 
+        $lend_order->update($att);
+        return back();
+    }
+
     function list(){
         $admin = check_admin('lend_admin');
         if(!$admin) return back();

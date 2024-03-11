@@ -34,7 +34,7 @@ $active['list'] ="active";
                         <tr>
                             <td>
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">LINE權杖</label>
+                                    <label for="exampleInputEmail1" class="form-label"><i class="fab fa-line"></i> LINE權杖</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="line_key" value="{{ auth()->user()->line_key }}">
                                     <div id="emailHelp" class="form-text">有借用單時，會發LINE通知給你.</div>
                                   </div>
@@ -199,6 +199,8 @@ $active['list'] ="active";
                                 <?php
                                     $lend_items = \App\Models\LendItem::where('lend_class_id',$lend_order->lend_item->lend_class_id)->get();
                                 ?>
+                                <form id="update_form{{ $lend_order->id }}" action="{{ route('lends.update_other_order',$lend_order->id) }}" method="post" onsubmit="return false">
+                                    @csrf
                                 <tr>
                                     <td>
                                         <a href="#" onclick="sw_confirm('確定刪除？','{{ route('lends.delete_order',$lend_order->id) }}')"><i class="fas fa-times-circle text-danger"></i></a> 
@@ -245,9 +247,10 @@ $active['list'] ="active";
                                         {{ $lend_order->ps }}
                                     </td>
                                     <td>
-                                        <button class="btn btn-success btn-sm">更新</button>
+                                        <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定修改別人的借用單？','update_form{{ $lend_order->id }}')">更新</button>
                                     </td>
                                 </tr>
+                                </form>
                                 @endforeach
                             </table>
                             {{  $lend_orders->links() }}
