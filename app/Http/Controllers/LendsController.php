@@ -244,13 +244,48 @@ class LendsController extends Controller
 
     }
 
-    public function check_order_out()
+    public function check_order_out($this_date = null,$action=null)
     {
-        $result['owner_user_id'] = $lend_item->user_id;
-        $result['num'] = $lend_item->num;
-        $result['lend_sections'] = unserialize($lend_item->lend_sections);
-        $result['section_array'] = config('sms.lend_sections');
 
+        $lend_orders = LendOrder::where($action,$this_date)
+        ->where('owner_user_id',auth()->user()->id)
+        ->get();
+        $lend_sections_array = config('sms.lend_sections');
+        $result = [];
+        foreach($lend_orders as $lend_order){
+            $result[$lend_order->id]['created_at'] = $lend_order->created_at;
+            $result[$lend_order->id]['lend_item'] = $lend_order->lend_item->name;
+            $result[$lend_order->id]['num'] = $lend_order->num;
+            $result[$lend_order->id]['lend_date'] = $lend_order->lend_date;
+            $result[$lend_order->id]['lend_section'] = $lend_sections_array[$lend_order->lend_section];
+            $result[$lend_order->id]['back_date'] = $lend_order->back_date;
+            $result[$lend_order->id]['back_section'] = $lend_sections_array[$lend_order->back_section];
+            $result[$lend_order->id]['user'] = $lend_order->user->name;
+            $result[$lend_order->id]['ps'] = $lend_order->ps;
+        }        
+        echo json_encode($result);
+        return;
+
+    }
+
+    public function check_order_out_clean($this_date = null,$action=null)
+    {
+
+        $lend_orders = LendOrder::where($action,$this_date)
+        ->get();
+        $lend_sections_array = config('sms.lend_sections');
+        $result = [];
+        foreach($lend_orders as $lend_order){
+            $result[$lend_order->id]['created_at'] = $lend_order->created_at;
+            $result[$lend_order->id]['lend_item'] = $lend_order->lend_item->name;
+            $result[$lend_order->id]['num'] = $lend_order->num;
+            $result[$lend_order->id]['lend_date'] = $lend_order->lend_date;
+            $result[$lend_order->id]['lend_section'] = $lend_sections_array[$lend_order->lend_section];
+            $result[$lend_order->id]['back_date'] = $lend_order->back_date;
+            $result[$lend_order->id]['back_section'] = $lend_sections_array[$lend_order->back_section];
+            $result[$lend_order->id]['user'] = $lend_order->user->name;
+            $result[$lend_order->id]['ps'] = $lend_order->ps;
+        }        
         echo json_encode($result);
         return;
 
@@ -361,6 +396,25 @@ class LendsController extends Controller
             'sections_array'=>config('sms.lend_sections'),
         ];
         return view('lends.list',$data);
+    }
+
+    function list_clean(){
+
+        $lend_orders = LendOrder::orderBy('lend_item_id')->orderBy('id','DESC')
+            ->paginate(20);
+        
+        $lend_orders2 = LendOrder::where('lend_date',date('Y-m-d'))
+            ->get();
+
+        $lend_orders3 = LendOrder::where('back_date',date('Y-m-d'))
+            ->get();        
+        $data = [
+            'lend_orders'=>$lend_orders,
+            'lend_orders2'=>$lend_orders2,
+            'lend_orders3'=>$lend_orders3,
+            'sections_array'=>config('sms.lend_sections'),
+        ];
+        return view('lends.list_clean',$data);
     }
 
     function my_list(){

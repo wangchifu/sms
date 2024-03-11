@@ -53,7 +53,7 @@ $active['list'] ="";
                                     </a>
                                 </td>
                                 <td>
-                                    <input type="date" value="{{ $this_date }}" class="form-control" id="change_date">
+                                    <input type="date" value="{{ $this_date }}" class="form-control" id="change_date" style="font-size:30px;font-weight:bold;color:black">
                                 </td>
                                 <td>
                                     <a href="{{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}">
@@ -224,7 +224,7 @@ $active['list'] ="";
             url: 'https://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_item_num/'+$('#change_lend_item').val(),
             type : 'get',
             dataType : 'json',
-            data : $('#sunday_form').serialize(),
+            //data : $('#sunday_form').serialize(),
             success : function(result) {
                 if(result != 'failed') {
                     $('#owner_user_id').val(result['owner_user_id']);

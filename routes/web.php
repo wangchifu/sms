@@ -69,6 +69,8 @@ Route::get('clubs/{club_id}/sign_down', [ClubsController::class,'sign_down'])->n
 Route::get('clubs/{club}/{class_id}/sign_show', [ClubsController::class,'sign_show'])->name('clubs.sign_show');
 
 Route::get('lends/clean/{lend_class_id?}/{this_date?}', [LendsController::class,'index'])->name('lends.clean');
+Route::get('lends/list_clean', [LendsController::class,'list_clean'])->name('lends.list_clean');
+Route::get('lends/check_order_out_clean/{this_date}/{action}', [LendsController::class,'check_order_out_clean'])->name('lends.check_order_out_clean');
 
 Route::group(['middleware' => 'auth'], function () {
     //登出
@@ -209,7 +211,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lends/admin_edit/{lend_item}', [LendsController::class,'admin_edit'])->name('lends.admin_edit');
     Route::post('lends/update_item/{lend_item}', [LendsController::class,'update_item'])->name('lends.update_item');
     Route::get('lends/check_item_num/{lend_item}', [LendsController::class,'check_item_num'])->name('lends.check_item_num');
-    Route::get('lends/check_order_out', [LendsController::class,'check_order_out'])->name('lends.check_order_out');
+    Route::get('lends/check_order_out/{this_date}/{action}', [LendsController::class,'check_order_out'])->name('lends.check_order_out');
     Route::post('lends/order', [LendsController::class,'order'])->name('lends.order');
     Route::get('lends/delete_my_order/{lend_order}', [LendsController::class,'delete_my_order'])->name('lends.delete_my_order');
     Route::get('lends/delete_order/{lend_order}', [LendsController::class,'delete_order'])->name('lends.delete_order');

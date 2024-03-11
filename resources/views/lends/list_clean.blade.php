@@ -1,50 +1,14 @@
-@extends('layouts.master')
+@extends('layouts.master_clean')
 
-@section('page_title','借用清單-管理者')
-
-@section('page_nav')
-    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
-            <li class="breadcrumb-item active" aria-current="page">借用系統</li>
-        </ol>
-    </nav>
-@endsection
+@section('page_title','借用清單')
 
 @section('content')
-<?php
-
-$active['index'] ="";
-$active['my_list'] ="";
-$active['admin'] ="";
-$active['list'] ="active";
-
-?>
 <div class="row justify-content-center">
     <div class="col-md-11">
-        @include('lends.nav')
-        <br>
-        <h2>借用清單 <a href="{{ route('lends.list_clean') }}" target="_blank"><i class="fas fa-share-square"></i></a></h2>        
+        <h2>借用清單</h2>        
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-12">
-                    <form id="line_form" action="{{ route('store_line_notify') }}" method="post" onsubmit="return false">
-                    @csrf 
-                    <table>
-                        <tr>
-                            <td>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label"><i class="fab fa-line"></i> LINE權杖</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="line_key" value="{{ auth()->user()->line_key }}">
-                                    <div id="emailHelp" class="form-text">有借用單時，會發LINE通知給你.</div>
-                                  </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-success" onclick="return sw_confirm2('確定嗎？','line_form')">儲存</button>
-                            </td>
-                        </tr>
-                    </table>
-                    </form>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                           <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">今日要借出</button>
@@ -213,26 +177,20 @@ $active['list'] ="active";
                                     <th>
                                         備註
                                     </th>
-                                    <th>
-                                        動作
-                                    </th>
                                 </tr>
                                 @foreach($lend_orders as $lend_order)
                                 <?php
                                     $lend_items = \App\Models\LendItem::where('lend_class_id',$lend_order->lend_item->lend_class_id)->get();
                                 ?>
-                                <form id="update_form{{ $lend_order->id }}" action="{{ route('lends.update_other_order',$lend_order->id) }}" method="post" onsubmit="return false">
-                                    @csrf
                                 <tr>
                                     <td>
-                                        <a href="#" onclick="sw_confirm('確定刪除？','{{ route('lends.delete_order',$lend_order->id) }}')"><i class="fas fa-times-circle text-danger"></i></a> 
                                         {{ $lend_order->created_at }}
                                     </td>
                                     <td>
                                         {{ $lend_order->user->name }}
                                     </td>
                                     <td>                              
-                                        <select class="form-control" name="lend_item_id">
+                                        <select class="form-control" name="lend_item_id" disabled>
                                             @foreach ($lend_items as $lend_item)
                                                 <?php
                                                     $lend_sections = config('sms.lend_sections');
@@ -241,11 +199,11 @@ $active['list'] ="active";
                                                 <option value="{{ $lend_item->id }}" {{ $selected }}>{{ $lend_item->name }}</option>
                                             @endforeach
                                         </select>                                                                                          
-                                        <input type="number" class="form-control" name="num" value="{{ $lend_order->num }}">                                                                              
+                                        <input type="number" class="form-control" name="num" value="{{ $lend_order->num }}" readonly>                                                                              
                                     </td>
                                     <td>
-                                        <input type="date" class="form-control" name="lend_date" value="{{ $lend_order->lend_date }}">
-                                        <select class="form-control" name="lend_section">
+                                        <input type="date" class="form-control" name="lend_date" value="{{ $lend_order->lend_date }}" readonly>
+                                        <select class="form-control" name="lend_section" disabled>
                                             @foreach($lend_sections as $k=>$v)
                                                 <?php  
                                                     $selected = ($k == $lend_order->lend_section)?"selected":null;
@@ -255,8 +213,8 @@ $active['list'] ="active";
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="date" class="form-control" name="back_date" value="{{ $lend_order->back_date }}">
-                                        <select class="form-control" name="back_section">
+                                        <input type="date" class="form-control" name="back_date" value="{{ $lend_order->back_date }}" readonly>
+                                        <select class="form-control" name="back_section" disabled>
                                             @foreach($lend_sections as $k=>$v)
                                                 <?php  
                                                     $selected = ($k == $lend_order->back_section)?"selected":null;
@@ -268,11 +226,7 @@ $active['list'] ="active";
                                     <td>
                                         {{ $lend_order->ps }}
                                     </td>
-                                    <td>
-                                        <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定修改別人的借用單？','update_form{{ $lend_order->id }}')">更新</button>
-                                    </td>
                                 </tr>
-                                </form>
                                 @endforeach
                             </table>
                             {{  $lend_orders->links() }}
@@ -305,7 +259,7 @@ $active['list'] ="active";
                
         //alert(date);
         $.ajax({
-            url: 'http://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_order_out/'+date+'/'+action,
+            url: 'http://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_order_out_clean/'+date+'/'+action,
             type : 'get',
             dataType : 'json',
             //data : $('#sunday_form').serialize(),
