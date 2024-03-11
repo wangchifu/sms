@@ -53,7 +53,7 @@ $active['list'] ="";
                                     </a>
                                 </td>
                                 <td>
-                                    <input type="date" value="{{ $this_date }}" class="form-control" id="change_date" style="font-size:30px;font-weight:bold;color:black">
+                                    <input type="date" value="{{ $this_date }}" class="form-control" id="change_date" style="font-size:20px;font-weight:bold;color:black">
                                 </td>
                                 <td>
                                     <a href="{{ route('lends.index',['lend_class_id'=>$lend_class_id,'this_date'=>$this_dt->addDays(2)->toDateString()]) }}">

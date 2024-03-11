@@ -67,7 +67,7 @@ $active['list'] ="active";
                                         </a>
                                     </td>
                                     <td>
-                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date1" readonly style="font-size:30px;font-weight:bold;color:black">
+                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date1" readonly style="font-size:20px;font-weight:bold;color:black">
                                     </td>
                                     <td>
                                         <a href="#" onclick="change_date(1,'last_lend','lend_date')">
@@ -76,51 +76,53 @@ $active['list'] ="active";
                                     </td>
                                 </tr>
                             </table>
-                            <div id="last_lend">
-                                <table class="table table-border table-striped">
-                                    <tr>
-                                        <th>
-                                            填寫時間
-                                        </th>
-                                        <th>
-                                            借用人
-                                        </th>
-                                        <th>
-                                            借用物品
-                                        </th>
-                                        <th>
-                                            借用時間
-                                        </th>
-                                        <th>
-                                            歸還時間
-                                        </th>
-                                        <th>
-                                            備註
-                                        </th>
-                                    </tr>                                    
-                                        @foreach($lend_orders2 as $lend_order)
+                            <div class="table-responsive">
+                                <div id="last_lend">
+                                    <table class="table table-border table-striped">
                                         <tr>
-                                            <td>
-                                                {{ $lend_order->created_at }}
-                                            </td>
-                                            <td>
-                                                {{ $lend_order->user->name }}
-                                            </td>
-                                            <td>
-                                                {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
-                                            </td>
-                                            <td>
-                                                {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
-                                            </td>
-                                            <td>
-                                                {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
-                                            </td>
-                                            <td>
-                                                {{ $lend_order->ps }}
-                                            </td>
-                                        </tr>
-                                        @endforeach                                    
-                                </table>
+                                            <th>
+                                                填寫時間
+                                            </th>
+                                            <th>
+                                                借用人
+                                            </th>
+                                            <th>
+                                                借用物品
+                                            </th>
+                                            <th>
+                                                借用時間
+                                            </th>
+                                            <th>
+                                                歸還時間
+                                            </th>
+                                            <th>
+                                                備註
+                                            </th>
+                                        </tr>                                    
+                                            @foreach($lend_orders2 as $lend_order)
+                                            <tr>
+                                                <td>
+                                                    {{ $lend_order->created_at }}
+                                                </td>
+                                                <td>
+                                                    {{ $lend_order->user->name }}
+                                                </td>
+                                                <td>
+                                                    {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
+                                                </td>
+                                                <td>
+                                                    {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
+                                                </td>
+                                                <td>
+                                                    {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
+                                                </td>
+                                                <td>
+                                                    {{ $lend_order->ps }}
+                                                </td>
+                                            </tr>
+                                            @endforeach                                    
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -142,140 +144,144 @@ $active['list'] ="active";
                                     </td>
                                 </tr>
                             </table>
-                            <div id="next_lend">
-                            <table class="table table-border table-striped">
-                                <tr>
-                                    <th>
-                                        填寫時間
-                                    </th>
-                                    <th>
-                                        借用人
-                                    </th>
-                                    <th>
-                                        借用物品
-                                    </th>
-                                    <th>
-                                        借用時間
-                                    </th>
-                                    <th>
-                                        歸還時間
-                                    </th>
-                                    <th>
-                                        備註
-                                    </th>
-                                </tr>
-                                <div id="today_back">
-                                    @foreach($lend_orders3 as $lend_order)
+                            <div class="table-responsive">
+                                <div id="next_lend">
+                                <table class="table table-border table-striped">
                                     <tr>
-                                        <td>                                        
+                                        <th>
+                                            填寫時間
+                                        </th>
+                                        <th>
+                                            借用人
+                                        </th>
+                                        <th>
+                                            借用物品
+                                        </th>
+                                        <th>
+                                            借用時間
+                                        </th>
+                                        <th>
+                                            歸還時間
+                                        </th>
+                                        <th>
+                                            備註
+                                        </th>
+                                    </tr>
+                                    <div id="today_back">
+                                        @foreach($lend_orders3 as $lend_order)
+                                        <tr>
+                                            <td>                                        
+                                                {{ $lend_order->created_at }}
+                                            </td>
+                                            <td>
+                                                {{ $lend_order->user->name }}
+                                            </td>
+                                            <td>
+                                                {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
+                                            </td>
+                                            <td>
+                                                {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
+                                            </td>
+                                            <td>
+                                                {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
+                                            </td>
+                                            <td>
+                                                {{ $lend_order->ps }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </div>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table table-border table-striped">
+                                    <tr>
+                                        <th>
+                                            填寫時間
+                                        </th>
+                                        <th>
+                                            借用人
+                                        </th>
+                                        <th>
+                                            借用物品
+                                        </th>
+                                        <th>
+                                            借用時間
+                                        </th>
+                                        <th>
+                                            歸還時間
+                                        </th>
+                                        <th>
+                                            備註
+                                        </th>
+                                        <th>
+                                            動作
+                                        </th>
+                                    </tr>
+                                    @foreach($lend_orders as $lend_order)
+                                    <?php
+                                        $lend_items = \App\Models\LendItem::where('lend_class_id',$lend_order->lend_item->lend_class_id)->get();
+                                    ?>
+                                    <form id="update_form{{ $lend_order->id }}" action="{{ route('lends.update_other_order',$lend_order->id) }}" method="post" onsubmit="return false">
+                                        @csrf
+                                    <tr>
+                                        <td>
+                                            <a href="#" onclick="sw_confirm('確定刪除？','{{ route('lends.delete_order',$lend_order->id) }}')"><i class="fas fa-times-circle text-danger"></i></a> 
                                             {{ $lend_order->created_at }}
                                         </td>
                                         <td>
                                             {{ $lend_order->user->name }}
                                         </td>
-                                        <td>
-                                            {{ $lend_order->lend_item->name }}<br>{{ $lend_order->num }}
+                                        <td>                              
+                                            <select class="form-control" name="lend_item_id">
+                                                @foreach ($lend_items as $lend_item)
+                                                    <?php
+                                                        $lend_sections = config('sms.lend_sections');
+                                                        $selected = ($lend_order->lend_item->id == $lend_item->id)?"selected":null;
+                                                    ?>
+                                                    <option value="{{ $lend_item->id }}" {{ $selected }}>{{ $lend_item->name }}</option>
+                                                @endforeach
+                                            </select>                                                                                          
+                                            <input type="number" class="form-control" name="num" value="{{ $lend_order->num }}">                                                                              
                                         </td>
                                         <td>
-                                            {{ $lend_order->lend_date }}<br>{{ $sections_array[$lend_order->lend_section] }}
+                                            <input type="date" class="form-control" name="lend_date" value="{{ $lend_order->lend_date }}">
+                                            <select class="form-control" name="lend_section">
+                                                @foreach($lend_sections as $k=>$v)
+                                                    <?php  
+                                                        $selected = ($k == $lend_order->lend_section)?"selected":null;
+                                                    ?>
+                                                    <option value="{{ $k }}" {{ $selected }}>{{ $v }}</option>
+                                                @endforeach
+                                            </select>
                                         </td>
                                         <td>
-                                            {{ $lend_order->back_date }}<br>{{ $sections_array[$lend_order->back_section] }}
+                                            <input type="date" class="form-control" name="back_date" value="{{ $lend_order->back_date }}">
+                                            <select class="form-control" name="back_section">
+                                                @foreach($lend_sections as $k=>$v)
+                                                    <?php  
+                                                        $selected = ($k == $lend_order->back_section)?"selected":null;
+                                                    ?>
+                                                    <option value="{{ $k }}" {{ $selected }}>{{ $v }}</option>
+                                                @endforeach
+                                            </select>
                                         </td>
                                         <td>
                                             {{ $lend_order->ps }}
                                         </td>
+                                        <td>
+                                            <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定修改別人的借用單？','update_form{{ $lend_order->id }}')">更新</button>
+                                        </td>
                                     </tr>
+                                    </form>
                                     @endforeach
-                                </div>
-                            </table>
+                                </table>
+                                {{  $lend_orders->links() }}
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                            <br>
-                            <table class="table table-border table-striped">
-                                <tr>
-                                    <th>
-                                        填寫時間
-                                    </th>
-                                    <th>
-                                        借用人
-                                    </th>
-                                    <th>
-                                        借用物品
-                                    </th>
-                                    <th>
-                                        借用時間
-                                    </th>
-                                    <th>
-                                        歸還時間
-                                    </th>
-                                    <th>
-                                        備註
-                                    </th>
-                                    <th>
-                                        動作
-                                    </th>
-                                </tr>
-                                @foreach($lend_orders as $lend_order)
-                                <?php
-                                    $lend_items = \App\Models\LendItem::where('lend_class_id',$lend_order->lend_item->lend_class_id)->get();
-                                ?>
-                                <form id="update_form{{ $lend_order->id }}" action="{{ route('lends.update_other_order',$lend_order->id) }}" method="post" onsubmit="return false">
-                                    @csrf
-                                <tr>
-                                    <td>
-                                        <a href="#" onclick="sw_confirm('確定刪除？','{{ route('lends.delete_order',$lend_order->id) }}')"><i class="fas fa-times-circle text-danger"></i></a> 
-                                        {{ $lend_order->created_at }}
-                                    </td>
-                                    <td>
-                                        {{ $lend_order->user->name }}
-                                    </td>
-                                    <td>                              
-                                        <select class="form-control" name="lend_item_id">
-                                            @foreach ($lend_items as $lend_item)
-                                                <?php
-                                                    $lend_sections = config('sms.lend_sections');
-                                                    $selected = ($lend_order->lend_item->id == $lend_item->id)?"selected":null;
-                                                ?>
-                                                <option value="{{ $lend_item->id }}" {{ $selected }}>{{ $lend_item->name }}</option>
-                                            @endforeach
-                                        </select>                                                                                          
-                                        <input type="number" class="form-control" name="num" value="{{ $lend_order->num }}">                                                                              
-                                    </td>
-                                    <td>
-                                        <input type="date" class="form-control" name="lend_date" value="{{ $lend_order->lend_date }}">
-                                        <select class="form-control" name="lend_section">
-                                            @foreach($lend_sections as $k=>$v)
-                                                <?php  
-                                                    $selected = ($k == $lend_order->lend_section)?"selected":null;
-                                                ?>
-                                                <option value="{{ $k }}" {{ $selected }}>{{ $v }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="date" class="form-control" name="back_date" value="{{ $lend_order->back_date }}">
-                                        <select class="form-control" name="back_section">
-                                            @foreach($lend_sections as $k=>$v)
-                                                <?php  
-                                                    $selected = ($k == $lend_order->back_section)?"selected":null;
-                                                ?>
-                                                <option value="{{ $k }}" {{ $selected }}>{{ $v }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        {{ $lend_order->ps }}
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定修改別人的借用單？','update_form{{ $lend_order->id }}')">更新</button>
-                                    </td>
-                                </tr>
-                                </form>
-                                @endforeach
-                            </table>
-                            {{  $lend_orders->links() }}
                         </div>
                       </div>
                 </div>

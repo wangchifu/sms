@@ -48,8 +48,7 @@ $active['list'] ="";
                     <hr>                    
                     <table class="table table-bordered table-striped">                        
                         <tr>
-                            <th>名稱</th>
-                            <th>注意事項</th>
+                            <th>名稱</th>                            
                             <th>動作</th>
                         </tr>
                     @foreach($lend_classes as $lend_class)                        
@@ -57,16 +56,17 @@ $active['list'] ="";
                         @csrf
                         <tr>
                             <td><input type="text" class ="form-control" name="name" value="{{ $lend_class->name }}"></td>
-                            <td>
-                                <div class="mb-3">
-                                    <label for="lend_ps" class="form-label">2.注意事項</label>
+                            <td><button class="btn btn-primary btn-sm" onclick="sw_confirm2('確定更新嗎？','update_class_form{{ $lend_class->id }}')">更新</button> <a href="#" class="btn btn-danger btn-sm" onclick="return sw_confirm('確定刪除嗎？相關借用記錄也會一起刪除喔！','{{ route('lends.delete_class',$lend_class->id) }}')">刪除</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="mb-3">                                    
                                     <div class="form-floating">
                                         <textarea class="form-control" id="lend_ps" style="height: 100px" name="ps">{{ $lend_class->ps }}</textarea>
                                         <label for="lend_ps">注意事項</label>
                                     </div>
                                 </div>
-                            </td>
-                            <td><button class="btn btn-primary btn-sm" onclick="sw_confirm2('確定更新嗎？','update_class_form{{ $lend_class->id }}')">更新</button> <a href="#" class="btn btn-danger btn-sm" onclick="return sw_confirm('確定刪除嗎？相關借用記錄也會一起刪除喔！','{{ route('lends.delete_class',$lend_class->id) }}')">刪除</a></td>
+                            </td>                            
                         </tr>
                     </form>
                     @endforeach
