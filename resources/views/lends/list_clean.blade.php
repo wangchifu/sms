@@ -259,7 +259,7 @@
                
         //alert(date);
         $.ajax({
-            url: 'http://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_order_out_clean/'+date+'/'+action,
+            url: 'https://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_order_out_clean/'+date+'/'+action,
             type : 'get',
             dataType : 'json',
             //data : $('#sunday_form').serialize(),
