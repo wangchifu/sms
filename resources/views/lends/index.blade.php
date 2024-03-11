@@ -116,6 +116,16 @@ $active['list'] ="";
                         </table>
                     </div>
                         <hr>
+                        @if(!empty($lend_class_id))
+                            <?php $lend_class = \App\Models\LendClass::find($lend_class_id); ?>
+                            @if($lend_class->ps)
+                            <p class="text-primary">
+                                注意事項：<br>
+                                {!! nl2br($lend_class->ps) !!}
+                            </p>
+                            @endif
+                        @endif
+                        <hr>
                         <div class="table-responsive">
                             <div class="card">
                                 <div class="card-header h4" style="background: #E0E0E0">

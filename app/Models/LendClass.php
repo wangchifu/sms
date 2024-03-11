@@ -8,6 +8,7 @@ class LendClass extends Model
 {
     protected $fillable = [
         'name',
+        'ps',
         'user_id',
     ];
 

@@ -135,6 +135,7 @@ class LendsController extends Controller
     public function update_class(Request $request,LendClass $lend_class){
         if($lend_class->user_id != auth()->user()->id) return back();
         $att['name'] = $request->input('name');
+        $att['ps'] = $request->input('ps');
         $lend_class->update($att);
         return back();
     }

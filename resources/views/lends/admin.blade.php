@@ -32,8 +32,15 @@ $active['list'] ="";
                     <form method="post" action="{{ route('lends.store_class') }}" id="store_class_form" onsubmit="return false">
                         @csrf
                         <div class="mb-3">
-                            <label for="create_class" class="form-label">類別名稱</label>
+                            <label for="create_class" class="form-label">1.類別名稱</label>
                             <input type="text" class="form-control" id="create_class" required name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="lend_ps" class="form-label">2.注意事項</label>
+                            <div class="form-floating">
+                                <textarea class="form-control" id="lend_ps" style="height: 100px" name="ps"></textarea>
+                                <label for="lend_ps">注意事項</label>
+                            </div>
                         </div>
                         <button class="btn btn-success btn-sm" onclick="return sw_confirm2('確定儲存嗎？','store_class_form')">新增</button>
                     </form>
@@ -42,6 +49,7 @@ $active['list'] ="";
                     <table class="table table-bordered table-striped">                        
                         <tr>
                             <th>名稱</th>
+                            <th>注意事項</th>
                             <th>動作</th>
                         </tr>
                     @foreach($lend_classes as $lend_class)                        
@@ -49,6 +57,15 @@ $active['list'] ="";
                         @csrf
                         <tr>
                             <td><input type="text" class ="form-control" name="name" value="{{ $lend_class->name }}"></td>
+                            <td>
+                                <div class="mb-3">
+                                    <label for="lend_ps" class="form-label">2.注意事項</label>
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="lend_ps" style="height: 100px" name="ps">{{ $lend_class->ps }}</textarea>
+                                        <label for="lend_ps">注意事項</label>
+                                    </div>
+                                </div>
+                            </td>
                             <td><button class="btn btn-primary btn-sm" onclick="sw_confirm2('確定更新嗎？','update_class_form{{ $lend_class->id }}')">更新</button> <a href="#" class="btn btn-danger btn-sm" onclick="return sw_confirm('確定刪除嗎？相關借用記錄也會一起刪除喔！','{{ route('lends.delete_class',$lend_class->id) }}')">刪除</a></td>
                         </tr>
                     </form>
@@ -83,10 +100,10 @@ $active['list'] ="";
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="lend_ps" class="form-label">5.備註及注意事項</label>
+                            <label for="lend_ps" class="form-label">5.備註</label>
                             <div class="form-floating">
                                 <textarea class="form-control" id="lend_ps" style="height: 100px" name="ps"></textarea>
-                                <label for="lend_ps">注意事項</label>
+                                <label for="lend_ps">備註</label>
                             </div>
                         </div>
                         <div class="mb-3">

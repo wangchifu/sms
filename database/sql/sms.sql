@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2024 年 03 月 10 日 20:59
+-- 產生時間： 2024 年 03 月 11 日 21:28
 -- 伺服器版本： 8.0.34-0ubuntu0.22.04.1
 -- PHP 版本： 7.4.33
 
@@ -147,6 +147,7 @@ CREATE TABLE `job_titles` (
 CREATE TABLE `lend_classes` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ps` text COLLATE utf8mb4_unicode_ci,
   `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
