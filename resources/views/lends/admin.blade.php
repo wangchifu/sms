@@ -161,7 +161,7 @@ $active['list'] ="";
 <br>
 <script>
     $('#change_lend_class').on( "change", function() {
-        location="{{ $_SERVER['HTTP_HOST'] }}/lends/admin/" + $('#change_lend_class').val();
+        location="https://{{ $_SERVER['HTTP_HOST'] }}/lends/admin/" + $('#change_lend_class').val();
         });
 </script>
 @endsection
