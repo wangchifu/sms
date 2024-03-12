@@ -169,10 +169,18 @@
                                             {{ $v }} ({{ get_chinese_weekday($v) }})
                                         </td>
                                         @foreach($lend_items as $lend_item)
-                                            <?php if(!isset($check_num[$v][$lend_item->id])) $check_num[$v][$lend_item->id] = 0; ?>
+                                            <?php 
+                                                if(!isset($check_num[$v][$lend_item->id])) $check_num[$v][$lend_item->id] = 0;                                                                                                                                             
+                                            ?>
+                                        @if($check_num[$v][$lend_item->id] > 0)
+                                        <td class="text-danger">
+                                            {{ $lend_item->num - $check_num[$v][$lend_item->id] }}/{{ $lend_item->num }}
+                                        </td>
+                                        @else
                                         <td>
                                             {{ $lend_item->num - $check_num[$v][$lend_item->id] }}/{{ $lend_item->num }}
                                         </td>
+                                        @endif
                                         @endforeach
                                     </tr>
                                 @endforeach
