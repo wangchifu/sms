@@ -143,7 +143,7 @@ $active['list'] ="";
                                                                           
                             ?>
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered table-striped">
                                     <tr style="background-color:#E0E0E0">
                                         <th>
                                             日期
