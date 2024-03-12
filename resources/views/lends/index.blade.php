@@ -61,7 +61,7 @@ $active['list'] ="";
                                     </a>
                                 </td>
                             </tr>
-                        </table>
+                        </table>                        
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="bg-primary text-light">
@@ -115,6 +115,61 @@ $active['list'] ="";
                             </tbody>
                         </table>
                     </div>
+                        <hr>
+                        <p>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                              整月借出情況
+                            </button>
+                          </p>
+                          <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                            <?php 
+                                //查每個月每日剩餘數量
+                                $this_month = get_month_date(substr($this_date,0,7));
+                                $lend_items = \App\Models\LendItem::where('enable','1')->get();
+                                $check_num = [];
+                                foreach($this_month as $k=>$v){
+                                    foreach($lend_items as $lend_item){
+                                        $check_lend_orders = \App\Models\LendOrder::where('lend_date','<=',$v)
+                                            ->where('back_date','>=',$v)
+                                            ->where('lend_item_id',$lend_item->id)
+                                            ->get();
+                                        foreach($check_lend_orders as $lend_order){
+                                            if(!isset($check_num[$v][$lend_item->id])) $check_num[$v][$lend_item->id]=0;
+                                            $check_num[$v][$lend_item->id] += $lend_order->num;
+                                        }
+                                    }                                  
+                                }
+                                                                          
+                            ?>
+                            <table class="table table-bordered">
+                                <tr style="background-color:#E0E0E0">
+                                    <th>
+                                        日期
+                                    </th>
+                                    @foreach($lend_items as $lend_item)
+                                        <th>
+                                            {{ $lend_item->name }}
+                                        </th>
+                                    @endforeach
+                                </tr>
+                                
+                                @foreach($this_month as $k=>$v)
+                                    <tr>
+                                        <td>
+                                            {{ $v }} ({{ get_chinese_weekday($v) }})
+                                        </td>
+                                        @foreach($lend_items as $lend_item)
+                                            <?php if(!isset($check_num[$v][$lend_item->id])) $check_num[$v][$lend_item->id] = 0; ?>
+                                        <td>
+                                            {{ $lend_item->num - $check_num[$v][$lend_item->id] }}/{{ $lend_item->num }}
+                                        </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </table>
+                            </div>
+                          </div>
                         <hr>
                         @if(!empty($lend_class_id))
                             <?php $lend_class = \App\Models\LendClass::find($lend_class_id); ?>
