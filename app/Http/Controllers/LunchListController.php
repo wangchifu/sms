@@ -662,6 +662,7 @@ class LunchListController extends Controller
                 $user_data = [];
                 $factory_data = [];
                 $place_data = [];
+                $place_data2 = [];
                 $eat_data = [];
                 $days_data = [];
                 $money_data = [];

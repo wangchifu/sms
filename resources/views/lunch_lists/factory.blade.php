@@ -305,6 +305,11 @@ $school_code = substr($database[$_SERVER['HTTP_HOST']],3,6);
                         <td>合計</td>
                         @foreach($date_array as $k=>$v)
                             @if($v==1)
+                                <?php
+                                    if(!isset($one_day1[$k])) $one_day1[$k] = 0;
+                                    if(!isset($one_day41[$k])) $one_day41[$k] = 0;
+                                    if(!isset($one_day4[$k])) $one_day4[$k] = 0;
+                                  ?>
                                 <td style="background-color: #FFECEC" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ substr($k,5,5).'(葷)' }}">{{ $one_day1[$k] }}</td>
                                 <td data-bs-toggle="tooltip" data-bs-placement="top" title="{{ substr($k,5,5).'(蛋奶素)' }}">{{ $one_day41[$k] }}</td>
                                 <td data-bs-toggle="tooltip" data-bs-placement="top" title="{{ substr($k,5,5).'(奶素)' }}">{{ $one_day4[$k] }}</td>
@@ -442,6 +447,11 @@ $school_code = substr($database[$_SERVER['HTTP_HOST']],3,6);
                             </td>
                             @foreach($date_array as $k=>$v)
                                 @if($v==1)
+                                    <?php
+                                        if(!isset($one_day1[$k])) $one_day1[$k] = 0;
+                                        if(!isset($one_day41[$k])) $one_day41[$k] = 0;
+                                        if(!isset($one_day4[$k])) $one_day4[$k] = 0;
+                                    ?>
                                     <td style="background-color: #FFECEC" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ substr($k,5,5) }} 葷">
                                         {{ $one_day1[$k] }}
                                     </td>                                        
