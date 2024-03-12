@@ -97,6 +97,8 @@
                                     @endif
                                     </td>
                                 </tr>
+                                @if(isset($lend_item_data[$lend_item->id]))
+                                @if(count($lend_item_data[$lend_item->id])>0)
                                 <tr>
                                     <td>
                                         借出單
@@ -104,8 +106,10 @@
                                     <td>借用人</td>
                                     <td>借用日期</td>
                                     <td>歸還日期</td>
-                                    <td colspan="2">備註</td>
+                                    <td colspan="2">備註</td>                                
                                 </tr>
+                                @endif
+                                @endif
                                     @if(isset($lend_item_data[$lend_item->id]))
                                         @foreach($lend_item_data[$lend_item->id] as $k=>$v)
                                             @foreach($v as $kk=>$vv)
