@@ -142,32 +142,34 @@ $active['list'] ="";
                                 }
                                                                           
                             ?>
-                            <table class="table table-bordered">
-                                <tr style="background-color:#E0E0E0">
-                                    <th>
-                                        日期
-                                    </th>
-                                    @foreach($lend_items as $lend_item)
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tr style="background-color:#E0E0E0">
                                         <th>
-                                            {{ $lend_item->name }}
+                                            日期
                                         </th>
-                                    @endforeach
-                                </tr>
-                                
-                                @foreach($this_month as $k=>$v)
-                                    <tr>
-                                        <td>
-                                            {{ $v }} ({{ get_chinese_weekday($v) }})
-                                        </td>
                                         @foreach($lend_items as $lend_item)
-                                            <?php if(!isset($check_num[$v][$lend_item->id])) $check_num[$v][$lend_item->id] = 0; ?>
-                                        <td>
-                                            {{ $lend_item->num - $check_num[$v][$lend_item->id] }}/{{ $lend_item->num }}
-                                        </td>
+                                            <th>
+                                                {{ $lend_item->name }}
+                                            </th>
                                         @endforeach
                                     </tr>
-                                @endforeach
-                            </table>
+                                    
+                                    @foreach($this_month as $k=>$v)
+                                        <tr>
+                                            <td>
+                                                {{ $v }} ({{ get_chinese_weekday($v) }})
+                                            </td>
+                                            @foreach($lend_items as $lend_item)
+                                                <?php if(!isset($check_num[$v][$lend_item->id])) $check_num[$v][$lend_item->id] = 0; ?>
+                                            <td>
+                                                {{ $lend_item->num - $check_num[$v][$lend_item->id] }}/{{ $lend_item->num }}
+                                            </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                             </div>
                           </div>
                         <hr>
