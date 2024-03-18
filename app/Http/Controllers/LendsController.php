@@ -334,7 +334,7 @@ class LendsController extends Controller
         if(!empty($lend_order->owner_user->line_key)){           
             $lend_section_array = config('sms.lend_sections');
             $ps = ($lend_order->ps)?"\n備註：".$lend_order->ps:null;            
-            $string =  $lend_order->owner_user->name."在借用系統登記\n\n".$lend_order->lend_item->name." 數量：".$lend_order->num."\n於 ".$lend_order->lend_date." ".$lend_section_array[$lend_order->lend_section]." 來借\n於 ".$lend_order->back_date." ".$lend_section_array[$lend_order->back_section]." 來還\n".$ps;
+            $string =  auth()->user()->name."在借用系統登記\n\n".$lend_order->lend_item->name." 數量：".$lend_order->num."\n於 ".$lend_order->lend_date." ".$lend_section_array[$lend_order->lend_section]." 來借\n於 ".$lend_order->back_date." ".$lend_section_array[$lend_order->back_section]." 來還\n".$ps;
             line_notify($lend_order->owner_user->line_key,$string);
         }
         
