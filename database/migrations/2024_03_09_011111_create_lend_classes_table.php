@@ -17,6 +17,7 @@ class CreateLendClassesTable extends Migration
             $table->bigIncrements('id');            
             $table->string('name');//
             $table->string('user_id');
+            $table->text('ps')->nullable();
             $table->timestamps();
         });
     }
