@@ -135,7 +135,7 @@ $active['list'] ="active";
                                         </a>
                                     </td>
                                     <td>
-                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date2" readonly style="font-size:30px;font-weight:bold;color:black">
+                                        <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="this_date2" readonly style="font-size:20px;font-weight:bold;color:black">
                                     </td>
                                     <td>
                                         <a href="#" onclick="change_date(1,'next_lend','back_date')">
