@@ -16,6 +16,13 @@
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">全部借單</button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" onclick="send_date_form()"><i class="fas fa-download"></i> 今日 Excel</button>
+            </li>
+            <form id="this_form" action="{{ route('lends.download_excel') }}" method="post">
+                @csrf
+                <input type="hidden" id="this_date" name="this_date" value="{{ date('Y-m-d') }}">
+            </form>
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -236,6 +243,8 @@
         if(action == 'back_date'){
             $('#this_date2').val(date); 
         }
+
+        $('#this_date').val(date);
                
         //alert(date);
         $.ajax({
@@ -279,6 +288,10 @@
         }
         data = data+"</table>";
         return data;
+    }
+
+    function send_date_form(){
+        $('#this_form').submit();
     }
 
 </script>

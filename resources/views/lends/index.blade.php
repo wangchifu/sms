@@ -31,7 +31,7 @@ $active['list'] ="";
                 </div>
                 <div class="col-12 col-md-10">
                     @if($errors->any())
-                        <h4 class="text-danger">失敗！！</h4>
+                        <h1 class="text-danger">操作失敗！！</h1>
                     @endif
                     @include('layouts.errors')
                     <label class="form-label text-danger">請選擇類別</label>

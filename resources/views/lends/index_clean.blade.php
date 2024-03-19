@@ -39,7 +39,7 @@
         </form>
         @endguest
         @if($errors->any())
-                        <h4 class="text-danger">失敗！！</h4>
+                        <h1 class="text-danger">操作失敗！！</h1>
                     @endif
                     @include('layouts.errors')
                     <label class="form-label text-danger">@auth <span class="text-primary">我是 {{ auth()->user()->name }} <a href="#" data-bs-toggle="modal" data-bs-target="#logoutForm"><i class="fas fa-sign-out-alt"></i>登出</a></span> @endauth 請選擇類別</label>
