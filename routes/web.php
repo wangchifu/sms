@@ -72,6 +72,7 @@ Route::get('lends/clean/{lend_class_id?}/{this_date?}', [LendsController::class,
 Route::get('lends/list_clean', [LendsController::class,'list_clean'])->name('lends.list_clean');
 Route::get('lends/check_order_out_clean/{this_date}/{action}', [LendsController::class,'check_order_out_clean'])->name('lends.check_order_out_clean');
 Route::post('lends/download_excel', [LendsController::class,'download_excel'])->name('lends.download_excel');
+Route::post('lends/print_lend', [LendsController::class,'print_lend'])->name('lends.print_lend');
 
 Route::group(['middleware' => 'auth'], function () {
     //登出
