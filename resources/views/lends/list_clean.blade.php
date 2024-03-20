@@ -17,9 +17,9 @@
               <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">全部借單</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" onclick="send_date_form()"><i class="fas fa-download"></i> <span id="ch_date">{{ date('Y-m-d') }}</span> Excel</button>
+                <button class="nav-link" onclick="send_date_form()"><i class="fas fa-print"></i> <span id="ch_date">{{ date('Y-m-d') }}</span> Table</button>
             </li>
-            <form id="this_form" action="{{ route('lends.download_excel') }}" method="post">
+            <form id="this_form" action="{{ route('lends.print_lend') }}" method="post" target="_blank">
                 @csrf
                 <input type="hidden" id="this_date" name="this_date" value="{{ date('Y-m-d') }}">
             </form>
