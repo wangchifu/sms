@@ -421,7 +421,7 @@ $active['list'] ="active";
         date = formatDate(date); 
         $('#this_date3').val(date);
         $.ajax({
-            url: 'http://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_order_month/'+date,
+            url: 'https://{{ $_SERVER['HTTP_HOST'] }}'+'/lends/check_order_month/'+date,
             type : 'get',
             dataType : 'json',
             //data : $('#sunday_form').serialize(),
