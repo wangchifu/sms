@@ -474,7 +474,12 @@ $active['list'] ="active";
         for(var k in result['data']){
             data = data+"<td>"+k+"</td>";
             for(var k1 in result['item']){
-                data = data+"<td>"+result['data'][k][k1]['left']+"/"+result['data'][k][k1]['all']+"</td>";
+                if(result['data'][k][k1]['all'] > result['data'][k][k1]['left']){
+                    data = data+"<td class='text-danger'>"+result['data'][k][k1]['left']+"/"+result['data'][k][k1]['all']+"</td>";
+                }else{
+                    data = data+"<td>"+result['data'][k][k1]['left']+"/"+result['data'][k][k1]['all']+"</td>";
+                }
+                
             }
             data = data +"</tr>";
         }
