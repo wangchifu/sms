@@ -128,7 +128,7 @@ $active['list'] ="";
                           <div class="collapse" id="collapseExample">
                             <div class="card card-body">
                             <?php 
-                                //查每個月每日剩餘數量
+                                //查每個月每日剩餘數量 
                                 $this_month = get_month_date(substr($this_date,0,7));
                                 $lend_items = \App\Models\LendItem::where('enable','1')->get();
                                 $check_num = [];
