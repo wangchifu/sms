@@ -507,6 +507,7 @@ class LendsController extends Controller
                 '借用物品' =>  $lend_order->lend_item->name,
                 '數量' => $lend_order->num,
                 '借用期間' => $lend_order->lend_date.'~'.$lend_order->back_date,
+                '備註'=>$lend_order->ps,
             ];
             $n++;
         }
@@ -517,6 +518,7 @@ class LendsController extends Controller
             '借用物品' =>  '--',
             '數量' => '--',
             '借用期間' => '--',
+            '備註'=>'--',
         ];
         $n++;
         foreach($lend_orders2 as $lend_order){
@@ -527,6 +529,7 @@ class LendsController extends Controller
                 '借用物品' =>  $lend_order->lend_item->name,
                 '數量' => $lend_order->num,
                 '借用期間' => $lend_order->lend_date.'~'.$lend_order->back_date,
+                '備註'=>$lend_order->ps,
             ];
             $n++;
         }
@@ -554,6 +557,7 @@ class LendsController extends Controller
                 '借用物品' =>  $lend_order->lend_item->name,
                 '數量' => $lend_order->num,
                 '借用期間' => $lend_order->lend_date.'~'.$lend_order->back_date,
+                '備註'=>$lend_order->ps,
             ];
             $n++;
         }
@@ -564,6 +568,7 @@ class LendsController extends Controller
             '借用物品' =>  '--',
             '數量' => '--',
             '借用期間' => '--',
+            '備註'=>'--',
         ];
         $n++;
         foreach($lend_orders2 as $lend_order){
@@ -574,6 +579,7 @@ class LendsController extends Controller
                 '借用物品' =>  $lend_order->lend_item->name,
                 '數量' => $lend_order->num,
                 '借用期間' => $lend_order->lend_date.'~'.$lend_order->back_date,
+                '備註'=>$lend_order->ps,
             ];
             $n++;
         }      
